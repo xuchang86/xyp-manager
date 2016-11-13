@@ -8,7 +8,7 @@
             table_name as name,
             table_comment as annotation 
         from information_schema.tables 
-        where table_name  = 'T_LOGIN_USER'
+        where table_schema = 'xiaoyao_test'
         ]]>
     </select>
 
@@ -23,7 +23,7 @@
             column_comment as annotation,
             case when column_key='' then 'N' else 'Y' end as pk
         from information_schema.columns 
-        where table_name = 'T_LOGIN_USER'
+        where table_schema = 'xiaoyao_test' and table_name = #table_name:VARCHAR#
         ]]>
     </select>
 

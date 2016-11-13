@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+商品类别
+User: Created by auto build
+Date: 2016-11-13 23:38:18
+-->
+<sqlMap namespace="t_goods_type">
+
+    <typeAlias alias="T_GOODS_TYPE" type="com.rogrand.goods.domain.GoodsType" />
+
+    <!--商品类别分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--类型名称-->
+            <isNotEmpty prepend="and" property="name">
+                <![CDATA[ instr(name, #name#) > 0 ]]>
+            </isNotEmpty>
+            <!--类型编码-->
+            <isNotEmpty prepend="and" property="number">
+                <![CDATA[ instr(number, #number#) > 0 ]]>
+            </isNotEmpty>
+            <!--类型级别最小值-->
+            <isNotEmpty prepend="and" property="level_min">
+                <![CDATA[ level >= #level_min# ]]>
+            </isNotEmpty>
+            <!--类型级别等于-->
+            <isNotEmpty prepend="and" property="level">
+                <![CDATA[ level = #level# ]]>
+            </isNotEmpty>
+            <!--类型级别最大值-->
+            <isNotEmpty prepend="and" property="level_max">
+                <![CDATA[ level <= #level_max# ]]>
+            </isNotEmpty>
+            <!--上级id最小值-->
+            <isNotEmpty prepend="and" property="parent_id_min">
+                <![CDATA[ parent_id >= #parent_id_min# ]]>
+            </isNotEmpty>
+            <!--上级id等于-->
+            <isNotEmpty prepend="and" property="parent_id">
+                <![CDATA[ parent_id = #parent_id# ]]>
+            </isNotEmpty>
+            <!--上级id最大值-->
+            <isNotEmpty prepend="and" property="parent_id_max">
+                <![CDATA[ parent_id <= #parent_id_max# ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--商品类别分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_GOODS_TYPE
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--商品类别分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_GOODS_TYPE">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                name,
+                number,
+                level,
+                parent_id
+            from T_GOODS_TYPE
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建商品类别-->
+    <insert id="create" parameterClass="T_GOODS_TYPE">
+        <![CDATA[
+            insert into T_GOODS_TYPE(
+                name,
+                number,
+                level,
+                parent_id
+            ) values (
+                #name:VARCHAR#,
+                #number:VARCHAR#,
+                #level:NUMERIC#,
+                #parent_id:NUMERIC#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建商品类别-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_GOODS_TYPE(
+                name,
+                number,
+                level,
+                parent_id
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].name:VARCHAR#,
+                    #[].number:VARCHAR#,
+                    #[].level:NUMERIC#,
+                    #[].parent_id:NUMERIC#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新商品类别-->
+    <update id="update" parameterClass="T_GOODS_TYPE">
+        <![CDATA[ update T_GOODS_TYPE ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.name">
+                <![CDATA[ name=#name:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.number">
+                <![CDATA[ number=#number:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.level">
+                <![CDATA[ level=#level:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.parent_id">
+                <![CDATA[ parent_id=#parent_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除商品类别-->
+    <delete id="delete" parameterClass="T_GOODS_TYPE">
+        <![CDATA[
+            delete from T_GOODS_TYPE where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

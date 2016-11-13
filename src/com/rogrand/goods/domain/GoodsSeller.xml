@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+卖家信息
+User: Created by auto build
+Date: 2016-11-13 23:38:18
+-->
+<sqlMap namespace="t_goods_seller">
+
+    <typeAlias alias="T_GOODS_SELLER" type="com.rogrand.goods.domain.GoodsSeller" />
+
+    <!--卖家信息分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--昵称-->
+            <isNotEmpty prepend="and" property="nick_name">
+                <![CDATA[ instr(nick_name, #nick_name#) > 0 ]]>
+            </isNotEmpty>
+            <!--真实姓名-->
+            <isNotEmpty prepend="and" property="real_name">
+                <![CDATA[ instr(real_name, #real_name#) > 0 ]]>
+            </isNotEmpty>
+            <!--城市-->
+            <isNotEmpty prepend="and" property="city">
+                <![CDATA[ instr(city, #city#) > 0 ]]>
+            </isNotEmpty>
+            <!--联系电话-->
+            <isNotEmpty prepend="and" property="phone">
+                <![CDATA[ instr(phone, #phone#) > 0 ]]>
+            </isNotEmpty>
+            <!--邮箱-->
+            <isNotEmpty prepend="and" property="email">
+                <![CDATA[ instr(email, #email#) > 0 ]]>
+            </isNotEmpty>
+            <!--账户-->
+            <isNotEmpty prepend="and" property="account">
+                <![CDATA[ instr(account, #account#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--卖家信息分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_GOODS_SELLER
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--卖家信息分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_GOODS_SELLER">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                nick_name,
+                real_name,
+                city,
+                phone,
+                email,
+                account
+            from T_GOODS_SELLER
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建卖家信息-->
+    <insert id="create" parameterClass="T_GOODS_SELLER">
+        <![CDATA[
+            insert into T_GOODS_SELLER(
+                nick_name,
+                real_name,
+                city,
+                phone,
+                email,
+                account
+            ) values (
+                #nick_name:VARCHAR#,
+                #real_name:VARCHAR#,
+                #city:VARCHAR#,
+                #phone:VARCHAR#,
+                #email:VARCHAR#,
+                #account:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建卖家信息-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_GOODS_SELLER(
+                nick_name,
+                real_name,
+                city,
+                phone,
+                email,
+                account
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].nick_name:VARCHAR#,
+                    #[].real_name:VARCHAR#,
+                    #[].city:VARCHAR#,
+                    #[].phone:VARCHAR#,
+                    #[].email:VARCHAR#,
+                    #[].account:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新卖家信息-->
+    <update id="update" parameterClass="T_GOODS_SELLER">
+        <![CDATA[ update T_GOODS_SELLER ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.nick_name">
+                <![CDATA[ nick_name=#nick_name:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.real_name">
+                <![CDATA[ real_name=#real_name:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.city">
+                <![CDATA[ city=#city:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.phone">
+                <![CDATA[ phone=#phone:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.email">
+                <![CDATA[ email=#email:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.account">
+                <![CDATA[ account=#account:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除卖家信息-->
+    <delete id="delete" parameterClass="T_GOODS_SELLER">
+        <![CDATA[
+            delete from T_GOODS_SELLER where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

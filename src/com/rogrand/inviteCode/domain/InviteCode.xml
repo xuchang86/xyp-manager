@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+邀请码
+User: Created by auto build
+Date: 2016-11-13 19:15:51
+-->
+<sqlMap namespace="t_invite_code">
+
+    <typeAlias alias="T_INVITE_CODE" type="com.rogrand.inviteCode.domain.InviteCode" />
+
+    <!--邀请码分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--邀请码-->
+            <isNotEmpty prepend="and" property="number">
+                <![CDATA[ instr(number, #number#) > 0 ]]>
+            </isNotEmpty>
+            <!--用户ID最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--用户ID等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ user_id = #user_id# ]]>
+            </isNotEmpty>
+            <!--用户ID最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--聊天室ID-->
+            <isNotEmpty prepend="and" property="chatroom_id">
+                <![CDATA[ instr(chatroom_id, #chatroom_id#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--邀请码分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_INVITE_CODE
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--邀请码分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_INVITE_CODE">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                number,
+                user_id,
+                chatroom_id
+            from T_INVITE_CODE
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建邀请码-->
+    <insert id="create" parameterClass="T_INVITE_CODE">
+        <![CDATA[
+            insert into T_INVITE_CODE(
+                number,
+                user_id,
+                chatroom_id
+            ) values (
+                #number:VARCHAR#,
+                #user_id:NUMERIC#,
+                #chatroom_id:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建邀请码-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_INVITE_CODE(
+                number,
+                user_id,
+                chatroom_id
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].number:VARCHAR#,
+                    #[].user_id:NUMERIC#,
+                    #[].chatroom_id:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新邀请码-->
+    <update id="update" parameterClass="T_INVITE_CODE">
+        <![CDATA[ update T_INVITE_CODE ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.number">
+                <![CDATA[ number=#number:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.user_id">
+                <![CDATA[ user_id=#user_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.chatroom_id">
+                <![CDATA[ chatroom_id=#chatroom_id:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除邀请码-->
+    <delete id="delete" parameterClass="T_INVITE_CODE">
+        <![CDATA[
+            delete from T_INVITE_CODE where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

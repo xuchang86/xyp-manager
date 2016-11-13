@@ -88,7 +88,12 @@
             </tr>
             <tr>
                 <td class="th">性别</td>
-                <td class="td"><input type="text" id="sex" name="sex" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(loginUser1.sex)!}" style="width:300px;"/></td>
+                <td class="td">
+                <select>
+                  <option value="0" <#if loginUser1.sex=="0">selected</#if>>男</option>
+	              <option value="1" <#if loginUser1.sex=="1">selected</#if>>女</option>
+				</select>
+                </td>
             </tr>
             <tr>
                 <td class="th">用户名</td>
@@ -96,7 +101,12 @@
             </tr>
             <tr>
                 <td class="th">是否已付款</td>
-                <td class="td"><input type="text" id="ispay" name="ispay" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(loginUser1.ispay)!}" style="width:300px;"/></td>
+                <td class="td">
+                <select>
+                  <option value="0" <#if loginUser1.ispay=="0">selected</#if>>否</option>
+	              <option value="1" <#if loginUser1.ispay=="1">selected</#if>>是</option>
+				</select>
+                </td>
             </tr>
             <tr>
                 <td class="th">个人头像</td>

@@ -64,7 +64,7 @@
             </tr>
             <tr>
                 <td class="th">性别</td>
-                <td class="td">${(loginUser1.sex)!}</td>
+                <td class="td"><#if loginUser1.sex==0>男<#elseif loginUser1.sex==1>女<#else></#if></td>
             </tr>
             <tr>
                 <td class="th">用户名</td>
@@ -72,7 +72,7 @@
             </tr>
             <tr>
                 <td class="th">是否已付款</td>
-                <td class="td">${(loginUser1.ispay)!}</td>
+                <td class="td"><#if loginUser1.ispay==0>否<#elseif loginUser1.ispay==1>是<#else></#if></td>
             </tr>
             <tr>
                 <td class="th">个人头像</td>

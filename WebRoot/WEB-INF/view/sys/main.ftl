@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>${getSysParameter("systemName")}</title>
+    <title>逍遥派后台管理</title>
+    <link rel="icon" href="${path}/css/images/xyp_logo.ico" type="image/x-icon"/>  
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <link rel="stylesheet" type="text/css" href="${path}/css/main.css">
 
@@ -204,7 +205,7 @@
     </div>
 </div>
 <div region="south" border="false" split="false" style="height:28px;padding:0;overflow:hidden;">
-    <div id="statusBar"><span style="font-family:Arial">&copy;copyright 2013</span>&nbsp; </div>
+    <div id="statusBar"><span style="font-family:Arial">&copy;逍遥派 copyright 2016</span>&nbsp; </div>
 </div>
 <div id="openMenus" class="easyui-menu menuDrop">
     <div iconCls="icon-home">首页</div>

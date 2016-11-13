@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+支付宝付款订单
+User: Created by auto build
+Date: 2016-11-13 23:38:18
+-->
+<sqlMap namespace="t_pay_order">
+
+    <typeAlias alias="T_PAY_ORDER" type="com.rogrand.order.domain.PayOrder" />
+
+    <!--支付宝付款订单分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--支付宝订单号-->
+            <isNotEmpty prepend="and" property="order_code">
+                <![CDATA[ instr(order_code, #order_code#) > 0 ]]>
+            </isNotEmpty>
+            <!--付款日期开始-->
+            <isNotEmpty prepend="and" property="pay_date_begin">
+                <![CDATA[ pay_date >= str_to_date(#pay_date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--付款日期结束-->
+            <isNotEmpty prepend="and" property="pay_date_end">
+                <![CDATA[ pay_date <= str_to_date('$pay_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--用户ID最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--用户ID等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ user_id = #user_id# ]]>
+            </isNotEmpty>
+            <!--用户ID最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--付款金额最小值-->
+            <isNotEmpty prepend="and" property="pay_amount_min">
+                <![CDATA[ pay_amount >= #pay_amount_min# ]]>
+            </isNotEmpty>
+            <!--付款金额等于-->
+            <isNotEmpty prepend="and" property="pay_amount">
+                <![CDATA[ pay_amount = #pay_amount# ]]>
+            </isNotEmpty>
+            <!--付款金额最大值-->
+            <isNotEmpty prepend="and" property="pay_amount_max">
+                <![CDATA[ pay_amount <= #pay_amount_max# ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--支付宝付款订单分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_PAY_ORDER
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--支付宝付款订单分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_PAY_ORDER">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                order_code,
+                pay_date,
+                user_id,
+                pay_amount
+            from T_PAY_ORDER
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建支付宝付款订单-->
+    <insert id="create" parameterClass="T_PAY_ORDER">
+        <![CDATA[
+            insert into T_PAY_ORDER(
+                order_code,
+                pay_date,
+                user_id,
+                pay_amount
+            ) values (
+                #order_code:VARCHAR#,
+                #pay_date:TIMESTAMP#,
+                #user_id:NUMERIC#,
+                #pay_amount:NUMERIC#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建支付宝付款订单-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_PAY_ORDER(
+                order_code,
+                pay_date,
+                user_id,
+                pay_amount
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].order_code:VARCHAR#,
+                    #[].pay_date:TIMESTAMP#,
+                    #[].user_id:NUMERIC#,
+                    #[].pay_amount:NUMERIC#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新支付宝付款订单-->
+    <update id="update" parameterClass="T_PAY_ORDER">
+        <![CDATA[ update T_PAY_ORDER ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.order_code">
+                <![CDATA[ order_code=#order_code:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.pay_date">
+                <![CDATA[ pay_date=#pay_date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.user_id">
+                <![CDATA[ user_id=#user_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.pay_amount">
+                <![CDATA[ pay_amount=#pay_amount:NUMERIC# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除支付宝付款订单-->
+    <delete id="delete" parameterClass="T_PAY_ORDER">
+        <![CDATA[
+            delete from T_PAY_ORDER where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

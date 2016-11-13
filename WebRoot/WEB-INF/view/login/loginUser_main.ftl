@@ -59,9 +59,29 @@
                     {title:'我提供的资源',field:'providerid',width:150,sortable:true},
                     {title:'我需要的资源',field:'requiredid',width:150,sortable:true},
                     {title:'城市',field:'city',width:150,sortable:true},
-                    {title:'性别',field:'sex',width:150,sortable:true},
+                    {title:'性别',field:'sex',width:150,sortable:true,
+                     formatter:function(value, data, index){
+                       if(value==0){
+                         return "男";
+                       }else if(value==1){
+                         return "女";
+                       }else{
+                         return "";
+                       }
+                     }
+                    },
                     {title:'用户名',field:'username',width:150,sortable:true},
-                    {title:'是否已付款',field:'ispay',width:150,sortable:true},
+                    {title:'是否已付款',field:'ispay',width:150,sortable:true,
+                    formatter:function(value, data, index){
+                       if(value==0){
+                         return "否";
+                       }else if(value==1){
+                         return "是";
+                       }else{
+                         return "";
+                       }
+                    }
+                    },
                     {title:'个人头像',field:'url',width:150,sortable:true}
                 ]],
                 toolbar:[

@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//WebRoot/WEB-INF/log4j.properties=UTF-8
+encoding//WebRoot/css/login.css=UTF-8
 encoding//src/config_local.properties=UTF-8
 encoding//src/config_online.properties=UTF-8
 encoding//src/config_test.properties=UTF-8

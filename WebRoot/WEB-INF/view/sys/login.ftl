@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>${getSysParameter("systemName")}</title>
+<title>逍遥派后台管理</title>
+    <link rel="icon" href="${path}/css/images/xyp_logo.ico" type="image/x-icon"/>  
     <link href="${path}/css/login.css" rel="stylesheet" type="text/css"/>
     <#include "/WEB-INF/view/linkScript.ftl" />
     <script type="text/javascript">
@@ -93,6 +94,6 @@
   </table>
 </form>
 </div>
-<!--<div class="footer">&copy; 2013 融贯资讯 1024*768</div>-->
+<!--<div class="footer">&copy; 2016 逍遥派 1024*768</div>-->
 </body>
 </html>

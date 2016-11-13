@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+门派事件
+User: Created by auto build
+Date: 2016-11-13 19:17:41
+-->
+<sqlMap namespace="t_mp_event">
+
+    <typeAlias alias="T_MP_EVENT" type="com.rogrand.event.domain.MpEvent" />
+
+    <!--门派事件分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--事件内容-->
+            <isNotEmpty prepend="and" property="content">
+                <![CDATA[ instr(content, #content#) > 0 ]]>
+            </isNotEmpty>
+            <!--人物ID最小值-->
+            <isNotEmpty prepend="and" property="person_id_min">
+                <![CDATA[ person_id >= #person_id_min# ]]>
+            </isNotEmpty>
+            <!--人物ID等于-->
+            <isNotEmpty prepend="and" property="person_id">
+                <![CDATA[ person_id = #person_id# ]]>
+            </isNotEmpty>
+            <!--人物ID最大值-->
+            <isNotEmpty prepend="and" property="person_id_max">
+                <![CDATA[ person_id <= #person_id_max# ]]>
+            </isNotEmpty>
+            <!--开始时间开始-->
+            <isNotEmpty prepend="and" property="start_date_begin">
+                <![CDATA[ start_date >= str_to_date(#start_date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--开始时间结束-->
+            <isNotEmpty prepend="and" property="start_date_end">
+                <![CDATA[ start_date <= str_to_date('$start_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--结束时间开始-->
+            <isNotEmpty prepend="and" property="end_date_begin">
+                <![CDATA[ end_date >= str_to_date(#end_date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--结束时间结束-->
+            <isNotEmpty prepend="and" property="end_date_end">
+                <![CDATA[ end_date <= str_to_date('$end_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--事件类型-->
+            <isNotEmpty prepend="and" property="type">
+                <![CDATA[ instr(type, #type#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--门派事件分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_MP_EVENT
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--门派事件分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_MP_EVENT">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                content,
+                person_id,
+                start_date,
+                end_date,
+                type
+            from T_MP_EVENT
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建门派事件-->
+    <insert id="create" parameterClass="T_MP_EVENT">
+        <![CDATA[
+            insert into T_MP_EVENT(
+                content,
+                person_id,
+                start_date,
+                end_date,
+                type
+            ) values (
+                #content:VARCHAR#,
+                #person_id:NUMERIC#,
+                #start_date:TIMESTAMP#,
+                #end_date:TIMESTAMP#,
+                #type:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建门派事件-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_MP_EVENT(
+                content,
+                person_id,
+                start_date,
+                end_date,
+                type
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].content:VARCHAR#,
+                    #[].person_id:NUMERIC#,
+                    #[].start_date:TIMESTAMP#,
+                    #[].end_date:TIMESTAMP#,
+                    #[].type:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新门派事件-->
+    <update id="update" parameterClass="T_MP_EVENT">
+        <![CDATA[ update T_MP_EVENT ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.content">
+                <![CDATA[ content=#content:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.person_id">
+                <![CDATA[ person_id=#person_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.start_date">
+                <![CDATA[ start_date=#start_date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.end_date">
+                <![CDATA[ end_date=#end_date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.type">
+                <![CDATA[ type=#type:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除门派事件-->
+    <delete id="delete" parameterClass="T_MP_EVENT">
+        <![CDATA[
+            delete from T_MP_EVENT where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>
