@@ -2,13 +2,17 @@ package com.rogrand.goods.controller;
 
 import java.util.Map;
 import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import com.alibaba.fastjson.JSON;
 import com.rogrand.core.annotation.ActionAnnotation;
 import com.rogrand.core.controller.BaseController;
 import com.rogrand.core.domain.PageResult;
@@ -68,7 +72,8 @@ public class MallGoodsController extends BaseController{
     public ModelAndView edit(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String,Object> model = new HashMap<String,Object>();
         MallGoods mallGoods = mallGoodsService.query(request.getParameter("id"));
-        model.put("mallGoods",mallGoods);
+		model.put("mallGoods", mallGoods);
+		model.put("mallGoods_json", JSON.toJSONString(mallGoods));
         return getView(request,model);
     }
 

@@ -16,6 +16,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>商城商品管理</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
+    <style type="text/css">
+        img{
+            height: 100px;
+            width: 60px;
+        }
+    </style>
     <script type="text/javascript">
         $(function() {
             $("body").layout();
@@ -52,15 +58,25 @@
                 ]],
                 columns:[[
                     {title:'商品名称',field:'name',width:150,sortable:true},
+                    {title:'商品图片',field:'url',width:150,sortable:true},
                     {title:'商品描述',field:'description',width:150,sortable:true},
                     {title:'商品编码',field:'number',width:150,sortable:true},
                     {title:'商品类型id',field:'type_id',width:150,sortable:true},
                     {title:'商品价格',field:'price',width:150,sortable:true},
                     {title:'创建用户id',field:'user_id',width:150,sortable:true},
                     {title:'创建日期',field:'create_date',width:150,sortable:true},
-                    {title:'商品图片',field:'url',width:150,sortable:true},
                     {title:'商品地区',field:'area',width:150,sortable:true},
-                    {title:'是否出售',field:'is_sale',width:150,sortable:true},
+                    {title:'是否出售',field:'is_sale',width:150,sortable:true,
+                    formatter:function(value, data, index){
+                        if(value==0){
+                            return "否";
+                        }else if(value==1){
+                            return "是";
+                        }else{
+                            return value;
+                        }
+                    }
+                    },
                     {title:'卖家id',field:'seller_id',width:150,sortable:true},
                     {title:'会员价格',field:'vip_price',width:150,sortable:true},
                     {title:'商品等级',field:'level',width:150,sortable:true}
@@ -227,6 +243,10 @@
             <tr>
                 <td class="th">商品名称</td>
                 <td class="td"><input id="name" name="name" type="text" class="input"></td>
+            </tr>
+            <tr>
+                <td class="th">商品图片</td>
+                <td class="td"><input id="url" name="url" type="text" class="input"></td>
             </tr>
             <tr>
                 <td class="th">商品描述</td>

@@ -64,11 +64,11 @@
             </tr>
             <tr>
                 <td class="th">类型级别</td>
-                <td class="td"><input type="text" id="level" name="level" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(goodsType.level)!}" style="width:300px;"/></td>
+                <td class="td"><input type="text" id="level" readOnly="true" name="level" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(goodsType.level)!}" style="width:300px;background-color:#efefef;"/></td>
             </tr>
             <tr>
                 <td class="th">上级id</td>
-                <td class="td"><input type="text" id="parent_id" name="parent_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(goodsType.parent_id)!}" style="width:300px;"/></td>
+                <td class="td"><input type="text" id="parent_id" readOnly="true" name="parent_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(goodsType.parent_id)!}" style="width:300px;background-color:#efefef;"/></td>
             </tr>
         </table>
     </form>

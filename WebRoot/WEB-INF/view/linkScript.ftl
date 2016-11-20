@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="${path}/ui/easyui/themes/icon.css"/>
 <link rel="stylesheet" type="text/css" href="${path}/css/iconMenu.css"/>
 <link rel="stylesheet" type="text/css" href="${path}/css/iconMenu.css"/>
+<link rel="stylesheet" type="text/css" href="${path}/css/iconMenu.css"/>
 
 <script type="text/javascript" src="${path}/ui/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="${path}/ui/jquery.json-2.2.js"></script>
@@ -25,6 +26,7 @@
 <!--<script type="text/javascript" src="${path}/js/pushlet_handler.js"></script>-->
 <script type="text/javascript" src="${path}/js/jquery.jplayer.min.js"></script>
 <script type="text/javascript" src="${path}/js/common.js"></script>
+<script type="text/javascript" src="${path}/js/angular-1.5.8/angular.js"></script>
 <script type="text/javascript">
 var path = "${path}";
 </script>

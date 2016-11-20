@@ -85,10 +85,21 @@
             });
         });
 
+        var selectedRow;
         /**
          * 显示商品类别添加对话框
          */
         function add() {
+            var selections = $("#table").datagrid("getSelections");
+            var parentId = null;
+            if (selections.length > 1) {
+                $.messager.alert("系统提示", "不能选择多行新增", "info");
+                return;
+            }
+            if (selections.length == 1) {
+                parentId = selections[0].id;
+                selectedRow = selections[0];
+            }
             $("#dialog").css("display","block").dialog({
                 title: "记录添加",
                 width:window.$.autoWidth(),
@@ -96,7 +107,7 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src", "${path}/goods/goodsType_add.do");
+            $("#iframe").attr("src", "${path}/goods/goodsType_add.do?parentId="+parentId);
         }
 
         /**

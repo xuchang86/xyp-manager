@@ -12,11 +12,23 @@
     <title>商品类别添加</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
+    	var parentId = getUrlParam('parentId');
+        var parentRowData = window.parent.selectedRow;
         $(function(){
             $("body").layout();
             $('#form input.easyui-numberbox').numberbox();
+            initData();
         });
 
+        function initData() {
+            if (parentId && parentId != "null") {
+                $("#parent_id").attr("value", parentId);
+                $("#level").attr("value", parentRowData.level + 1);
+            } else {
+                $("#level").attr("value", 1);
+            }
+        }
+        
         function save() {
             if (!$("#form").form("validate")) return;
             var goodsType = $("#form").serializeJson();
@@ -64,11 +76,11 @@
             </tr>
             <tr>
                 <td class="th">类型级别</td>
-                <td class="td"><input type="text" id="level" name="level" class="input easyui-numberbox" min="0" max="9999999999" precision="0" style="width:300px;"/></td>
+                <td class="td"><input type="text" id="level" readOnly="true" name="level" class="input easyui-numberbox" min="0" max="9999999999" precision="0" style="width:300px;background-color:#efefef;"/></td>
             </tr>
             <tr>
                 <td class="th">上级id</td>
-                <td class="td"><input type="text" id="parent_id" name="parent_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" style="width:300px;"/></td>
+                <td class="td"><input type="text" readOnly="true" id="parent_id" name="parent_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" style="width:300px;background-color:#efefef;"/></td>
             </tr>
         </table>
     </form>
