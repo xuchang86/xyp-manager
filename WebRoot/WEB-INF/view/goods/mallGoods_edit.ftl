@@ -11,6 +11,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>商城商品修改</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
+    <style type="text/css">
+      .search{
+        background: url('../ui/easyui/themes/icons/search.png') right center no-repeat rgb(255, 255, 255);
+      }
+    </style>
 
     <script type="text/javascript" charset="utf-8" src="${path}/third/ueditor_1.4.3/ueditor.config.simpletext.js"></script>
     <script type="text/javascript" charset="utf-8" src="${path}/third/ueditor_1.4.3/ueditor.all.mobile.js"> </script>
@@ -32,6 +37,33 @@
                     name: "是"
                 }];
 
+                //类型点击
+                $scope.typeClick = function() {
+                    var url = "${path}/goods/goodsType_main.do?from=f7";
+                    var width = 800; //窗口宽度
+                    var height = 400; //窗口高度
+                    var top = (window.screen.height - 30 - height) / 2;
+                    var left = (window.screen.width - 10 - width) / 2;
+                    window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+                };
+
+                $scope.creatorClick = function(){
+                    var url = "${path}/login/loginUser_main.do?from=f7";
+                    var width = 800; //窗口宽度
+                    var height = 400; //窗口高度
+                    var top = (window.screen.height - 30 - height) / 2;
+                    var left = (window.screen.width - 10 - width) / 2;
+                    window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+                }
+
+                $scope.sellerNickClick = function(){
+                    var url = "${path}/goods/goodsSeller_main.do?from=f7";
+                    var width = 800; //窗口宽度
+                    var height = 400; //窗口高度
+                    var top = (window.screen.height - 30 - height) / 2;
+                    var left = (window.screen.width - 10 - width) / 2;
+                    window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+                }
             };
 
         });
@@ -40,6 +72,21 @@
             $('#form input.easyui-numberbox').numberbox();
             initImageAjaxUpload("uploadImage");
         });
+
+        function typeCallBack(rowData) {
+            $("#type_name").val(rowData.name);
+            $("#type_id").val(rowData.id);
+        }
+
+        function userCallBack(rowData){
+            $("#creator").val(rowData.name);
+            $("#user_id").val(rowData.id);
+        }
+
+        function sellerCallBack(rowData){
+            $("#seller_nick").val(rowData.nick_name);
+            $("#seller_id").val(rowData.id);
+        }
 
         function initImageAjaxUpload(uploadId) {
             var uploader = $("#" + uploadId);
@@ -128,16 +175,22 @@
                 <td class="td"><input type="text" id="number" name="number" class="input easyui-validatebox" validType="maxLength[20]" value="${(mallGoods.number)!}" style="width:300px;"/></td>
             </tr>
             <tr>
-                <td class="th">商品类型id</td>
-                <td class="td"><input type="text" id="type_id" name="type_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(mallGoods.type_id)!}" style="width:300px;"/></td>
+                <td class="th">商品类型</td>
+                <td class="td">
+                    <input type="text" id="type_name" name="type_name" class="input search" min="0" max="9999999999" precision="0" ng-click="typeClick()" value="${(mallGoods.type_name)!}" style="width:300px;"/>
+                    <input type="hidden" id="type_id" name="type_id" value="${(mallGoods.type_id)!}" />
+                </td>
             </tr>
             <tr>
                 <td class="th">商品价格</td>
                 <td class="td"><input type="text" id="price" name="price" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" value="${(mallGoods.price)!}" style="width:300px;"/></td>
             </tr>
             <tr>
-                <td class="th">创建用户id</td>
-                <td class="td"><input type="text" id="user_id" name="user_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(mallGoods.user_id)!}" style="width:300px;"/></td>
+                <td class="th">创建用户</td>
+                <td class="td">
+                    <input type="text" id="creator" name="creator" class="input search" min="0" max="9999999999" precision="0" ng-click="creatorClick()" value="${(mallGoods.creator)!}" style="width:300px;"/>
+                    <input type="hidden" id="user_id" name="user_id" value="${(mallGoods.user_id)!}" />
+                </td>
             </tr>
             <tr>
                 <td class="th">创建日期</td>
@@ -163,8 +216,11 @@
                 </td>
             </tr>
             <tr>
-                <td class="th">卖家id</td>
-                <td class="td"><input type="text" id="seller_id" name="seller_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(mallGoods.seller_id)!}" style="width:300px;"/></td>
+                <td class="th">卖家姓名</td>
+                <td class="td">
+                    <input type="text" id="seller_nick" ng-click="sellerNickClick()" name="seller_nick" class="input  search" min="0" max="9999999999" precision="0" value="${(mallGoods.seller_nick)!}" style="width:300px;"/>
+                    <input type="hidden" id="seller_id" name="seller_id" value="${(mallGoods.seller_id)!}" />
+                </td>
             </tr>
             <tr>
                 <td class="th">会员价格</td>

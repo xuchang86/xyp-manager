@@ -17,6 +17,7 @@
     <title>逍遥派用户管理</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
+        var from = getUrlParam("from");
         $(function() {
             $("body").layout();
             $("#form").css("display","block");
@@ -30,6 +31,9 @@
                 queryParams:{"refresh":"1"},
                 onLoadSuccess:function(data){
                     delete $("#table").datagrid("options").queryParams.refresh;
+                },
+                onClickRow:function(rowIndex,rowData){
+                    gridRowClick(rowIndex,rowData);
                 },
                 frozenColumns:[[
                     {field:'ck',checkbox:true},
@@ -112,6 +116,14 @@
                 ]
             });
         });
+
+        //行点击事件
+        function gridRowClick(index, rowData) {
+            if (from) {
+                window.opener.userCallBack(rowData);
+                window.close();
+            }
+        }
 
         /**
          * 显示逍遥派用户添加对话框

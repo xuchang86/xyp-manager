@@ -20,11 +20,23 @@ public class MallGoods extends Base {
     @FieldAnnotation(comment = "商品描述", exp = true, imp = true, empty = true, len = 150)
     private String description;
 
-    @FieldAnnotation(comment = "商品编码", exp = true, imp = true, empty = true, len = 20)
+	@FieldAnnotation(comment = "商品编码", exp = true, imp = true, empty = true, len = 20)
     private String number;
 
     @FieldAnnotation(comment = "商品类型id", exp = true, imp = true, empty = true, len = 10)
     private Long type_id;
+    
+    @FieldAnnotation(comment = "商品类型名称", exp = true, imp = true, empty = true, len = 20)
+    private String type_name;
+    
+    @FieldAnnotation(comment = "卖家昵称", exp = true, imp = true, empty = true, len = 20)
+    private String seller_nick;
+    
+    @FieldAnnotation(comment = "卖家名称", exp = true, imp = true, empty = true, len = 20)
+    private String seller_name;
+    
+    @FieldAnnotation(comment = "创建者", exp = true, imp = true, empty = true, len = 20)
+    private String creator;
 
     @FieldAnnotation(comment = "商品价格", exp = true, imp = true, empty = true, len = 10, scale = 2)
     private Double price;
@@ -69,6 +81,66 @@ public class MallGoods extends Base {
         this();
         init(property, value);
     }
+    
+    /**
+  	 * @return the type_name
+  	 */
+  	public String getType_name() {
+  		return type_name;
+  	}
+
+  	/**
+  	 * @param type_name the type_name to set
+  	 */
+  	public void setType_name(String type_name) {
+  		putField("type_name");
+  		this.type_name = type_name;
+  	}
+
+  	/**
+  	 * @return the seller_nick
+  	 */
+  	public String getSeller_nick() {
+  		return seller_nick;
+  	}
+
+  	/**
+  	 * @param seller_nick the seller_nick to set
+  	 */
+  	public void setSeller_nick(String seller_nick) {
+  		putField("seller_nick");
+  		this.seller_nick = seller_nick;
+  	}
+
+  	/**
+  	 * @return the seller_name
+  	 */
+  	public String getSeller_name() {
+  		return seller_name;
+  	}
+
+  	/**
+  	 * @param seller_name the seller_name to set
+  	 */
+  	public void setSeller_name(String seller_name) {
+  		putField("seller_name");
+  		this.seller_name = seller_name;
+  	}
+
+  	/**
+  	 * @return the creator
+  	 */
+  	public String getCreator() {
+  		return creator;
+  	}
+
+  	/**
+  	 * @param creator the creator to set
+  	 */
+  	public void setCreator(String creator) {
+  		putField("creator");
+  		this.creator = creator;
+  	}
 
     /**
      * 获得主键

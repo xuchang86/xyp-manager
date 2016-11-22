@@ -17,6 +17,7 @@
     <title>商品类别管理</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
+        var from = getUrlParam("from");
         $(function() {
             $("body").layout();
             $("#form").css("display","block");
@@ -30,6 +31,9 @@
                 queryParams:{"refresh":"1"},
                 onLoadSuccess:function(data){
                     delete $("#table").datagrid("options").queryParams.refresh;
+                },
+                onClickRow:function(rowIndex,rowData){
+                    gridRowClick(rowIndex,rowData);
                 },
                 frozenColumns:[[
                     {field:'ck',checkbox:true},
@@ -84,6 +88,14 @@
                 ]
             });
         });
+        
+        //行点击事件
+        function gridRowClick(index,rowData){
+            if(from){
+                window.opener.typeCallBack(rowData);
+                window.close();
+            }
+        }
 
         var selectedRow;
         /**

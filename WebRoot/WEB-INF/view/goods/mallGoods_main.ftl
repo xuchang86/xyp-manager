@@ -61,9 +61,9 @@
                     {title:'商品图片',field:'url',width:150,sortable:true},
                     {title:'商品描述',field:'description',width:150,sortable:true},
                     {title:'商品编码',field:'number',width:150,sortable:true},
-                    {title:'商品类型id',field:'type_id',width:150,sortable:true},
+                    {title:'商品类型',field:'type_name',width:150,sortable:true},
                     {title:'商品价格',field:'price',width:150,sortable:true},
-                    {title:'创建用户id',field:'user_id',width:150,sortable:true},
+                    {title:'创建用户',field:'creator',width:150,sortable:true},
                     {title:'创建日期',field:'create_date',width:150,sortable:true},
                     {title:'商品地区',field:'area',width:150,sortable:true},
                     {title:'是否出售',field:'is_sale',width:150,sortable:true,
@@ -77,7 +77,8 @@
                         }
                     }
                     },
-                    {title:'卖家id',field:'seller_id',width:150,sortable:true},
+                    {title:'卖家昵称',field:'seller_nick',width:150,sortable:true},
+                    {title:'卖家真实名称',field:'seller_name',width:150,sortable:true},
                     {title:'会员价格',field:'vip_price',width:150,sortable:true},
                     {title:'商品等级',field:'level',width:150,sortable:true}
                 ]],
