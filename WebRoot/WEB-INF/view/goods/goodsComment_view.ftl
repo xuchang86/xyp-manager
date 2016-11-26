@@ -32,7 +32,7 @@
             <col width="80%">
             <tr>
                 <td class="th">评论人</td>
-                <td class="td">${(goodsComment.user_id)!}</td>
+                <td class="td">${(goodsComment.user_name)!}</td>
             </tr>
             <tr>
                 <td class="th">评论时间</td>
@@ -43,12 +43,12 @@
                 <td class="td">${(goodsComment.content)!}</td>
             </tr>
             <tr>
-                <td class="th">商品id</td>
-                <td class="td">${(goodsComment.goods_id)!}</td>
+                <td class="th">商品</td>
+                <td class="td">${(goodsComment.goods_name)!}</td>
             </tr>
             <tr>
-                <td class="th">订单id</td>
-                <td class="td">${(goodsComment.order_id)!}</td>
+                <td class="th">订单</td>
+                <td class="td">${(goodsComment.order_name)!}</td>
             </tr>
         </table>
     </div>

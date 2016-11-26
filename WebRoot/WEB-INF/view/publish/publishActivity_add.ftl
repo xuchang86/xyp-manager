@@ -17,6 +17,31 @@
             $('#form input.easyui-numberbox').numberbox();
         });
 
+        /**
+         * 选择项目
+         */
+        function selectProject(strTitle,strUrl){
+        	$("#dialog").css("display","block").dialog({
+                title: strTitle,
+                width:window.$.autoWidth(),
+                height:window.$.autoHeight(),
+                onMove:function(left,top){$.adjustPosition("dialog",left,top)},
+                onBeforeClose:function(){$.restoreDialog("dialog")}
+            });
+        	
+            $("#iframe").attr("src", strUrl);
+        }
+        
+        /**
+         * 选择人物——回调
+         */
+        function selectPerson(hospitals){
+        	var hosId=hospitals[0].id;
+        	var hosName=hospitals[0].name;
+        	$("#person_id").attr("value",hosId);
+        	$("#person_name").attr("value",hosName);
+        }
+        
         function save() {
             if (!$("#form").form("validate")) return;
             var publishActivity = $("#form").serializeJson();
@@ -56,7 +81,13 @@
             <col width="80%">
             <tr>
                 <td class="th">活动类型</td>
-                <td class="td"><input type="text" id="type" name="type" class="input easyui-validatebox" validType="maxLength[20]" style="width:300px;"/></td>
+                <td class="td">
+                	<SELECT name="type" id="type"  style="width:309px;" > 
+	                	<option value="school_activity">门派活动</option> 
+	                	<option value="reward_task">悬赏任务</option> 
+	                	<option value="sale_service">出售服务</option>  
+	            	</SELECT>
+                </td>
             </tr>
             <tr>
                 <td class="th">发布地址</td>
@@ -67,12 +98,16 @@
                 <td class="td"><input type="text" id="content" name="content" class="input easyui-validatebox" validType="maxLength[500]" style="width:300px;"/></td>
             </tr>
             <tr>
-                <td class="th">日志</td>
+                <td class="th">日期</td>
                 <td class="td"><input type="text" id="date" name="date" class="input Wdate" onclick="WdatePicker()" style="width:300px;"/></td>
             </tr>
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input type="text" id="person_id" name="person_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" style="width:300px;"/></td>
+                <td class="th">人物</td>
+                <td class="td">
+	                <input type="text" id="person_name" name="person_name" class="input easyui-validatebox" validType="maxLength[100]" style="width:300px;"/>
+	            	<input type="button" onclick="selectProject('选择人物','${path}/person/basePerson_select.do?callback=selectPerson')" value="选择人物">
+	            	<input type="text" id="person_id" name="person_id" style="width:300px;visibility:hidden;"/>
+                </td>
             </tr>
             <tr>
                 <td class="th">费用</td>
@@ -84,14 +119,31 @@
             </tr>
             <tr>
                 <td class="th">活动方式</td>
-                <td class="td"><input type="text" id="way" name="way" class="input easyui-validatebox" validType="maxLength[20]" style="width:300px;"/></td>
+                <td class="td">
+                	<SELECT name="way" id="way"  style="width:309px;" > 
+	                	<option value="ask_about">打听</option> 
+	                	<option value="part_time">兼职</option> 
+	                	<option value="other">其他</option>  
+	            	</SELECT>
+                </td>
             </tr>
             <tr>
                 <td class="th">付款方式</td>
-                <td class="td"><input type="text" id="payway" name="payway" class="input easyui-validatebox" validType="maxLength[20]" style="width:300px;"/></td>
+                <td class="td">
+	                <SELECT name="payway" id="payway"  style="width:309px;" > 
+		            	<option value="aa">AA付款</option> 
+		            	<option value="man_a_woman_free">男A女免费</option> 
+		            	<option value="woman_a_man_free">女A男免费</option>  
+		            	<option value="all_free">全部免费</option>  
+		        	</SELECT>
+                </td>
             </tr>
         </table>
     </form>
 </div>
+<div id="dialog" style="width:800px;height:400px; overflow:hidden;display: none" resizable="true" maximizable="true" modal="true">
+<iframe id="iframe" name="iframe" scrolling="auto" src="about:blank" style="width:100%;height:100%;" frameborder="0" ></iframe>
+</div>
+
 </body>
 </html>

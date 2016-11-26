@@ -51,15 +51,48 @@
                     }
                 ]],
                 columns:[[
-                    {title:'活动类型',field:'type',width:150,sortable:true},
+                    {title:'活动类型',field:'type',width:150,sortable:true,
+                    	formatter:function(value, data, index){
+                    		if(value=="school_activity"){
+                        		return "门派活动";
+                        	}else if(value=="reward_task"){
+                        		return "悬赏任务";
+                        	}else{
+                        		return "出售服务";
+                        	}
+                    	}
+                    },
                     {title:'发布地址',field:'address',width:150,sortable:true},
                     {title:'发布内容',field:'content',width:150,sortable:true},
-                    {title:'日志',field:'date',width:150,sortable:true},
-                    {title:'人物ID',field:'person_id',width:150,sortable:true},
+                    {title:'日期',field:'date',width:150,sortable:true},
+                    {title:'人物ID',field:'person_id',width:150,sortable:true,hidden:true},
+                    {title:'人物',field:'person_name',width:150,sortable:true},
                     {title:'费用',field:'cost',width:150,sortable:true},
                     {title:'城市',field:'city',width:150,sortable:true},
-                    {title:'活动方式',field:'way',width:150,sortable:true},
-                    {title:'付款方式',field:'payway',width:150,sortable:true}
+                    {title:'活动方式',field:'way',width:150,sortable:true,
+                    	formatter:function(value, data, index){
+                    		if(value=="ask_about"){
+                        		return "打听";
+                        	}else if(value=="part_time"){
+                        		return "兼职";
+                        	}else {
+                        		return "其他";
+                        	}
+                    	}
+                    },
+                    {title:'付款方式',field:'payway',width:150,sortable:true,
+                    	formatter:function(value, data, index){
+                    		if(value=="aa"){
+                        		return "AA付款";
+                        	}else if(value=="man_a_woman_free"){
+                        		return "男A女免费";
+                        	}else if(value=="woman_a_man_free"){
+                        		return "女A男免费";
+                        	}else{
+                        		return "全部免费";
+                        	}
+                    	}
+                    }
                 ]],
                 toolbar:[
                     {
@@ -222,7 +255,14 @@
         <table class="table">
             <tr>
                 <td class="th">活动类型</td>
-                <td class="td"><input id="type" name="type" type="text" class="input"></td>
+                <td class="td">
+	                <SELECT name="type" id="type"  style="width:155px;height:22px" > 
+	                	<option value="">请选择</option> 
+		            	<option value="school_activity">门派活动</option> 
+		            	<option value="reward_task">悬赏任务</option> 
+		            	<option value="sale_service">出售服务</option>  
+		        	</SELECT>
+                </td>
             </tr>
             <tr>
                 <td class="th">发布地址</td>
@@ -233,7 +273,7 @@
                 <td class="td"><input id="content" name="content" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">日志</td>
+                <td class="th">日期</td>
                 <td class="td"><input id="date_begin" name="date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
@@ -241,16 +281,8 @@
                 <td class="td"><input id="date_end" name="date_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input id="person_id" name="person_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input id="person_id_min" name="person_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="person_id_max" name="person_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">人物</td>
+                <td class="td"><input id="person_name" name="person_name" type="text" class="input"></td>
             </tr>
             <tr>
                 <td class="th">费用</td>
@@ -270,11 +302,26 @@
             </tr>
             <tr>
                 <td class="th">活动方式</td>
-                <td class="td"><input id="way" name="way" type="text" class="input"></td>
+                <td class="td">
+	                <SELECT name="way" id="way"  style="width:155px;height:22px" > 
+	                	<option value="">请选择</option> 
+		            	<option value="ask_about">打听</option> 
+		            	<option value="part_time">兼职</option> 
+		            	<option value="other">其他</option>  
+		        	</SELECT>
+                </td>
             </tr>
             <tr>
                 <td class="th">付款方式</td>
-                <td class="td"><input id="payway" name="payway" type="text" class="input"></td>
+                <td class="td">
+	                <SELECT name="payway" id="payway"  style="width:155px;height:22px" > 
+	                	<option value="">请选择</option> 
+		            	<option value="aa">AA付款</option> 
+		            	<option value="man_a_woman_free">男A女免费</option> 
+		            	<option value="woman_a_man_free">女A男免费</option>  
+		            	<option value="all_free">全部免费</option>  
+		        	</SELECT>
+                </td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">

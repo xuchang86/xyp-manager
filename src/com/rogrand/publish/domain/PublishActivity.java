@@ -28,6 +28,7 @@ public class PublishActivity extends Base {
 
     @FieldAnnotation(comment = "人物ID", exp = true, imp = true, empty = true, len = 10)
     private Long person_id;
+    private String person_name;
 
     @FieldAnnotation(comment = "费用", exp = true, imp = true, empty = true, len = 10, scale = 2)
     private Double cost;
@@ -42,7 +43,15 @@ public class PublishActivity extends Base {
     private String payway;
 
 
-    /**
+    public String getPerson_name() {
+		return person_name;
+	}
+
+	public void setPerson_name(String person_name) {
+		this.person_name = person_name;
+	}
+
+	/**
      * 发布的活动,任务,悬赏对象构造函数
      */
     public PublishActivity() {

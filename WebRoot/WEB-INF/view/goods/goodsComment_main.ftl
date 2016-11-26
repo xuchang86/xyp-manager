@@ -51,11 +51,14 @@
                     }
                 ]],
                 columns:[[
-                    {title:'评论人',field:'user_id',width:150,sortable:true},
+                    {title:'评论人',field:'user_id',width:150,sortable:true,hidden:true},
+                    {title:'评论人',field:'user_name',width:150,sortable:true},
                     {title:'评论时间',field:'create_date',width:150,sortable:true},
                     {title:'评论内容',field:'content',width:150,sortable:true},
-                    {title:'商品id',field:'goods_id',width:150,sortable:true},
-                    {title:'订单id',field:'order_id',width:150,sortable:true}
+                    {title:'商品id',field:'goods_id',width:150,sortable:true,hidden:true},
+                    {title:'商品',field:'goods_name',width:150,sortable:true},
+                    {title:'订单id',field:'order_id',width:150,sortable:true,hidden:true},
+                    {title:'订单',field:'order_name',width:150,sortable:true}
                 ]],
                 toolbar:[
                     {
@@ -218,15 +221,7 @@
         <table class="table">
             <tr>
                 <td class="th">评论人</td>
-                <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">评论人</td>
-                <td class="td"><input id="user_id_min" name="user_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="user_id_max" name="user_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="td"><input id="user_name" name="user_name" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
             <tr>
                 <td class="th">评论时间</td>
@@ -241,28 +236,12 @@
                 <td class="td"><input id="content" name="content" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">商品id</td>
-                <td class="td"><input id="goods_id" name="goods_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">商品</td>
+                <td class="td"><input id="goods_name" name="goods_name" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">商品id</td>
-                <td class="td"><input id="goods_id_min" name="goods_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="goods_id_max" name="goods_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">订单id</td>
-                <td class="td"><input id="order_id" name="order_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">订单id</td>
-                <td class="td"><input id="order_id_min" name="order_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="order_id_max" name="order_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">订单</td>
+                <td class="td"><input id="order_name" name="order_name" type="text" class="input"></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">

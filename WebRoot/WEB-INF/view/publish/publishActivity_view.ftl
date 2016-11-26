@@ -14,7 +14,52 @@
     <script type="text/javascript">
         $(function(){
             $("body").layout();
+            
+            //赋值  
+            document.getElementById("actType").innerHTML=getType("${(publishActivity.type)!}");
+            document.getElementById("actWay").innerHTML=getWay("${(publishActivity.way)!}");
+            document.getElementById("actPayway").innerHTML=getPayWay("${(publishActivity.payway)!}");
         });
+        
+        /**
+         * 类型
+         */
+        function getType(value){
+        	if(value=="school_activity"){
+        		return "门派活动";
+        	}else if(value=="reward_task"){
+        		return "悬赏任务";
+        	}else{
+        		return "出售服务";
+        	}
+        }
+        /**
+         * 状态
+         */
+        function getWay(value){
+        	if(value=="ask_about"){
+        		return "打听";
+        	}else if(value=="part_time"){
+        		return "兼职";
+        	}else {
+        		return "其他";
+        	}
+        }
+        /**
+         * 状态
+         */
+        function getPayWay(value){
+        	debugger
+        	if(value=="aa"){
+        		return "AA付款";
+        	}else if(value=="man_a_woman_free"){
+        		return "男A女免费";
+        	}else if(value=="woman_a_man_free"){
+        		return "女A男免费";
+        	}else{
+        		return "全部免费";
+        	}
+        }
     </script>
 </head>
 <body class="easyui-layout">
@@ -32,7 +77,7 @@
             <col width="80%">
             <tr>
                 <td class="th">活动类型</td>
-                <td class="td">${(publishActivity.type)!}</td>
+                <td class="td" id="actType"></td>
             </tr>
             <tr>
                 <td class="th">发布地址</td>
@@ -43,12 +88,12 @@
                 <td class="td">${(publishActivity.content)!}</td>
             </tr>
             <tr>
-                <td class="th">日志</td>
+                <td class="th">日期</td>
                 <td class="td"><@dateOut publishActivity.date/></td>
             </tr>
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td">${(publishActivity.person_id)!}</td>
+                <td class="th">人物</td>
+                <td class="td">${(publishActivity.person_name)!}</td>
             </tr>
             <tr>
                 <td class="th">费用</td>
@@ -60,11 +105,11 @@
             </tr>
             <tr>
                 <td class="th">活动方式</td>
-                <td class="td">${(publishActivity.way)!}</td>
+                <td class="td" id="actWay"></td>
             </tr>
             <tr>
                 <td class="th">付款方式</td>
-                <td class="td">${(publishActivity.payway)!}</td>
+                <td class="td" id="actPayway"></td>
             </tr>
         </table>
     </div>

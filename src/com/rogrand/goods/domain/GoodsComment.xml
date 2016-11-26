@@ -32,6 +32,15 @@ Date: 2016-11-13 23:38:18
             <isNotEmpty prepend="and" property="user_id">
                 <![CDATA[ user_id = #user_id# ]]>
             </isNotEmpty>
+            <isNotEmpty prepend="and" property="user_name">
+                <![CDATA[ instr((SELECT NAME FROM T_LOGIN_USER WHERE id=user_id), #user_name#) > 0 ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="goods_name">
+                <![CDATA[ instr((SELECT NAME FROM T_MALL_GOODS WHERE id=goods_id), #goods_name#) > 0 ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="order_name">
+                <![CDATA[ instr((SELECT number FROM T_GOODS_ORDER  WHERE id=order_id), #order_name#) > 0 ]]>
+            </isNotEmpty>
             <!--评论人最大值-->
             <isNotEmpty prepend="and" property="user_id_max">
                 <![CDATA[ user_id <= #user_id_max# ]]>
@@ -94,6 +103,9 @@ Date: 2016-11-13 23:38:18
             select
                 id,
                 user_id,
+                (SELECT number FROM T_GOODS_ORDER  WHERE id=order_id) as order_name,
+				(SELECT NAME FROM T_MALL_GOODS WHERE id=goods_id) as goods_name,
+				(SELECT NAME FROM T_LOGIN_USER WHERE id=user_id) as user_name,
                 create_date,
                 content,
                 goods_id,
