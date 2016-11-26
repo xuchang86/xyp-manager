@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+活动参与人
+User: Created by auto build
+Date: 2016-11-13 23:38:18
+-->
+<sqlMap namespace="t_activity_person">
+
+    <typeAlias alias="T_ACTIVITY_PERSON" type="com.rogrand.publish.domain.ActivityPerson" />
+
+    <!--活动参与人分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--人物ID最小值-->
+            <isNotEmpty prepend="and" property="person_id_min">
+                <![CDATA[ person_id >= #person_id_min# ]]>
+            </isNotEmpty>
+            <!--人物ID等于-->
+            <isNotEmpty prepend="and" property="person_id">
+                <![CDATA[ person_id = #person_id# ]]>
+            </isNotEmpty>
+            <!--人物ID最大值-->
+            <isNotEmpty prepend="and" property="person_id_max">
+                <![CDATA[ person_id <= #person_id_max# ]]>
+            </isNotEmpty>
+            <!--活动ID最小值-->
+            <isNotEmpty prepend="and" property="activity_id_min">
+                <![CDATA[ activity_id >= #activity_id_min# ]]>
+            </isNotEmpty>
+            <!--活动ID等于-->
+            <isNotEmpty prepend="and" property="activity_id">
+                <![CDATA[ activity_id = #activity_id# ]]>
+            </isNotEmpty>
+            <!--活动ID最大值-->
+            <isNotEmpty prepend="and" property="activity_id_max">
+                <![CDATA[ activity_id <= #activity_id_max# ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--活动参与人分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_ACTIVITY_PERSON
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--活动参与人分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_ACTIVITY_PERSON">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                person_id,
+                activity_id
+            from T_ACTIVITY_PERSON
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建活动参与人-->
+    <insert id="create" parameterClass="T_ACTIVITY_PERSON">
+        <![CDATA[
+            insert into T_ACTIVITY_PERSON(
+                person_id,
+                activity_id
+            ) values (
+                #person_id:NUMERIC#,
+                #activity_id:NUMERIC#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建活动参与人-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_ACTIVITY_PERSON(
+                person_id,
+                activity_id
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].person_id:NUMERIC#,
+                    #[].activity_id:NUMERIC#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新活动参与人-->
+    <update id="update" parameterClass="T_ACTIVITY_PERSON">
+        <![CDATA[ update T_ACTIVITY_PERSON ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.person_id">
+                <![CDATA[ person_id=#person_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.activity_id">
+                <![CDATA[ activity_id=#activity_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除活动参与人-->
+    <delete id="delete" parameterClass="T_ACTIVITY_PERSON">
+        <![CDATA[
+            delete from T_ACTIVITY_PERSON where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+逍遥派用户
+User: Created by auto build
+Date: 2016-11-12 17:18:21
+-->
+<sqlMap namespace="t_login_user">
+
+    <typeAlias alias="T_LOGIN_USER" type="com.rogrand.login.domain.LoginUser" />
+
+    <!--逍遥派用户分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--电话-->
+            <isNotEmpty prepend="and" property="phone">
+                <![CDATA[ instr(phone, #phone#) > 0 ]]>
+            </isNotEmpty>
+            <!--密码-->
+            <isNotEmpty prepend="and" property="password">
+                <![CDATA[ instr(password, #password#) > 0 ]]>
+            </isNotEmpty>
+            <!--名称-->
+            <isNotEmpty prepend="and" property="name">
+                <![CDATA[ instr(name, #name#) > 0 ]]>
+            </isNotEmpty>
+            <!--生日开始-->
+            <isNotEmpty prepend="and" property="birthday_begin">
+                <![CDATA[ birthday >= str_to_date(#birthday_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--生日结束-->
+            <isNotEmpty prepend="and" property="birthday_end">
+                <![CDATA[ birthday <= str_to_date('$birthday_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--地址-->
+            <isNotEmpty prepend="and" property="address">
+                <![CDATA[ instr(address, #address#) > 0 ]]>
+            </isNotEmpty>
+            <!--我提供的资源-->
+            <isNotEmpty prepend="and" property="providerid">
+                <![CDATA[ instr(providerid, #providerid#) > 0 ]]>
+            </isNotEmpty>
+            <!--我需要的资源-->
+            <isNotEmpty prepend="and" property="requiredid">
+                <![CDATA[ instr(requiredid, #requiredid#) > 0 ]]>
+            </isNotEmpty>
+            <!--城市-->
+            <isNotEmpty prepend="and" property="city">
+                <![CDATA[ instr(city, #city#) > 0 ]]>
+            </isNotEmpty>
+            <!--性别最小值-->
+            <isNotEmpty prepend="and" property="sex_min">
+                <![CDATA[ sex >= #sex_min# ]]>
+            </isNotEmpty>
+            <!--性别等于-->
+            <isNotEmpty prepend="and" property="sex">
+                <![CDATA[ sex = #sex# ]]>
+            </isNotEmpty>
+            <!--性别最大值-->
+            <isNotEmpty prepend="and" property="sex_max">
+                <![CDATA[ sex <= #sex_max# ]]>
+            </isNotEmpty>
+            <!--用户名-->
+            <isNotEmpty prepend="and" property="username">
+                <![CDATA[ instr(username, #username#) > 0 ]]>
+            </isNotEmpty>
+            <!--是否已付款最小值-->
+            <isNotEmpty prepend="and" property="ispay_min">
+                <![CDATA[ ispay >= #ispay_min# ]]>
+            </isNotEmpty>
+            <!--是否已付款等于-->
+            <isNotEmpty prepend="and" property="ispay">
+                <![CDATA[ ispay = #ispay# ]]>
+            </isNotEmpty>
+            <!--是否已付款最大值-->
+            <isNotEmpty prepend="and" property="ispay_max">
+                <![CDATA[ ispay <= #ispay_max# ]]>
+            </isNotEmpty>
+            <!--个人头像-->
+            <isNotEmpty prepend="and" property="url">
+                <![CDATA[ instr(url, #url#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--逍遥派用户分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_LOGIN_USER
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--逍遥派用户分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_LOGIN_USER">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                phone,
+                password,
+                name,
+                birthday,
+                address,
+                providerid,
+                requiredid,
+                city,
+                sex,
+                username,
+                ispay,
+                url
+            from T_LOGIN_USER
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建逍遥派用户-->
+    <insert id="create" parameterClass="T_LOGIN_USER">
+        <![CDATA[
+            insert into T_LOGIN_USER(
+                phone,
+                password,
+                name,
+                birthday,
+                address,
+                providerid,
+                requiredid,
+                city,
+                sex,
+                username,
+                ispay,
+                url
+            ) values (
+                #phone:VARCHAR#,
+                #password:VARCHAR#,
+                #name:VARCHAR#,
+                #birthday:TIMESTAMP#,
+                #address:VARCHAR#,
+                #providerid:VARCHAR#,
+                #requiredid:VARCHAR#,
+                #city:VARCHAR#,
+                #sex:NUMERIC#,
+                #username:VARCHAR#,
+                #ispay:NUMERIC#,
+                #url:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建逍遥派用户-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_LOGIN_USER(
+                phone,
+                password,
+                name,
+                birthday,
+                address,
+                providerid,
+                requiredid,
+                city,
+                sex,
+                username,
+                ispay,
+                url
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].phone:VARCHAR#,
+                    #[].password:VARCHAR#,
+                    #[].name:VARCHAR#,
+                    #[].birthday:TIMESTAMP#,
+                    #[].address:VARCHAR#,
+                    #[].providerid:VARCHAR#,
+                    #[].requiredid:VARCHAR#,
+                    #[].city:VARCHAR#,
+                    #[].sex:NUMERIC#,
+                    #[].username:VARCHAR#,
+                    #[].ispay:NUMERIC#,
+                    #[].url:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新逍遥派用户-->
+    <update id="update" parameterClass="T_LOGIN_USER">
+        <![CDATA[ update T_LOGIN_USER ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.phone">
+                <![CDATA[ phone=#phone:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.password">
+                <![CDATA[ password=#password:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.name">
+                <![CDATA[ name=#name:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.birthday">
+                <![CDATA[ birthday=#birthday:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.address">
+                <![CDATA[ address=#address:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.providerid">
+                <![CDATA[ providerid=#providerid:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.requiredid">
+                <![CDATA[ requiredid=#requiredid:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.city">
+                <![CDATA[ city=#city:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.sex">
+                <![CDATA[ sex=#sex:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.username">
+                <![CDATA[ username=#username:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.ispay">
+                <![CDATA[ ispay=#ispay:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.url">
+                <![CDATA[ url=#url:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除逍遥派用户-->
+    <delete id="delete" parameterClass="T_LOGIN_USER">
+        <![CDATA[
+            delete from T_LOGIN_USER where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

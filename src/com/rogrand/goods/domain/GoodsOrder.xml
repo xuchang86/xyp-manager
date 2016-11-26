@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+商品订单
+User: Created by auto build
+Date: 2016-11-13 23:38:18
+-->
+<sqlMap namespace="t_goods_order">
+
+    <typeAlias alias="T_GOODS_ORDER" type="com.rogrand.goods.domain.GoodsOrder" />
+
+    <!--商品订单分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--订单号-->
+            <isNotEmpty prepend="and" property="number">
+                <![CDATA[ instr(number, #number#) > 0 ]]>
+            </isNotEmpty>
+            <!--创建时间开始-->
+            <isNotEmpty prepend="and" property="create_date_begin">
+                <![CDATA[ create_date >= str_to_date(#create_date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--创建时间结束-->
+            <isNotEmpty prepend="and" property="create_date_end">
+                <![CDATA[ create_date <= str_to_date('$create_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--付款时间开始-->
+            <isNotEmpty prepend="and" property="pay_date_begin">
+                <![CDATA[ pay_date >= str_to_date(#pay_date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--付款时间结束-->
+            <isNotEmpty prepend="and" property="pay_date_end">
+                <![CDATA[ pay_date <= str_to_date('$pay_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--创建用户id最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--创建用户id等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ user_id = #user_id# ]]>
+            </isNotEmpty>
+            <!--创建用户id最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--商品id(多个以逗号隔开)-->
+            <isNotEmpty prepend="and" property="goods_id">
+                <![CDATA[ instr(goods_id, #goods_id#) > 0 ]]>
+            </isNotEmpty>
+            <!--收货地址-->
+            <isNotEmpty prepend="and" property="address">
+                <![CDATA[ instr(address, #address#) > 0 ]]>
+            </isNotEmpty>
+            <!--联系人-->
+            <isNotEmpty prepend="and" property="contacts">
+                <![CDATA[ instr(contacts, #contacts#) > 0 ]]>
+            </isNotEmpty>
+            <!--联系电话-->
+            <isNotEmpty prepend="and" property="phone">
+                <![CDATA[ instr(phone, #phone#) > 0 ]]>
+            </isNotEmpty>
+            <!--订单状态-->
+            <isNotEmpty prepend="and" property="state">
+                <![CDATA[ instr(state, #state#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--商品订单分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_GOODS_ORDER
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--商品订单分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_GOODS_ORDER">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                number,
+                create_date,
+                pay_date,
+                user_id,
+                goods_id,
+                address,
+                contacts,
+                phone,
+                state
+            from T_GOODS_ORDER
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建商品订单-->
+    <insert id="create" parameterClass="T_GOODS_ORDER">
+        <![CDATA[
+            insert into T_GOODS_ORDER(
+                number,
+                create_date,
+                pay_date,
+                user_id,
+                goods_id,
+                address,
+                contacts,
+                phone,
+                state
+            ) values (
+                #number:VARCHAR#,
+                #create_date:TIMESTAMP#,
+                #pay_date:TIMESTAMP#,
+                #user_id:NUMERIC#,
+                #goods_id:VARCHAR#,
+                #address:VARCHAR#,
+                #contacts:VARCHAR#,
+                #phone:VARCHAR#,
+                #state:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建商品订单-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_GOODS_ORDER(
+                number,
+                create_date,
+                pay_date,
+                user_id,
+                goods_id,
+                address,
+                contacts,
+                phone,
+                state
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].number:VARCHAR#,
+                    #[].create_date:TIMESTAMP#,
+                    #[].pay_date:TIMESTAMP#,
+                    #[].user_id:NUMERIC#,
+                    #[].goods_id:VARCHAR#,
+                    #[].address:VARCHAR#,
+                    #[].contacts:VARCHAR#,
+                    #[].phone:VARCHAR#,
+                    #[].state:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新商品订单-->
+    <update id="update" parameterClass="T_GOODS_ORDER">
+        <![CDATA[ update T_GOODS_ORDER ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.number">
+                <![CDATA[ number=#number:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.create_date">
+                <![CDATA[ create_date=#create_date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.pay_date">
+                <![CDATA[ pay_date=#pay_date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.user_id">
+                <![CDATA[ user_id=#user_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.goods_id">
+                <![CDATA[ goods_id=#goods_id:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.address">
+                <![CDATA[ address=#address:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.contacts">
+                <![CDATA[ contacts=#contacts:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.phone">
+                <![CDATA[ phone=#phone:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.state">
+                <![CDATA[ state=#state:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除商品订单-->
+    <delete id="delete" parameterClass="T_GOODS_ORDER">
+        <![CDATA[
+            delete from T_GOODS_ORDER where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

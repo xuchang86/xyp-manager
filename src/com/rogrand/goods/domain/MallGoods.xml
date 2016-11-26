@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+商城商品
+User: Created by auto build
+Date: 2016-11-13 23:38:18
+-->
+<sqlMap namespace="t_mall_goods">
+
+    <typeAlias alias="T_MALL_GOODS" type="com.rogrand.goods.domain.MallGoods" />
+
+    <!--商城商品分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--商品名称-->
+            <isNotEmpty prepend="and" property="name">
+                <![CDATA[ instr(name, #name#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品描述-->
+            <isNotEmpty prepend="and" property="description">
+                <![CDATA[ instr(description, #description#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品编码-->
+            <isNotEmpty prepend="and" property="number">
+                <![CDATA[ instr(number, #number#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品类型id最小值-->
+            <isNotEmpty prepend="and" property="type_id_min">
+                <![CDATA[ type_id >= #type_id_min# ]]>
+            </isNotEmpty>
+            <!--商品类型id等于-->
+            <isNotEmpty prepend="and" property="type_id">
+                <![CDATA[ type_id = #type_id# ]]>
+            </isNotEmpty>
+            <!--商品类型id最大值-->
+            <isNotEmpty prepend="and" property="type_id_max">
+                <![CDATA[ type_id <= #type_id_max# ]]>
+            </isNotEmpty>
+            <!--商品价格最小值-->
+            <isNotEmpty prepend="and" property="price_min">
+                <![CDATA[ price >= #price_min# ]]>
+            </isNotEmpty>
+            <!--商品价格等于-->
+            <isNotEmpty prepend="and" property="price">
+                <![CDATA[ price = #price# ]]>
+            </isNotEmpty>
+            <!--商品价格最大值-->
+            <isNotEmpty prepend="and" property="price_max">
+                <![CDATA[ price <= #price_max# ]]>
+            </isNotEmpty>
+            <!--创建用户id最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--创建用户id等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ user_id = #user_id# ]]>
+            </isNotEmpty>
+            <!--创建用户id最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--创建日期开始-->
+            <isNotEmpty prepend="and" property="create_date_begin">
+                <![CDATA[ create_date >= str_to_date(#create_date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--创建日期结束-->
+            <isNotEmpty prepend="and" property="create_date_end">
+                <![CDATA[ create_date <= str_to_date('$create_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--商品图片-->
+            <isNotEmpty prepend="and" property="url">
+                <![CDATA[ instr(url, #url#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品地区-->
+            <isNotEmpty prepend="and" property="area">
+                <![CDATA[ instr(area, #area#) > 0 ]]>
+            </isNotEmpty>
+            <!--是否出售最小值-->
+            <isNotEmpty prepend="and" property="is_sale_min">
+                <![CDATA[ is_sale >= #is_sale_min# ]]>
+            </isNotEmpty>
+            <!--是否出售等于-->
+            <isNotEmpty prepend="and" property="is_sale">
+                <![CDATA[ is_sale = #is_sale# ]]>
+            </isNotEmpty>
+            <!--是否出售最大值-->
+            <isNotEmpty prepend="and" property="is_sale_max">
+                <![CDATA[ is_sale <= #is_sale_max# ]]>
+            </isNotEmpty>
+            <!--卖家id最小值-->
+            <isNotEmpty prepend="and" property="seller_id_min">
+                <![CDATA[ seller_id >= #seller_id_min# ]]>
+            </isNotEmpty>
+            <!--卖家id等于-->
+            <isNotEmpty prepend="and" property="seller_id">
+                <![CDATA[ seller_id = #seller_id# ]]>
+            </isNotEmpty>
+            <!--卖家id最大值-->
+            <isNotEmpty prepend="and" property="seller_id_max">
+                <![CDATA[ seller_id <= #seller_id_max# ]]>
+            </isNotEmpty>
+            <!--会员价格最小值-->
+            <isNotEmpty prepend="and" property="vip_price_min">
+                <![CDATA[ vip_price >= #vip_price_min# ]]>
+            </isNotEmpty>
+            <!--会员价格等于-->
+            <isNotEmpty prepend="and" property="vip_price">
+                <![CDATA[ vip_price = #vip_price# ]]>
+            </isNotEmpty>
+            <!--会员价格最大值-->
+            <isNotEmpty prepend="and" property="vip_price_max">
+                <![CDATA[ vip_price <= #vip_price_max# ]]>
+            </isNotEmpty>
+            <!--商品等级最小值-->
+            <isNotEmpty prepend="and" property="level_min">
+                <![CDATA[ level >= #level_min# ]]>
+            </isNotEmpty>
+            <!--商品等级等于-->
+            <isNotEmpty prepend="and" property="level">
+                <![CDATA[ level = #level# ]]>
+            </isNotEmpty>
+            <!--商品等级最大值-->
+            <isNotEmpty prepend="and" property="level_max">
+                <![CDATA[ level <= #level_max# ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+    
+    <!--商城商品分页条件2-->
+    <sql id="pageWhere2">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ t1.id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ t1.id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ t1.id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--商品名称-->
+            <isNotEmpty prepend="and" property="name">
+                <![CDATA[ instr(t1.name, #name#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品描述-->
+            <isNotEmpty prepend="and" property="description">
+                <![CDATA[ instr(t1.description, #description#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品编码-->
+            <isNotEmpty prepend="and" property="number">
+                <![CDATA[ instr(t1.number, #number#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品类型id最小值-->
+            <isNotEmpty prepend="and" property="type_id_min">
+                <![CDATA[ t1.type_id >= #type_id_min# ]]>
+            </isNotEmpty>
+            <!--商品类型id等于-->
+            <isNotEmpty prepend="and" property="type_id">
+                <![CDATA[ t1.type_id = #type_id# ]]>
+            </isNotEmpty>
+            <!--商品类型id最大值-->
+            <isNotEmpty prepend="and" property="type_id_max">
+                <![CDATA[ t1.type_id <= #type_id_max# ]]>
+            </isNotEmpty>
+            <!--商品价格最小值-->
+            <isNotEmpty prepend="and" property="price_min">
+                <![CDATA[ t1.price >= #price_min# ]]>
+            </isNotEmpty>
+            <!--商品价格等于-->
+            <isNotEmpty prepend="and" property="price">
+                <![CDATA[ t1.price = #price# ]]>
+            </isNotEmpty>
+            <!--商品价格最大值-->
+            <isNotEmpty prepend="and" property="price_max">
+                <![CDATA[ t1.price <= #price_max# ]]>
+            </isNotEmpty>
+            <!--创建用户id最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ t1.user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--创建用户id等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ t1.user_id = #user_id# ]]>
+            </isNotEmpty>
+            <!--创建用户id最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ t1.user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--创建日期开始-->
+            <isNotEmpty prepend="and" property="create_date_begin">
+                <![CDATA[ t1.create_date >= str_to_date(#create_date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--创建日期结束-->
+            <isNotEmpty prepend="and" property="create_date_end">
+                <![CDATA[ t1.create_date <= str_to_date('$create_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--商品图片-->
+            <isNotEmpty prepend="and" property="url">
+                <![CDATA[ instr(t1.url, #url#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品地区-->
+            <isNotEmpty prepend="and" property="area">
+                <![CDATA[ instr(t1.area, #area#) > 0 ]]>
+            </isNotEmpty>
+            <!--是否出售最小值-->
+            <isNotEmpty prepend="and" property="is_sale_min">
+                <![CDATA[ t1.is_sale >= #is_sale_min# ]]>
+            </isNotEmpty>
+            <!--是否出售等于-->
+            <isNotEmpty prepend="and" property="is_sale">
+                <![CDATA[ t1.is_sale = #is_sale# ]]>
+            </isNotEmpty>
+            <!--是否出售最大值-->
+            <isNotEmpty prepend="and" property="is_sale_max">
+                <![CDATA[ t1.is_sale <= #is_sale_max# ]]>
+            </isNotEmpty>
+            <!--卖家id最小值-->
+            <isNotEmpty prepend="and" property="seller_id_min">
+                <![CDATA[ t1.seller_id >= #seller_id_min# ]]>
+            </isNotEmpty>
+            <!--卖家id等于-->
+            <isNotEmpty prepend="and" property="seller_id">
+                <![CDATA[ t1.seller_id = #seller_id# ]]>
+            </isNotEmpty>
+            <!--卖家id最大值-->
+            <isNotEmpty prepend="and" property="seller_id_max">
+                <![CDATA[ t1.seller_id <= #seller_id_max# ]]>
+            </isNotEmpty>
+            <!--会员价格最小值-->
+            <isNotEmpty prepend="and" property="vip_price_min">
+                <![CDATA[ t1.vip_price >= #vip_price_min# ]]>
+            </isNotEmpty>
+            <!--会员价格等于-->
+            <isNotEmpty prepend="and" property="vip_price">
+                <![CDATA[ t1.vip_price = #vip_price# ]]>
+            </isNotEmpty>
+            <!--会员价格最大值-->
+            <isNotEmpty prepend="and" property="vip_price_max">
+                <![CDATA[ t1.vip_price <= #vip_price_max# ]]>
+            </isNotEmpty>
+            <!--商品等级最小值-->
+            <isNotEmpty prepend="and" property="level_min">
+                <![CDATA[ t1.level >= #level_min# ]]>
+            </isNotEmpty>
+            <!--商品等级等于-->
+            <isNotEmpty prepend="and" property="level">
+                <![CDATA[ t1.level = #level# ]]>
+            </isNotEmpty>
+            <!--商品等级最大值-->
+            <isNotEmpty prepend="and" property="level_max">
+                <![CDATA[ t1.level <= #level_max# ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ t1.id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--商城商品分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_MALL_GOODS
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--商城商品分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_MALL_GOODS">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                t1.id,
+                t1.name,
+                t1.description,
+                t1.number,
+                t1.type_id,
+                t2.name type_name,
+                t1.price,
+                t1.user_id,
+                t1.create_date,
+                t1.url,
+                t1.area,
+                t1.is_sale,
+                t1.seller_id,
+                t1.vip_price,
+                t1.level,
+                t3.nick_name seller_nick,
+                t3.real_name seller_name,
+                t4.name creator
+            from T_MALL_GOODS t1
+            LEFT JOIN T_GOODS_TYPE t2 on t1.type_id = t2.id
+            LEFT JOIN T_GOODS_SELLER t3 on t3.id = t1.seller_id
+            LEFT JOIN T_LOGIN_USER t4 on t4.id = t1.user_id
+        ]]>
+        <include refid="pageWhere2"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建商城商品-->
+    <insert id="create" parameterClass="T_MALL_GOODS">
+        <![CDATA[
+            insert into T_MALL_GOODS(
+                name,
+                description,
+                number,
+                type_id,
+                price,
+                user_id,
+                create_date,
+                url,
+                area,
+                is_sale,
+                seller_id,
+                vip_price,
+                level
+            ) values (
+                #name:VARCHAR#,
+                #description:VARCHAR#,
+                #number:VARCHAR#,
+                #type_id:NUMERIC#,
+                #price:NUMERIC#,
+                #user_id:NUMERIC#,
+                #create_date:TIMESTAMP#,
+                #url:VARCHAR#,
+                #area:VARCHAR#,
+                #is_sale:NUMERIC#,
+                #seller_id:NUMERIC#,
+                #vip_price:NUMERIC#,
+                #level:NUMERIC#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建商城商品-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_MALL_GOODS(
+                name,
+                description,
+                number,
+                type_id,
+                price,
+                user_id,
+                create_date,
+                url,
+                area,
+                is_sale,
+                seller_id,
+                vip_price,
+                level
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].name:VARCHAR#,
+                    #[].description:VARCHAR#,
+                    #[].number:VARCHAR#,
+                    #[].type_id:NUMERIC#,
+                    #[].price:NUMERIC#,
+                    #[].user_id:NUMERIC#,
+                    #[].create_date:TIMESTAMP#,
+                    #[].url:VARCHAR#,
+                    #[].area:VARCHAR#,
+                    #[].is_sale:NUMERIC#,
+                    #[].seller_id:NUMERIC#,
+                    #[].vip_price:NUMERIC#,
+                    #[].level:NUMERIC#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新商城商品-->
+    <update id="update" parameterClass="T_MALL_GOODS">
+        <![CDATA[ update T_MALL_GOODS ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.name">
+                <![CDATA[ name=#name:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.description">
+                <![CDATA[ description=#description:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.number">
+                <![CDATA[ number=#number:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.type_id">
+                <![CDATA[ type_id=#type_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.price">
+                <![CDATA[ price=#price:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.user_id">
+                <![CDATA[ user_id=#user_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.create_date">
+                <![CDATA[ create_date=#create_date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.url">
+                <![CDATA[ url=#url:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.area">
+                <![CDATA[ area=#area:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.is_sale">
+                <![CDATA[ is_sale=#is_sale:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.seller_id">
+                <![CDATA[ seller_id=#seller_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.vip_price">
+                <![CDATA[ vip_price=#vip_price:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.level">
+                <![CDATA[ level=#level:NUMERIC# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除商城商品-->
+    <delete id="delete" parameterClass="T_MALL_GOODS">
+        <![CDATA[
+            delete from T_MALL_GOODS where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>
