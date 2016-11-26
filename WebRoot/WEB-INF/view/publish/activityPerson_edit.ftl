@@ -39,6 +39,29 @@
             });
         }
 
+        /**
+         * 选择人物
+         */
+        function selectData(title,url){
+        	$("#dialog").css("display","block").dialog({
+    			title: title,
+    			width:window.$.autoWidth(),
+    			height:window.$.autoHeight(),
+    			onMove:function(left,top){$.adjustPosition("dialog",left,top)},
+    			onBeforeClose:function(){$.restoreDialog("dialog")}
+    		});
+    		$("#iframe").attr("src", url);
+        }
+        
+        function selectPersonBack(basePerson){
+        	$("#person_id").val(basePerson.id);
+        	$("#person_name").val(basePerson.name);
+        }
+        
+        function selectActityBack(publishActivity){
+        	$("#activity_id").val(publishActivity.id);
+        	$("#activity_name").val(publishActivity.content);
+        }
     </script>
 </head>
 <body class="easyui-layout">
@@ -56,14 +79,25 @@
             <col width="80%">
             <tr>
                 <td class="th">人物ID</td>
-                <td class="td"><input type="text" id="person_id" name="person_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(activityPerson.person_id)!}" style="width:300px;"/></td>
+                <td class="td">
+                	<input type="text" id="person_id" name="person_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(activityPerson.person_id)!}" style="display:none"/>
+                	<input type="text" id="person_name" name="person_name" class="input" disabled="true" value="${(activityPerson.person_name)!}" style="width:300px;"/>
+                	<input type="button" value="选择人物" onclick="selectData('选择人物','${path}/person/basePerson_select.do?callback=selectPersonBack')">
+                </td>
             </tr>
             <tr>
                 <td class="th">活动ID</td>
-                <td class="td"><input type="text" id="activity_id" name="activity_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(activityPerson.activity_id)!}" style="width:300px;"/></td>
+                <td class="td">
+                	<input type="text" id="activity_id" name="activity_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(activityPerson.activity_id)!}" style="display:none"/>
+                	<input type="text" id="activity_name" name="activity_name" class="input" disabled="true" value="${(activityPerson.activity_content)!}" style="width:300px;"/>
+                	<input type="button" value="选择活动" onclick="selectData('选择活动','${path}/publish/publishActivity_select.do?callback=selectActityBack')">
+                </td>
             </tr>
         </table>
     </form>
+</div>
+<div id="dialog" style="width:800px;height:400px; overflow:hidden;display: none" resizable="true" maximizable="true" modal="true">
+<iframe id="iframe" name="iframe" scrolling="auto" src="about:blank" style="width:100%;height:100%;" frameborder="0" ></iframe>
 </div>
 </body>
 </html>

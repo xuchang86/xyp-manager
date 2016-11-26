@@ -51,8 +51,8 @@
                     }
                 ]],
                 columns:[[
-                    {title:'人物ID',field:'person_id',width:150,sortable:true},
-                    {title:'活动ID',field:'activity_id',width:150,sortable:true}
+                    {title:'人物名称',field:'person_name',width:150,sortable:true},
+                    {title:'活动内容',field:'activity_content',width:250,sortable:true}
                 ]],
                 toolbar:[
                     {

@@ -58,7 +58,7 @@ Date: 2016-11-13 23:38:18
     <!--活动参与人分页记录数-->
     <select id="pageCount" parameterClass="PageParam" resultClass="Long">
         <![CDATA[
-            select count(*) total from T_ACTIVITY_PERSON
+            select count(*) total from T_ACTIVITY_PERSON t1
         ]]>
         <include refid="pageWhere"/>
     </select>
@@ -70,8 +70,10 @@ Date: 2016-11-13 23:38:18
             select
                 id,
                 person_id,
-                activity_id
-            from T_ACTIVITY_PERSON
+                (select name from T_BASE_PERSON where id = t1.person_id) person_name,
+                activity_id,
+                (select content from T_PUBLISH_ACTIVITY where id = t1.activity_id) activity_content
+            from T_ACTIVITY_PERSON t1
         ]]>
         <include refid="pageWhere"/>
         <![CDATA[ $sortOrder$ ]]>
