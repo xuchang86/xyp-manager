@@ -1,7 +1,6 @@
 package com.rogrand.publish.domain;
 import com.rogrand.core.annotation.FieldAnnotation;
 import com.rogrand.core.domain.Base;
-import java.util.Date;
 
 /**
  * 版权：LAB <br/>
@@ -19,6 +18,11 @@ public class ActivityPerson extends Base {
 
     @FieldAnnotation(comment = "活动ID", exp = true, imp = true, empty = true, len = 10)
     private Long activity_id;
+    
+    @FieldAnnotation(comment = "人物名称")
+    private String person_name;
+    @FieldAnnotation(comment = "活动内容")
+    private String activity_content;
 
 
     /**
@@ -85,4 +89,20 @@ public class ActivityPerson extends Base {
         putField("activity_id");
         this.activity_id = activity_id;
     }
+
+	public String getPerson_name() {
+		return person_name;
+	}
+
+	public String getActivity_content() {
+		return activity_content;
+	}
+
+	public void setPerson_name(String person_name) {
+		this.person_name = person_name;
+	}
+
+	public void setActivity_content(String activity_content) {
+		this.activity_content = activity_content;
+	}
 }

@@ -2,7 +2,7 @@
 版权：LAB <br/>
 作者：dailing <br/>
 生成日期：2016-11-13 <br/>
-描述：活动参与人主页面
+描述：人物信息选择页面
 -->
 <#include "/WEB-INF/view/macro.ftl"/>
 
@@ -14,7 +14,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>活动参与人管理</title>
+    <title>人物信息管理</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
         $(function() {
@@ -33,7 +33,7 @@
                 },
                 frozenColumns:[[
                     {field:'ck',checkbox:true},
-                    {title:'操作',field:'id',width:120,sortable:false,align:"center",
+                    /*{title:'操作',field:'id',width:120,sortable:false,align:"center",
                         formatter:function(value, data, index){
                             var link= "<a href=\"javascript:void(0)\" onclick=\"view(event, '" + value + "')\">查看</a>&nbsp;";
                             <#if checkEdit>
@@ -48,43 +48,97 @@
                             </#if>
                             return link;
                         }
-                    }
+                    }*/
                 ]],
                 columns:[[
-                    {title:'人物名称',field:'person_name',width:150,sortable:true},
-                    {title:'活动内容',field:'activity_content',width:250,sortable:true}
+                    {title:'用户id',field:'user_id',width:150,sortable:true},
+                    {title:'级别',field:'level',width:150,sortable:true,
+                     formatter: function(value, data, index) {
+							if (value == 1) {
+								return "见习弟子";
+							} else if (value == 2) {
+								return "精英弟子";
+							} else if (value == 3) {
+								return "副组长";
+							} else if (value == 4) {
+								return "组长";
+							} else if (value == 5) {
+								return "副队长";
+							} else if (value == 6) {
+								return "队长";
+							} else if (value == 7) {
+								return "副堂主";
+							} else if (value == 8) {
+								return "堂主";
+							} else if (value == 9) {
+								return "副舵主";
+							} else if (value == 10) {
+								return "舵主";
+							} else if (value == 11) {
+								return "青龙护法";
+							} else if (value == 12) {
+								return "白虎护法";
+							} else if (value == 13) {
+								return "朱雀护法";
+							} else if (value == 14) {
+								return "玄武护法";
+							} else if (value == 15) {
+								return "逍遥左使";
+							} else if (value == 16) {
+								return "逍遥右使";
+							} else if (value == 17) {
+								return "大长老";
+							} else if (value == 18) {
+								return "副掌门";
+							}
+							return "";
+						}
+                    },
+                    {title:'逍遥币',field:'bill',width:150,sortable:true},
+                    {title:'师傅id',field:'parent_id',width:150,sortable:true},
+                    {title:'创建时间',field:'create_date',width:150,sortable:true},
+                    {title:'名称',field:'name',width:150,sortable:true}
                 ]],
                 toolbar:[
                     {
-                        handler:refreshPage,
-                        text:"刷新",
-                        iconCls:"icon-reload"
-                    },
-                    "-",
-                    {
-                        <#if checkAdd>
-                        handler:add,
-                        <#else>
-                        disabled:true,
-                        </#if>
+                    	handler:confirmSelects,
                         text:"添加",
-                        iconCls:"icon-add"
+                        iconCls:"icon-ok"
                     },
                     {
-                        <#if checkDelete>
-                        handler:delBatch,
-                        <#else>
-                        disabled:true,
-                        </#if>
-                        text:"删除",
-                        iconCls:"icon-remove"
+                        handler:colsePage,
+                        text:"关闭",
+                        iconCls:"icon-cancel"
                     }
                 ]
             });
         });
+        
+        /**
+         * 选择
+         */
+        function confirmSelects(){
+        	var selections=$("#table").datagrid("getSelections");
+        	if(selections==null || selections.length==0){
+        		$.messager.alert("系统提示","请选择记录","info");
+        		return;
+        	}
+        	
+        	var basePerson = selections[0];
+        	
+        	window.parent.${RequestParameters.callback!}(basePerson);
+    	    window.parent.$.closeDialog('dialog');
+        }
+        
+        /**
+         * 关闭
+         */
+        function colsePage(){
+        	window.parent.$.closeDialog('dialog');
+        }
 
         /**
-         * 显示活动参与人添加对话框
+         * 显示人物信息添加对话框
          */
         function add() {
             $("#dialog").css("display","block").dialog({
@@ -94,11 +148,11 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src", "${path}/publish/activityPerson_add.do");
+            $("#iframe").attr("src", "${path}/person/basePerson_add.do");
         }
 
         /**
-         * 显示活动参与人修改对话框
+         * 显示人物信息修改对话框
          */
         function edit(event, value) {
             $.event.fix(event).stopPropagation();
@@ -109,17 +163,17 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src","${path}/publish/activityPerson_edit.do?id="+value);
+            $("#iframe").attr("src","${path}/person/basePerson_edit.do?id="+value);
         }
 
         /**
-         * 删除活动参与人
+         * 删除人物信息
          */
         function del(event,val) {
             $.event.fix(event).stopPropagation();
             $.messager.confirm("提示信息", "你确认要删除该记录吗？", function(b) {
                 if (b) {
-                    $.ajaxPost("${path}/publish/activityPerson_delete.do",{"id":val},function(result){
+                    $.ajaxPost("${path}/person/basePerson_delete.do",{"id":val},function(result){
                         $.messager.show({
                             title:"消息提醒",
                             msg:"记录删除成功",
@@ -133,7 +187,7 @@
         }
 
         /**
-         * 批量删除活动参与人
+         * 批量删除人物信息
          */
         function delBatch(){
             var selections=$("#table").datagrid("getSelections");
@@ -148,7 +202,7 @@
                            ids.push(o.id);
                         });
 
-                        $.ajaxPost("${path}/publish/activityPerson_deleteBatch.do", {"ids":ids}, function(result) {
+                        $.ajaxPost("${path}/person/basePerson_deleteBatch.do", {"ids":ids}, function(result) {
                             $.messager.show({
                                 title:"消息提醒",
                                 msg:"记录删除成功",
@@ -163,7 +217,7 @@
         }
 
         /**
-         * 查看活动参与人详细
+         * 查看人物信息详细
          */
         function view(event,value){
             $.event.fix(event).stopPropagation();
@@ -174,14 +228,14 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src","${path}/publish/activityPerson_view.do?id="+value);
+            $("#iframe").attr("src","${path}/person/basePerson_view.do?id="+value);
         }
 
         /**
          * 刷新页面
          */
         function refreshPage(){
-            window.location="${path}/publish/activityPerson_main.do";
+            window.location="${path}/person/basePerson_select.do";
             return false;
         }
 
@@ -203,9 +257,9 @@
                 $("#form select").val("");
             }
 
-            var activityPerson = $("#form").serializeJson();
-            activityPerson.refresh = "1"; //刷新记录数参数
-            $("#table").datagrid("clearSelections").datagrid("load",activityPerson);
+            var basePerson = $("#form").serializeJson();
+            basePerson.refresh = "1"; //刷新记录数参数
+            $("#table").datagrid("clearSelections").datagrid("load",basePerson);
         }
     </script>
 </head>
@@ -214,28 +268,64 @@
     <form id="form" name="form" style="display: none">
         <table class="table">
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input id="person_id" name="person_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">用户id</td>
+                <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input id="person_id_min" name="person_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="person_id_max" name="person_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">活动ID</td>
-                <td class="td"><input id="activity_id" name="activity_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">活动ID</td>
-                <td class="td"><input id="activity_id_min" name="activity_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">用户id</td>
+                <td class="td"><input id="user_id_min" name="user_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
             <tr>
                 <td class="th">至</td>
-                <td class="td"><input id="activity_id_max" name="activity_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="td"><input id="user_id_max" name="user_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+            </tr>
+            <tr>
+                <td class="th">级别</td>
+                <td class="td"><input id="level" name="level" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+            </tr>
+            <tr>
+                <td class="th">级别</td>
+                <td class="td"><input id="level_min" name="level_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+            </tr>
+            <tr>
+                <td class="th">至</td>
+                <td class="td"><input id="level_max" name="level_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+            </tr>
+            <tr>
+                <td class="th">逍遥币</td>
+                <td class="td"><input id="bill" name="bill" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
+            </tr>
+            <tr>
+                <td class="th">逍遥币</td>
+                <td class="td"><input id="bill_min" name="bill_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
+            </tr>
+            <tr>
+                <td class="th">至</td>
+                <td class="td"><input id="bill_max" name="bill_max" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
+            </tr>
+            <tr>
+                <td class="th">师傅id</td>
+                <td class="td"><input id="parent_id" name="parent_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+            </tr>
+            <tr>
+                <td class="th">师傅id</td>
+                <td class="td"><input id="parent_id_min" name="parent_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+            </tr>
+            <tr>
+                <td class="th">至</td>
+                <td class="td"><input id="parent_id_max" name="parent_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+            </tr>
+            <tr>
+                <td class="th">创建时间</td>
+                <td class="td"><input id="create_date_begin" name="create_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
+            </tr>
+            <tr>
+                <td class="th">至</td>
+                <td class="td"><input id="create_date_end" name="create_date_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
+            </tr>
+            <tr>
+                <td class="th">名称</td>
+                <td class="td"><input id="name" name="name" type="text" class="input"></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">
@@ -246,9 +336,9 @@
         </table>
     </form>
 </div>
-<div region="center" title="当前位置：活动参与人管理">
+<div region="center" title="当前位置：人物信息管理">
     <table id="table"
-           url="${path}/publish/activityPerson_page.do"
+           url="${path}/person/basePerson_page.do"
            border="false"         <#--无边框-->
            fit="true"             <#--自动填充宽度高度-->
            singleSelect="false"   <#--单选模式-->
