@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+会员成长规则
+User: Created by auto build
+Date: 2016-11-13 22:52:07
+-->
+<sqlMap namespace="t_members_rule">
+
+    <typeAlias alias="T_MEMBERS_RULE" type="com.rogrand.rule.domain.MembersRule" />
+
+    <!--会员成长规则分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--等级最小值-->
+            <isNotEmpty prepend="and" property="level_min">
+                <![CDATA[ level >= #level_min# ]]>
+            </isNotEmpty>
+            <!--等级等于-->
+            <isNotEmpty prepend="and" property="level">
+                <![CDATA[ level = #level# ]]>
+            </isNotEmpty>
+            <!--等级最大值-->
+            <isNotEmpty prepend="and" property="level_max">
+                <![CDATA[ level <= #level_max# ]]>
+            </isNotEmpty>
+            <!--升级数最小值-->
+            <isNotEmpty prepend="and" property="level_count_min">
+                <![CDATA[ level_count >= #level_count_min# ]]>
+            </isNotEmpty>
+            <!--升级数等于-->
+            <isNotEmpty prepend="and" property="level_count">
+                <![CDATA[ level_count = #level_count# ]]>
+            </isNotEmpty>
+            <!--升级数最大值-->
+            <isNotEmpty prepend="and" property="level_count_max">
+                <![CDATA[ level_count <= #level_count_max# ]]>
+            </isNotEmpty>
+            <!--资金池最小值-->
+            <isNotEmpty prepend="and" property="money_pool_min">
+                <![CDATA[ money_pool >= #money_pool_min# ]]>
+            </isNotEmpty>
+            <!--资金池等于-->
+            <isNotEmpty prepend="and" property="money_pool">
+                <![CDATA[ money_pool = #money_pool# ]]>
+            </isNotEmpty>
+            <!--资金池最大值-->
+            <isNotEmpty prepend="and" property="money_pool_max">
+                <![CDATA[ money_pool <= #money_pool_max# ]]>
+            </isNotEmpty>
+            <!--弟子给师傅的红包最小值-->
+            <isNotEmpty prepend="and" property="packet_min">
+                <![CDATA[ packet >= #packet_min# ]]>
+            </isNotEmpty>
+            <!--弟子给师傅的红包等于-->
+            <isNotEmpty prepend="and" property="packet">
+                <![CDATA[ packet = #packet# ]]>
+            </isNotEmpty>
+            <!--弟子给师傅的红包最大值-->
+            <isNotEmpty prepend="and" property="packet_max">
+                <![CDATA[ packet <= #packet_max# ]]>
+            </isNotEmpty>
+            <!--徒弟红包总数最小值-->
+            <isNotEmpty prepend="and" property="packet_count_min">
+                <![CDATA[ packet_count >= #packet_count_min# ]]>
+            </isNotEmpty>
+            <!--徒弟红包总数等于-->
+            <isNotEmpty prepend="and" property="packet_count">
+                <![CDATA[ packet_count = #packet_count# ]]>
+            </isNotEmpty>
+            <!--徒弟红包总数最大值-->
+            <isNotEmpty prepend="and" property="packet_count_max">
+                <![CDATA[ packet_count <= #packet_count_max# ]]>
+            </isNotEmpty>
+            <!--徒孙给师傅的红包最小值-->
+            <isNotEmpty prepend="and" property="child_packet_min">
+                <![CDATA[ child_packet >= #child_packet_min# ]]>
+            </isNotEmpty>
+            <!--徒孙给师傅的红包等于-->
+            <isNotEmpty prepend="and" property="child_packet">
+                <![CDATA[ child_packet = #child_packet# ]]>
+            </isNotEmpty>
+            <!--徒孙给师傅的红包最大值-->
+            <isNotEmpty prepend="and" property="child_packet_max">
+                <![CDATA[ child_packet <= #child_packet_max# ]]>
+            </isNotEmpty>
+            <!--徒孙给师傅的红包总数最小值-->
+            <isNotEmpty prepend="and" property="child_packet_count_min">
+                <![CDATA[ child_packet_count >= #child_packet_count_min# ]]>
+            </isNotEmpty>
+            <!--徒孙给师傅的红包总数等于-->
+            <isNotEmpty prepend="and" property="child_packet_count">
+                <![CDATA[ child_packet_count = #child_packet_count# ]]>
+            </isNotEmpty>
+            <!--徒孙给师傅的红包总数最大值-->
+            <isNotEmpty prepend="and" property="child_packet_count_max">
+                <![CDATA[ child_packet_count <= #child_packet_count_max# ]]>
+            </isNotEmpty>
+            <!--升级奖励最小值-->
+            <isNotEmpty prepend="and" property="upgrade_awards_min">
+                <![CDATA[ upgrade_awards >= #upgrade_awards_min# ]]>
+            </isNotEmpty>
+            <!--升级奖励等于-->
+            <isNotEmpty prepend="and" property="upgrade_awards">
+                <![CDATA[ upgrade_awards = #upgrade_awards# ]]>
+            </isNotEmpty>
+            <!--升级奖励最大值-->
+            <isNotEmpty prepend="and" property="upgrade_awards_max">
+                <![CDATA[ upgrade_awards <= #upgrade_awards_max# ]]>
+            </isNotEmpty>
+            <!--会员收入最小值-->
+            <isNotEmpty prepend="and" property="member_income_min">
+                <![CDATA[ member_income >= #member_income_min# ]]>
+            </isNotEmpty>
+            <!--会员收入等于-->
+            <isNotEmpty prepend="and" property="member_income">
+                <![CDATA[ member_income = #member_income# ]]>
+            </isNotEmpty>
+            <!--会员收入最大值-->
+            <isNotEmpty prepend="and" property="member_income_max">
+                <![CDATA[ member_income <= #member_income_max# ]]>
+            </isNotEmpty>
+            <!--平台收入最小值-->
+            <isNotEmpty prepend="and" property="platform_income_min">
+                <![CDATA[ platform_income >= #platform_income_min# ]]>
+            </isNotEmpty>
+            <!--平台收入等于-->
+            <isNotEmpty prepend="and" property="platform_income">
+                <![CDATA[ platform_income = #platform_income# ]]>
+            </isNotEmpty>
+            <!--平台收入最大值-->
+            <isNotEmpty prepend="and" property="platform_income_max">
+                <![CDATA[ platform_income <= #platform_income_max# ]]>
+            </isNotEmpty>
+            <!--弟子总数最小值-->
+            <isNotEmpty prepend="and" property="total_child_min">
+                <![CDATA[ total_child >= #total_child_min# ]]>
+            </isNotEmpty>
+            <!--弟子总数等于-->
+            <isNotEmpty prepend="and" property="total_child">
+                <![CDATA[ total_child = #total_child# ]]>
+            </isNotEmpty>
+            <!--弟子总数最大值-->
+            <isNotEmpty prepend="and" property="total_child_max">
+                <![CDATA[ total_child <= #total_child_max# ]]>
+            </isNotEmpty>
+            <!--备注-->
+            <isNotEmpty prepend="and" property="remark">
+                <![CDATA[ instr(remark, #remark#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--会员成长规则分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_MEMBERS_RULE
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--会员成长规则分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_MEMBERS_RULE">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                level,
+                level_count,
+                money_pool,
+                packet,
+                packet_count,
+                child_packet,
+                child_packet_count,
+                upgrade_awards,
+                member_income,
+                platform_income,
+                total_child,
+                remark
+            from T_MEMBERS_RULE
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建会员成长规则-->
+    <insert id="create" parameterClass="T_MEMBERS_RULE">
+        <![CDATA[
+            insert into T_MEMBERS_RULE(
+                level,
+                level_count,
+                money_pool,
+                packet,
+                packet_count,
+                child_packet,
+                child_packet_count,
+                upgrade_awards,
+                member_income,
+                platform_income,
+                total_child,
+                remark
+            ) values (
+                #level:NUMERIC#,
+                #level_count:NUMERIC#,
+                #money_pool:NUMERIC#,
+                #packet:NUMERIC#,
+                #packet_count:NUMERIC#,
+                #child_packet:NUMERIC#,
+                #child_packet_count:NUMERIC#,
+                #upgrade_awards:NUMERIC#,
+                #member_income:NUMERIC#,
+                #platform_income:NUMERIC#,
+                #total_child:NUMERIC#,
+                #remark:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建会员成长规则-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_MEMBERS_RULE(
+                level,
+                level_count,
+                money_pool,
+                packet,
+                packet_count,
+                child_packet,
+                child_packet_count,
+                upgrade_awards,
+                member_income,
+                platform_income,
+                total_child,
+                remark
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].level:NUMERIC#,
+                    #[].level_count:NUMERIC#,
+                    #[].money_pool:NUMERIC#,
+                    #[].packet:NUMERIC#,
+                    #[].packet_count:NUMERIC#,
+                    #[].child_packet:NUMERIC#,
+                    #[].child_packet_count:NUMERIC#,
+                    #[].upgrade_awards:NUMERIC#,
+                    #[].member_income:NUMERIC#,
+                    #[].platform_income:NUMERIC#,
+                    #[].total_child:NUMERIC#,
+                    #[].remark:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新会员成长规则-->
+    <update id="update" parameterClass="T_MEMBERS_RULE">
+        <![CDATA[ update T_MEMBERS_RULE ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.level">
+                <![CDATA[ level=#level:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.level_count">
+                <![CDATA[ level_count=#level_count:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.money_pool">
+                <![CDATA[ money_pool=#money_pool:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.packet">
+                <![CDATA[ packet=#packet:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.packet_count">
+                <![CDATA[ packet_count=#packet_count:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.child_packet">
+                <![CDATA[ child_packet=#child_packet:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.child_packet_count">
+                <![CDATA[ child_packet_count=#child_packet_count:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.upgrade_awards">
+                <![CDATA[ upgrade_awards=#upgrade_awards:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.member_income">
+                <![CDATA[ member_income=#member_income:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.platform_income">
+                <![CDATA[ platform_income=#platform_income:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.total_child">
+                <![CDATA[ total_child=#total_child:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.remark">
+                <![CDATA[ remark=#remark:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除会员成长规则-->
+    <delete id="delete" parameterClass="T_MEMBERS_RULE">
+        <![CDATA[
+            delete from T_MEMBERS_RULE where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

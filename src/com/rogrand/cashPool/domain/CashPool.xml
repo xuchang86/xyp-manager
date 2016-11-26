@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+资金池
+User: Created by auto build
+Date: 2016-11-13 19:15:51
+-->
+<sqlMap namespace="t_cash_pool">
+
+    <typeAlias alias="T_CASH_POOL" type="com.rogrand.cashPool.domain.CashPool" />
+
+    <!--资金池分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--资金最小值-->
+            <isNotEmpty prepend="and" property="money_min">
+                <![CDATA[ money >= #money_min# ]]>
+            </isNotEmpty>
+            <!--资金等于-->
+            <isNotEmpty prepend="and" property="money">
+                <![CDATA[ money = #money# ]]>
+            </isNotEmpty>
+            <!--资金最大值-->
+            <isNotEmpty prepend="and" property="money_max">
+                <![CDATA[ money <= #money_max# ]]>
+            </isNotEmpty>
+            <!--用户ID最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--用户ID等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ user_id = #user_id# ]]>
+            </isNotEmpty>
+            <!--用户ID最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--创建时间开始-->
+            <isNotEmpty prepend="and" property="createdate_begin">
+                <![CDATA[ createdate >= str_to_date(#createdate_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--创建时间结束-->
+            <isNotEmpty prepend="and" property="createdate_end">
+                <![CDATA[ createdate <= str_to_date('$createdate_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--平台收入最小值-->
+            <isNotEmpty prepend="and" property="platform_min">
+                <![CDATA[ platform >= #platform_min# ]]>
+            </isNotEmpty>
+            <!--平台收入等于-->
+            <isNotEmpty prepend="and" property="platform">
+                <![CDATA[ platform = #platform# ]]>
+            </isNotEmpty>
+            <!--平台收入最大值-->
+            <isNotEmpty prepend="and" property="platform_max">
+                <![CDATA[ platform <= #platform_max# ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--资金池分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_CASH_POOL
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--资金池分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_CASH_POOL">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                money,
+                user_id,
+                createdate,
+                platform
+            from T_CASH_POOL
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建资金池-->
+    <insert id="create" parameterClass="T_CASH_POOL">
+        <![CDATA[
+            insert into T_CASH_POOL(
+                money,
+                user_id,
+                createdate,
+                platform
+            ) values (
+                #money:NUMERIC#,
+                #user_id:NUMERIC#,
+                #createdate:TIMESTAMP#,
+                #platform:NUMERIC#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建资金池-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_CASH_POOL(
+                money,
+                user_id,
+                createdate,
+                platform
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].money:NUMERIC#,
+                    #[].user_id:NUMERIC#,
+                    #[].createdate:TIMESTAMP#,
+                    #[].platform:NUMERIC#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新资金池-->
+    <update id="update" parameterClass="T_CASH_POOL">
+        <![CDATA[ update T_CASH_POOL ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.money">
+                <![CDATA[ money=#money:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.user_id">
+                <![CDATA[ user_id=#user_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.createdate">
+                <![CDATA[ createdate=#createdate:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.platform">
+                <![CDATA[ platform=#platform:NUMERIC# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除资金池-->
+    <delete id="delete" parameterClass="T_CASH_POOL">
+        <![CDATA[
+            delete from T_CASH_POOL where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

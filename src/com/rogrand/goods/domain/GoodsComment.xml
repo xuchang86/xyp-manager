@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+物品评论
+User: Created by auto build
+Date: 2016-11-13 23:38:18
+-->
+<sqlMap namespace="t_goods_comment">
+
+    <typeAlias alias="T_GOODS_COMMENT" type="com.rogrand.goods.domain.GoodsComment" />
+
+    <!--物品评论分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--评论人最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--评论人等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ user_id = #user_id# ]]>
+            </isNotEmpty>
+            <!--评论人最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--评论时间开始-->
+            <isNotEmpty prepend="and" property="create_date_begin">
+                <![CDATA[ create_date >= str_to_date(#create_date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--评论时间结束-->
+            <isNotEmpty prepend="and" property="create_date_end">
+                <![CDATA[ create_date <= str_to_date('$create_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--评论内容-->
+            <isNotEmpty prepend="and" property="content">
+                <![CDATA[ instr(content, #content#) > 0 ]]>
+            </isNotEmpty>
+            <!--商品id最小值-->
+            <isNotEmpty prepend="and" property="goods_id_min">
+                <![CDATA[ goods_id >= #goods_id_min# ]]>
+            </isNotEmpty>
+            <!--商品id等于-->
+            <isNotEmpty prepend="and" property="goods_id">
+                <![CDATA[ goods_id = #goods_id# ]]>
+            </isNotEmpty>
+            <!--商品id最大值-->
+            <isNotEmpty prepend="and" property="goods_id_max">
+                <![CDATA[ goods_id <= #goods_id_max# ]]>
+            </isNotEmpty>
+            <!--订单id最小值-->
+            <isNotEmpty prepend="and" property="order_id_min">
+                <![CDATA[ order_id >= #order_id_min# ]]>
+            </isNotEmpty>
+            <!--订单id等于-->
+            <isNotEmpty prepend="and" property="order_id">
+                <![CDATA[ order_id = #order_id# ]]>
+            </isNotEmpty>
+            <!--订单id最大值-->
+            <isNotEmpty prepend="and" property="order_id_max">
+                <![CDATA[ order_id <= #order_id_max# ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--物品评论分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_GOODS_COMMENT
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--物品评论分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_GOODS_COMMENT">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                user_id,
+                create_date,
+                content,
+                goods_id,
+                order_id
+            from T_GOODS_COMMENT
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建物品评论-->
+    <insert id="create" parameterClass="T_GOODS_COMMENT">
+        <![CDATA[
+            insert into T_GOODS_COMMENT(
+                user_id,
+                create_date,
+                content,
+                goods_id,
+                order_id
+            ) values (
+                #user_id:NUMERIC#,
+                #create_date:TIMESTAMP#,
+                #content:VARCHAR#,
+                #goods_id:NUMERIC#,
+                #order_id:NUMERIC#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建物品评论-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_GOODS_COMMENT(
+                user_id,
+                create_date,
+                content,
+                goods_id,
+                order_id
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].user_id:NUMERIC#,
+                    #[].create_date:TIMESTAMP#,
+                    #[].content:VARCHAR#,
+                    #[].goods_id:NUMERIC#,
+                    #[].order_id:NUMERIC#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新物品评论-->
+    <update id="update" parameterClass="T_GOODS_COMMENT">
+        <![CDATA[ update T_GOODS_COMMENT ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.user_id">
+                <![CDATA[ user_id=#user_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.create_date">
+                <![CDATA[ create_date=#create_date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.content">
+                <![CDATA[ content=#content:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.goods_id">
+                <![CDATA[ goods_id=#goods_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.order_id">
+                <![CDATA[ order_id=#order_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除物品评论-->
+    <delete id="delete" parameterClass="T_GOODS_COMMENT">
+        <![CDATA[
+            delete from T_GOODS_COMMENT where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+发布的活动,任务,悬赏
+User: Created by auto build
+Date: 2016-11-13 23:38:18
+-->
+<sqlMap namespace="t_publish_activity">
+
+    <typeAlias alias="T_PUBLISH_ACTIVITY" type="com.rogrand.publish.domain.PublishActivity" />
+
+    <!--发布的活动,任务,悬赏分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--活动类型-->
+            <isNotEmpty prepend="and" property="type">
+                <![CDATA[ instr(type, #type#) > 0 ]]>
+            </isNotEmpty>
+            <!--发布地址-->
+            <isNotEmpty prepend="and" property="address">
+                <![CDATA[ instr(address, #address#) > 0 ]]>
+            </isNotEmpty>
+            <!--发布内容-->
+            <isNotEmpty prepend="and" property="content">
+                <![CDATA[ instr(content, #content#) > 0 ]]>
+            </isNotEmpty>
+            <!--日志开始-->
+            <isNotEmpty prepend="and" property="date_begin">
+                <![CDATA[ date >= str_to_date(#date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--日志结束-->
+            <isNotEmpty prepend="and" property="date_end">
+                <![CDATA[ date <= str_to_date('$date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--人物ID最小值-->
+            <isNotEmpty prepend="and" property="person_id_min">
+                <![CDATA[ person_id >= #person_id_min# ]]>
+            </isNotEmpty>
+            <!--人物ID等于-->
+            <isNotEmpty prepend="and" property="person_id">
+                <![CDATA[ person_id = #person_id# ]]>
+            </isNotEmpty>
+            <!--人物ID最大值-->
+            <isNotEmpty prepend="and" property="person_id_max">
+                <![CDATA[ person_id <= #person_id_max# ]]>
+            </isNotEmpty>
+            <!--费用最小值-->
+            <isNotEmpty prepend="and" property="cost_min">
+                <![CDATA[ cost >= #cost_min# ]]>
+            </isNotEmpty>
+            <!--费用等于-->
+            <isNotEmpty prepend="and" property="cost">
+                <![CDATA[ cost = #cost# ]]>
+            </isNotEmpty>
+            <!--费用最大值-->
+            <isNotEmpty prepend="and" property="cost_max">
+                <![CDATA[ cost <= #cost_max# ]]>
+            </isNotEmpty>
+            <!--城市-->
+            <isNotEmpty prepend="and" property="city">
+                <![CDATA[ instr(city, #city#) > 0 ]]>
+            </isNotEmpty>
+            <!--活动方式-->
+            <isNotEmpty prepend="and" property="way">
+                <![CDATA[ instr(way, #way#) > 0 ]]>
+            </isNotEmpty>
+            <!--付款方式-->
+            <isNotEmpty prepend="and" property="payway">
+                <![CDATA[ instr(payway, #payway#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--发布的活动,任务,悬赏分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_PUBLISH_ACTIVITY
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--发布的活动,任务,悬赏分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_PUBLISH_ACTIVITY">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                type,
+                address,
+                content,
+                date,
+                person_id,
+                cost,
+                city,
+                way,
+                payway
+            from T_PUBLISH_ACTIVITY
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建发布的活动,任务,悬赏-->
+    <insert id="create" parameterClass="T_PUBLISH_ACTIVITY">
+        <![CDATA[
+            insert into T_PUBLISH_ACTIVITY(
+                type,
+                address,
+                content,
+                date,
+                person_id,
+                cost,
+                city,
+                way,
+                payway
+            ) values (
+                #type:VARCHAR#,
+                #address:VARCHAR#,
+                #content:VARCHAR#,
+                #date:TIMESTAMP#,
+                #person_id:NUMERIC#,
+                #cost:NUMERIC#,
+                #city:VARCHAR#,
+                #way:VARCHAR#,
+                #payway:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建发布的活动,任务,悬赏-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_PUBLISH_ACTIVITY(
+                type,
+                address,
+                content,
+                date,
+                person_id,
+                cost,
+                city,
+                way,
+                payway
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].type:VARCHAR#,
+                    #[].address:VARCHAR#,
+                    #[].content:VARCHAR#,
+                    #[].date:TIMESTAMP#,
+                    #[].person_id:NUMERIC#,
+                    #[].cost:NUMERIC#,
+                    #[].city:VARCHAR#,
+                    #[].way:VARCHAR#,
+                    #[].payway:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新发布的活动,任务,悬赏-->
+    <update id="update" parameterClass="T_PUBLISH_ACTIVITY">
+        <![CDATA[ update T_PUBLISH_ACTIVITY ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.type">
+                <![CDATA[ type=#type:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.address">
+                <![CDATA[ address=#address:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.content">
+                <![CDATA[ content=#content:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.date">
+                <![CDATA[ date=#date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.person_id">
+                <![CDATA[ person_id=#person_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.cost">
+                <![CDATA[ cost=#cost:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.city">
+                <![CDATA[ city=#city:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.way">
+                <![CDATA[ way=#way:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.payway">
+                <![CDATA[ payway=#payway:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除发布的活动,任务,悬赏-->
+    <delete id="delete" parameterClass="T_PUBLISH_ACTIVITY">
+        <![CDATA[
+            delete from T_PUBLISH_ACTIVITY where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>
