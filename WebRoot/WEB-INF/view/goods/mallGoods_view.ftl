@@ -43,16 +43,20 @@
                 <td class="td">${(mallGoods.number)!}</td>
             </tr>
             <tr>
-                <td class="th">商品类型id</td>
-                <td class="td">${(mallGoods.type_id)!}</td>
+                <td class="th">商品型号</td>
+                <td class="td">${(mallGoods.model)!}</td>
+            </tr>
+            <tr>
+                <td class="th">商品类型</td>
+                <td class="td">${(mallGoods.type_name)!}</td>
             </tr>
             <tr>
                 <td class="th">商品价格</td>
                 <td class="td">${(mallGoods.price)!}</td>
             </tr>
             <tr>
-                <td class="th">创建用户id</td>
-                <td class="td">${(mallGoods.user_id)!}</td>
+                <td class="th">创建用户</td>
+                <td class="td">${(mallGoods.creator)!}</td>
             </tr>
             <tr>
                 <td class="th">创建日期</td>
@@ -68,11 +72,18 @@
             </tr>
             <tr>
                 <td class="th">是否出售</td>
-                <td class="td">${(mallGoods.is_sale)!}</td>
+                <td class="td">
+                    <#if mallGoods.is_sale=="0">
+                    否
+                    <#elseif mallGoods.is_sale=="1">
+                    是
+                    <#else>
+                    </#if>
+                </td>
             </tr>
             <tr>
-                <td class="th">卖家id</td>
-                <td class="td">${(mallGoods.seller_id)!}</td>
+                <td class="th">卖家名称</td>
+                <td class="td">${(mallGoods.seller_name)!}</td>
             </tr>
             <tr>
                 <td class="th">会员价格</td>
@@ -80,7 +91,18 @@
             </tr>
             <tr>
                 <td class="th">商品等级</td>
-                <td class="td">${(mallGoods.level)!}</td>
+                <td class="td">
+                    <#if mallGoods.level=="0">
+                    普通
+                    <#elseif mallGoods.level=="1">
+                    精品
+                    <#elseif mallGoods.level=="2">
+                    极品
+                    <#elseif mallGoods.level=="3">
+                    差
+                    <#else>
+                    </#if>
+                </td>
             </tr>
         </table>
     </div>

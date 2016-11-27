@@ -37,6 +37,20 @@
                     name: "是"
                 }];
 
+                $scope.goods_level = [{
+                    id: 0,
+                    name: "普通"
+                }, {
+                    id: 1,
+                    name: "精品"
+                }, {
+                    id: 2,
+                    name: "极品"
+                }, {
+                    id: 3,
+                    name: "差"
+                }];
+
                 //类型点击
                 $scope.typeClick = function() {
                     var url = "${path}/goods/goodsType_main.do?from=f7";
@@ -63,6 +77,15 @@
                     var top = (window.screen.height - 30 - height) / 2;
                     var left = (window.screen.width - 10 - width) / 2;
                     window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+                };
+
+                $scope.modelClick = function(){
+                    var url = "${path}/goods/Model.jsp?value="+$("#model").val();;
+                    var width = 800; //窗口宽度
+                    var height = 400; //窗口高度
+                    var top = (window.screen.height - 30 - height) / 2;
+                    var left = (window.screen.width - 10 - width) / 2;
+                    window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
                 }
             };
 
@@ -72,6 +95,18 @@
             $('#form input.easyui-numberbox').numberbox();
             initImageAjaxUpload("uploadImage");
         });
+
+        function confirmCallBack(datas) {
+            var models = "";
+            datas.forEach(function(item, index, array) {
+                if (index == 0) {
+                    models += item.model;
+                } else {
+                    models += "," + item.model;
+                }
+            });
+            $("#model").val(models);
+        }
 
         function typeCallBack(rowData) {
             $("#type_name").val(rowData.name);
@@ -175,6 +210,11 @@
                 <td class="td"><input type="text" id="number" name="number" class="input easyui-validatebox" validType="maxLength[20]" value="${(mallGoods.number)!}" style="width:300px;"/></td>
             </tr>
             <tr>
+                <td class="th">商品型号</td>
+                <td class="td"><input type="text" id="model" name="model" class="input search" validType="maxLength[20]" value="${(mallGoods.model)!}" ng-click="modelClick()" style="width:300px;"/>
+                </td>
+            </tr>
+            <tr>
                 <td class="th">商品类型</td>
                 <td class="td">
                     <input type="text" id="type_name" name="type_name" class="input search" min="0" max="9999999999" precision="0" ng-click="typeClick()" value="${(mallGoods.type_name)!}" style="width:300px;"/>
@@ -228,7 +268,11 @@
             </tr>
             <tr>
                 <td class="th">商品等级</td>
-                <td class="td"><input type="text" id="level" name="level" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(mallGoods.level)!}" style="width:300px;"/></td>
+                <td class="td">
+                    <select ng-model="mallGoods.level" ng-options="a.id as a.name for a in goods_level" >
+                    </select>
+                    <input type="hidden" name="level"  value="{{mallGoods.level}}">
+                </td>
             </tr>
         </table>
     </form>

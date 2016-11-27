@@ -136,6 +136,10 @@ Date: 2016-11-13 23:38:18
             <isNotEmpty prepend="and" property="level_max">
                 <![CDATA[ level <= #level_max# ]]>
             </isNotEmpty>
+             <!--商品型号-->
+            <isNotEmpty prepend="and" property="model">
+                <![CDATA[ model = #model# ]]>
+            </isNotEmpty>
             <!-- 用于数据导出 -->
             <isNotEmpty prepend="and" property="exportIds">
                 <![CDATA[ id in ($exportIds$) ]]>
@@ -270,6 +274,10 @@ Date: 2016-11-13 23:38:18
             <isNotEmpty prepend="and" property="level_max">
                 <![CDATA[ t1.level <= #level_max# ]]>
             </isNotEmpty>
+             <!--商品型号-->
+            <isNotEmpty prepend="and" property="model">
+                <![CDATA[ model = #model# ]]>
+            </isNotEmpty>
             <!-- 用于数据导出 -->
             <isNotEmpty prepend="and" property="exportIds">
                 <![CDATA[ t1.id in ($exportIds$) ]]>
@@ -305,6 +313,7 @@ Date: 2016-11-13 23:38:18
                 t1.seller_id,
                 t1.vip_price,
                 t1.level,
+                t1.model,
                 t3.nick_name seller_nick,
                 t3.real_name seller_name,
                 t4.name creator
@@ -334,7 +343,8 @@ Date: 2016-11-13 23:38:18
                 is_sale,
                 seller_id,
                 vip_price,
-                level
+                level,
+                model
             ) values (
                 #name:VARCHAR#,
                 #description:VARCHAR#,
@@ -348,7 +358,8 @@ Date: 2016-11-13 23:38:18
                 #is_sale:NUMERIC#,
                 #seller_id:NUMERIC#,
                 #vip_price:NUMERIC#,
-                #level:NUMERIC#
+                #level:NUMERIC#,
+                #model:VARCHAR#
             )
         ]]>
         <!--
@@ -377,7 +388,8 @@ Date: 2016-11-13 23:38:18
                 is_sale,
                 seller_id,
                 vip_price,
-                level
+                level,
+                model
             ) values
         ]]>
         <iterate  conjunction =",">
@@ -395,7 +407,8 @@ Date: 2016-11-13 23:38:18
                     #[].is_sale:NUMERIC#,
                     #[].seller_id:NUMERIC#,
                     #[].vip_price:NUMERIC#,
-                    #[].level:NUMERIC#
+                    #[].level:NUMERIC#,
+                    #[].model:VARCHAR#
                 )
             ]]>   
         </iterate>
@@ -443,6 +456,9 @@ Date: 2016-11-13 23:38:18
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.level">
                 <![CDATA[ level=#level:NUMERIC# ]]>
+            </isPropertyAvailable>
+             <isPropertyAvailable prepend="," property="fields.model">
+                <![CDATA[ model=#model:VARCHAR# ]]>
             </isPropertyAvailable>
         </dynamic>
         <![CDATA[ where id = #id#  ]]>

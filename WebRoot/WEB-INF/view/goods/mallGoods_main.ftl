@@ -61,6 +61,7 @@
                     {title:'商品图片',field:'url',width:150,sortable:true},
                     {title:'商品描述',field:'description',width:150,sortable:true},
                     {title:'商品编码',field:'number',width:150,sortable:true},
+                    {title:'商品规格',field:'model',width:150,sortable:true},
                     {title:'商品类型',field:'type_name',width:150,sortable:true},
                     {title:'商品价格',field:'price',width:150,sortable:true},
                     {title:'创建用户',field:'creator',width:150,sortable:true},
@@ -80,7 +81,21 @@
                     {title:'卖家昵称',field:'seller_nick',width:150,sortable:true},
                     {title:'卖家真实名称',field:'seller_name',width:150,sortable:true},
                     {title:'会员价格',field:'vip_price',width:150,sortable:true},
-                    {title:'商品等级',field:'level',width:150,sortable:true}
+                    {title:'商品等级',field:'level',width:150,sortable:true,
+                    formatter:function(value, data, index){
+                        if(value==0){
+                            return "普通";
+                        }else if(value==1){
+                            return "精品";
+                        }else if(value==2){
+                            return "极品";
+                        }else if(value==3){
+                            return "差";
+                        }else{
+                            return value;
+                        }
+                    }
+                    }
                 ]],
                 toolbar:[
                     {
