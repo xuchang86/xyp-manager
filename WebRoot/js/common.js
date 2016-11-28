@@ -1,4 +1,4 @@
-
+var from = getUrlParam("from");
 /**
  * 校验是否为空
  */

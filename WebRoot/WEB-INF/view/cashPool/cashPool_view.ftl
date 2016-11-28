@@ -35,8 +35,8 @@
                 <td class="td">${(cashPool.money)!}</td>
             </tr>
             <tr>
-                <td class="th">用户ID</td>
-                <td class="td">${(cashPool.user_id)!}</td>
+                <td class="th">创建人</td>
+                <td class="td">${(cashPool.user_name)!}</td>
             </tr>
             <tr>
                 <td class="th">创建时间</td>

@@ -36,6 +36,10 @@ Date: 2016-11-13 19:17:41
             <isNotEmpty prepend="and" property="person_id">
                 <![CDATA[ person_id = #person_id# ]]>
             </isNotEmpty>
+             <!--人物名称-->
+            <isNotEmpty prepend="and" property="person_name">
+                <![CDATA[ instr((SELECT NAME FROM T_BASE_PERSON WHERE id=person_id), #person_name#) > 0 ]]>
+            </isNotEmpty>
             <!--人物ID最大值-->
             <isNotEmpty prepend="and" property="person_id_max">
                 <![CDATA[ person_id <= #person_id_max# ]]>
@@ -83,6 +87,7 @@ Date: 2016-11-13 19:17:41
                 id,
                 content,
                 person_id,
+                (SELECT NAME FROM T_BASE_PERSON WHERE id=person_id) person_name,
                 start_date,
                 end_date,
                 type

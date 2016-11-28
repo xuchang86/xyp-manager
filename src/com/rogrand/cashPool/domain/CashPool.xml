@@ -68,6 +68,10 @@ Date: 2016-11-13 19:15:51
             <isNotEmpty prepend="and" property="platform_max">
                 <![CDATA[ platform <= #platform_max# ]]>
             </isNotEmpty>
+            <!--用户名称-->
+            <isNotEmpty prepend="and" property="user_name">
+                <![CDATA[ user_name = #user_name# ]]>
+            </isNotEmpty>
             <!-- 用于数据导出 -->
             <isNotEmpty prepend="and" property="exportIds">
                 <![CDATA[ id in ($exportIds$) ]]>
@@ -92,7 +96,8 @@ Date: 2016-11-13 19:15:51
                 money,
                 user_id,
                 createdate,
-                platform
+                platform,
+                (select name from T_LOGIN_USER where id = user_id) user_name
             from T_CASH_POOL
         ]]>
         <include refid="pageWhere"/>

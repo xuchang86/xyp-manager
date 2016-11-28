@@ -81,6 +81,10 @@ Date: 2016-11-13 23:38:18
             <isNotEmpty prepend="and" property="order_id_max">
                 <![CDATA[ order_id <= #order_id_max# ]]>
             </isNotEmpty>
+             <!--评分等于-->
+            <isNotEmpty prepend="and" property="score">
+                <![CDATA[ score = #score# ]]>
+            </isNotEmpty>
             <!-- 用于数据导出 -->
             <isNotEmpty prepend="and" property="exportIds">
                 <![CDATA[ id in ($exportIds$) ]]>
@@ -109,7 +113,8 @@ Date: 2016-11-13 23:38:18
                 create_date,
                 content,
                 goods_id,
-                order_id
+                order_id,
+                score
             from T_GOODS_COMMENT
         ]]>
         <include refid="pageWhere"/>
@@ -125,13 +130,15 @@ Date: 2016-11-13 23:38:18
                 create_date,
                 content,
                 goods_id,
-                order_id
+                order_id,
+                score
             ) values (
                 #user_id:NUMERIC#,
                 #create_date:TIMESTAMP#,
                 #content:VARCHAR#,
                 #goods_id:NUMERIC#,
-                #order_id:NUMERIC#
+                #order_id:NUMERIC#,
+                #score:NUMERIC#
             )
         ]]>
         <!--
@@ -152,7 +159,8 @@ Date: 2016-11-13 23:38:18
                 create_date,
                 content,
                 goods_id,
-                order_id
+                order_id,
+                score
             ) values
         ]]>
         <iterate  conjunction =",">
@@ -162,7 +170,8 @@ Date: 2016-11-13 23:38:18
                     #[].create_date:TIMESTAMP#,
                     #[].content:VARCHAR#,
                     #[].goods_id:NUMERIC#,
-                    #[].order_id:NUMERIC#
+                    #[].order_id:NUMERIC#,
+                    #[].score:NUMERIC#
                 )
             ]]>   
         </iterate>
@@ -186,6 +195,9 @@ Date: 2016-11-13 23:38:18
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.order_id">
                 <![CDATA[ order_id=#order_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.score">
+                <![CDATA[ score=#score:NUMERIC# ]]>
             </isPropertyAvailable>
         </dynamic>
         <![CDATA[ where id = #id#  ]]>

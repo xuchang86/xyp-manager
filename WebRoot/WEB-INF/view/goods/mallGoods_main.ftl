@@ -250,6 +250,46 @@
             mallGoods.refresh = "1"; //刷新记录数参数
             $("#table").datagrid("clearSelections").datagrid("load",mallGoods);
         }
+
+        function typeClick() {
+            var url = "${path}/goods/goodsType_main.do?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        };
+
+        function creatorClick(){
+            var url = "${path}/login/loginUser_main.do?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        }
+
+        function sellerNickClick(){
+            var url = "${path}/goods/goodsSeller_main.do?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        }
+
+        function typeCallBack(rowData) {
+            $("#type_id").val(rowData.id);
+        }
+
+        function userCallBack(rowData){
+            $("#user_id").val(rowData.id);
+        }
+
+        function sellerCallBack(rowData){
+            $("#seller_id").val(rowData.id);
+        }
+
     </script>
 </head>
 <body class="easyui-layout">
@@ -260,10 +300,12 @@
                 <td class="th">商品名称</td>
                 <td class="td"><input id="name" name="name" type="text" class="input"></td>
             </tr>
+
             <tr>
-                <td class="th">商品图片</td>
-                <td class="td"><input id="url" name="url" type="text" class="input"></td>
+                <td class="th">商品规格</td>
+                <td class="td"><input id="model" name="model" type="text" class="input"></td>
             </tr>
+            
             <tr>
                 <td class="th">商品描述</td>
                 <td class="td"><input id="description" name="description" type="text" class="input"></td>
@@ -273,23 +315,18 @@
                 <td class="td"><input id="number" name="number" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">商品类型id</td>
-                <td class="td"><input id="type_id" name="type_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">商品类型</td>
+                <td class="td">
+                    <input id="type_id" name="type_id" onclick="typeClick()" type="text" class="input search" min="0" max="9999999999" precision="0"/>
+                </td>
             </tr>
-            <tr>
-                <td class="th">商品类型id</td>
-                <td class="td"><input id="type_id_min" name="type_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="type_id_max" name="type_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td class="th">商品价格</td>
                 <td class="td"><input id="price" name="price" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">商品价格</td>
+                <td class="th">商品价格从</td>
                 <td class="td"><input id="price_min" name="price_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
@@ -297,63 +334,45 @@
                 <td class="td"><input id="price_max" name="price_max" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">创建用户id</td>
-                <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">创建用户</td>
+                <td class="td"><input id="user_id" name="user_id" onclick="creatorClick()" type="text" class="input search" min="0" max="9999999999" precision="0"/></td>
             </tr>
+           
             <tr>
-                <td class="th">创建用户id</td>
-                <td class="td"><input id="user_id_min" name="user_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="user_id_max" name="user_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">创建日期</td>
+                <td class="th">创建日期开始</td>
                 <td class="td"><input id="create_date_begin" name="create_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
                 <td class="th">至</td>
                 <td class="td"><input id="create_date_end" name="create_date_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
-            <tr>
-                <td class="th">商品图片</td>
-                <td class="td"><input id="url" name="url" type="text" class="input"></td>
-            </tr>
+           
             <tr>
                 <td class="th">商品地区</td>
                 <td class="td"><input id="area" name="area" type="text" class="input"></td>
             </tr>
             <tr>
                 <td class="th">是否出售</td>
-                <td class="td"><input id="is_sale" name="is_sale" type="text" class="input easyui-numberbox" min="0" max="999" precision="0"/></td>
+                <td class="td">
+                    <select id="is_sale" name="is_sale">
+                        <option value=""></option>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
             </tr>
+           
             <tr>
-                <td class="th">是否出售</td>
-                <td class="td"><input id="is_sale_min" name="is_sale_min" type="text" class="input easyui-numberbox" min="0" max="999" precision="0"/></td>
+                <td class="th">卖家</td>
+                <td class="td"><input id="seller_id" name="seller_id" type="text" onclick="sellerNickClick()" class="input search" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="is_sale_max" name="is_sale_max" type="text" class="input easyui-numberbox" min="0" max="999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">卖家id</td>
-                <td class="td"><input id="seller_id" name="seller_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">卖家id</td>
-                <td class="td"><input id="seller_id_min" name="seller_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="seller_id_max" name="seller_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td class="th">会员价格</td>
                 <td class="td"><input id="vip_price" name="vip_price" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">会员价格</td>
+                <td class="th">会员价格从</td>
                 <td class="td"><input id="vip_price_min" name="vip_price_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
@@ -362,15 +381,39 @@
             </tr>
             <tr>
                 <td class="th">商品等级</td>
-                <td class="td"><input id="level" name="level" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="td">
+                    <select id="level" name="level">
+                        <option value=""></option>
+                        <option value="0">普通</option>
+                        <option value="1">精品</option>
+                        <option value="2">极品</option>
+                        <option value="3">差</option>
+                    </select>
+                </td>
             </tr>
             <tr>
-                <td class="th">商品等级</td>
-                <td class="td"><input id="level_min" name="level_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">商品等级从</td>
+                <td class="td">
+                    <select id="level_min" name="level_min">
+                        <option value=""></option>
+                        <option value="0">普通</option>
+                        <option value="1">精品</option>
+                        <option value="2">极品</option>
+                        <option value="3">差</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td class="th">至</td>
-                <td class="td"><input id="level_max" name="level_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="td">
+                    <select id="level_max" name="level_max">
+                        <option value=""></option>
+                        <option value="0">普通</option>
+                        <option value="1">精品</option>
+                        <option value="2">极品</option>
+                        <option value="3">差</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">

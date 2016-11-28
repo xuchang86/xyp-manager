@@ -52,10 +52,20 @@
                 ]],
                 columns:[[
                     {title:'事件内容',field:'content',width:150,sortable:true},
-                    {title:'人物ID',field:'person_id',width:150,sortable:true},
+                    {title:'发布人',field:'person_name',width:150,sortable:true},
                     {title:'开始时间',field:'start_date',width:150,sortable:true},
                     {title:'结束时间',field:'end_date',width:150,sortable:true},
-                    {title:'事件类型',field:'type',width:150,sortable:true}
+                    {title:'事件类型',field:'type',width:150,sortable:true,
+                    formatter:function(value, data, index){
+                        if(value=="system")
+                            return "系统事件";
+                        else if(value=="school")
+                            return "门派事件";
+                        else if(value=="other")
+                            return "其他事件";
+                        else
+                            return value;
+                    }}
                 ]],
                 toolbar:[
                     {
@@ -221,19 +231,12 @@
                 <td class="td"><input id="content" name="content" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input id="person_id" name="person_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">发布人</td>
+                <td class="td"><input id="person_name" name="person_name" type="text" class="input" /></td>
             </tr>
+            
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input id="person_id_min" name="person_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="person_id_max" name="person_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">开始时间</td>
+                <td class="th">开始时间从</td>
                 <td class="td"><input id="start_date_begin" name="start_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
@@ -241,7 +244,7 @@
                 <td class="td"><input id="start_date_end" name="start_date_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
-                <td class="th">结束时间</td>
+                <td class="th">结束时间从</td>
                 <td class="td"><input id="end_date_begin" name="end_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
@@ -250,7 +253,14 @@
             </tr>
             <tr>
                 <td class="th">事件类型</td>
-                <td class="td"><input id="type" name="type" type="text" class="input"></td>
+                <td class="td">
+                    <select id="type" name="type">
+                        <option value=""></option>
+                        <option value="system">系统事件</option>
+                        <option value="school">门派事件</option>
+                        <option value="other">其他事件</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">

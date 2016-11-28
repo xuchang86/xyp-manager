@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="${path}/css/iconMenu.css"/>
 <link rel="stylesheet" type="text/css" href="${path}/css/iconMenu.css"/>
 <link rel="stylesheet" type="text/css" href="${path}/css/iconMenu.css"/>
+<link rel="stylesheet" type="text/css" href="${path}/css/common.css"/>
 
 <script type="text/javascript" src="${path}/ui/jquery-1.5.2.min.js"></script>
 <script type="text/javascript" src="${path}/ui/jquery.json-2.2.js"></script>

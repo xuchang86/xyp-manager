@@ -1,0 +1,4 @@
+@CHARSET "UTF-8";
+.search{
+  background: url('../ui/easyui/themes/icons/search.png') right center no-repeat rgb(255, 255, 255);
+}

@@ -268,7 +268,7 @@
                 <td class="td"><input id="name" name="name" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">生日</td>
+                <td class="th">生日从</td>
                 <td class="td"><input id="birthday_begin" name="birthday_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
@@ -295,14 +295,7 @@
                 <td class="th">性别</td>
                 <td class="td"><input id="sex" name="sex" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">性别</td>
-                <td class="td"><input id="sex_min" name="sex_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="sex_max" name="sex_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td class="th">用户名</td>
                 <td class="td"><input id="username" name="username" type="text" class="input"></td>
@@ -311,18 +304,7 @@
                 <td class="th">是否已付款</td>
                 <td class="td"><input id="ispay" name="ispay" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">是否已付款</td>
-                <td class="td"><input id="ispay_min" name="ispay_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="ispay_max" name="ispay_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">个人头像</td>
-                <td class="td"><input id="url" name="url" type="text" class="input"></td>
-            </tr>
+           
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">
                     <a href="javascript:searchPage(false)" class="easyui-linkbutton" icon="icon-search" id="searchBtn">查询</a>

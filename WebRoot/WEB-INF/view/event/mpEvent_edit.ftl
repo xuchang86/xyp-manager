@@ -39,6 +39,20 @@
             });
         }
 
+        function personClick(){
+            var url = "${path}/person/basePerson_main.do?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        }
+
+        function personCallBack(rowData){
+            $("#person_name").val(rowData.name);
+            $("#person_id").val(rowData.id);
+        }
+
     </script>
 </head>
 <body class="easyui-layout">
@@ -59,8 +73,11 @@
                 <td class="td"><input type="text" id="content" name="content" class="input easyui-validatebox" validType="maxLength[800]" value="${(mpEvent.content)!}" style="width:300px;"/></td>
             </tr>
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input type="text" id="person_id" name="person_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(mpEvent.person_id)!}" style="width:300px;"/></td>
+                <td class="th">发布人</td>
+                <td class="td">
+                    <input type="text" id="person_name" name="person_name" onclick="personClick()" class="input search" value="${(mpEvent.person_name)!}" style="width:300px;"/>
+                    <input type="hidden" id="person_id" name="person_id" class="input" min="0" max="9999999999" precision="0" value="${(mpEvent.person_id)!}" style="width:300px;"/>
+                </td>
             </tr>
             <tr>
                 <td class="th">开始时间</td>
@@ -72,7 +89,31 @@
             </tr>
             <tr>
                 <td class="th">事件类型</td>
-                <td class="td"><input type="text" id="type" name="type" class="input easyui-validatebox" validType="maxLength[20]" value="${(mpEvent.type)!}" style="width:300px;"/></td>
+                <td class="td">
+                    <select id="type" name="type">
+                        <#if mpEvent.type=="">
+                        <option value="" selected="selected"></option>
+                        <option value="system">系统事件</option>
+                        <option value="school">门派事件</option>
+                        <option value="other">其他事件</option>
+                        <#elseif mpEvent.type=="system">
+                        <option value=""></option>
+                        <option value="system" selected="selected">系统事件</option>
+                        <option value="school">门派事件</option>
+                        <option value="other">其他事件</option>
+                        <#elseif mpEvent.type=="school">
+                        <option value=""></option>
+                        <option value="system">系统事件</option>
+                        <option value="school" selected="selected">门派事件</option>
+                        <option value="other">其他事件</option>
+                        <#elseif mpEvent.type=="other">
+                         <option value=""></option>
+                         <option value="system">系统事件</option>
+                         <option value="school">门派事件</option>
+                         <option value="other" selected="selected">其他事件</option>
+                        </#if>
+                    </select>
+                </td>
             </tr>
         </table>
     </form>

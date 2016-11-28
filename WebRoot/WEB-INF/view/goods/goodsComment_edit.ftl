@@ -129,6 +129,10 @@
 	            	<input type="text" id="order_id" name="order_id" style="width:300px;visibility:hidden;" value="${(goodsComment.order_id)!}"/>
                 </td>
             </tr>
+            <tr>
+               <td class="th">评分</td>
+               <td class="td"><input type="text" id="score" name="score" value="${(goodsComment.score)!}" class="input easyui-numberbox" min="0" max="5"  style="width:300px;"/></td>
+            </tr>
         </table>
     </form>
 </div>

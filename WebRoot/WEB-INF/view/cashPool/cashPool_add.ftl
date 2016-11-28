@@ -39,6 +39,20 @@
             });
         }
 
+        function creatorClick(){
+            var url = "${path}/login/loginUser_main.do?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        }
+
+        function userCallBack(rowData){
+            $("#user_name").val(rowData.name);
+            $("#user_id").val(rowData.id);
+        }
+
     </script>
 </head>
 <body class="easyui-layout">
@@ -59,8 +73,11 @@
                 <td class="td"><input type="text" id="money" name="money" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" style="width:300px;"/></td>
             </tr>
             <tr>
-                <td class="th">用户ID</td>
-                <td class="td"><input type="text" id="user_id" name="user_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" style="width:300px;"/></td>
+                <td class="th">创建用户</td>
+                <td class="td">
+                    <input type="text" id="user_name" name="user_name" onclick="creatorClick()" class="input search" style="width:300px;"/>
+                    <input type="hidden" id="user_id"  name="user_id" class="input" min="0" max="9999999999" precision="0"  style="width:300px;"/>
+                </td>
             </tr>
             <tr>
                 <td class="th">创建时间</td>

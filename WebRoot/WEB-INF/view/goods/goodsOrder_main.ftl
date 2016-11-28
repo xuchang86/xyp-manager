@@ -225,7 +225,7 @@
                 <td class="td"><input id="number" name="number" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">创建时间</td>
+                <td class="th">创建时间从</td>
                 <td class="td"><input id="create_date_begin" name="create_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
@@ -233,7 +233,7 @@
                 <td class="td"><input id="create_date_end" name="create_date_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
-                <td class="th">付款时间</td>
+                <td class="th">付款时间从</td>
                 <td class="td"><input id="pay_date_begin" name="pay_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
@@ -244,16 +244,9 @@
                 <td class="th">创建用户id</td>
                 <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
+            
             <tr>
-                <td class="th">创建用户id</td>
-                <td class="td"><input id="user_id_min" name="user_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="user_id_max" name="user_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">商品id(多个以逗号隔开)</td>
+                <td class="th">商品id</td>
                 <td class="td"><input id="goods_id" name="goods_id" type="text" class="input"></td>
             </tr>
             <tr>

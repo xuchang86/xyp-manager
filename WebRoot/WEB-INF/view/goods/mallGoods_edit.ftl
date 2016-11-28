@@ -11,11 +11,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>商城商品修改</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
-    <style type="text/css">
-      .search{
-        background: url('../ui/easyui/themes/icons/search.png') right center no-repeat rgb(255, 255, 255);
-      }
-    </style>
 
     <script type="text/javascript" charset="utf-8" src="${path}/third/ueditor_1.4.3/ueditor.config.simpletext.js"></script>
     <script type="text/javascript" charset="utf-8" src="${path}/third/ueditor_1.4.3/ueditor.all.mobile.js"> </script>

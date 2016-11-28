@@ -35,8 +35,8 @@
                 <td class="td">${(mpEvent.content)!}</td>
             </tr>
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td">${(mpEvent.person_id)!}</td>
+                <td class="th">人物</td>
+                <td class="td">${(mpEvent.person_name)!}</td>
             </tr>
             <tr>
                 <td class="th">开始时间</td>
@@ -48,7 +48,17 @@
             </tr>
             <tr>
                 <td class="th">事件类型</td>
-                <td class="td">${(mpEvent.type)!}</td>
+                <td class="td">
+                    <#if mpEvent.type=="">
+                  
+                    <#elseif mpEvent.type=="system">
+                      系统事件
+                    <#elseif mpEvent.type=="school">
+                      门派事件
+                    <#elseif mpEvent.type=="other">
+                      其他事件
+                    </#if>
+                </td>
             </tr>
         </table>
     </div>

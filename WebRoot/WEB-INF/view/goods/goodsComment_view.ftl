@@ -50,6 +50,10 @@
                 <td class="th">订单</td>
                 <td class="td">${(goodsComment.order_name)!}</td>
             </tr>
+            <tr>
+                <td class="th">评分</td>
+                <td class="td">${(goodsComment.score)!}</td>
+            </tr>
         </table>
     </div>
 </div>

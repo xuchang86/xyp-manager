@@ -31,6 +31,9 @@
                 onLoadSuccess:function(data){
                     delete $("#table").datagrid("options").queryParams.refresh;
                 },
+                onClickRow:function(rowIndex,rowData){
+                    gridRowClick(rowIndex,rowData);
+                },
                 frozenColumns:[[
                     {field:'ck',checkbox:true},
                     {title:'操作',field:'id',width:120,sortable:false,align:"center",
@@ -51,7 +54,7 @@
                     }
                 ]],
                 columns:[[
-                    {title:'用户id',field:'user_id',width:150,sortable:true},
+                    {title:'名称',field:'name',width:150,sortable:true},
                     {title:'级别',field:'level',width:150,sortable:true,
                      formatter: function(value, data, index) {
 							if (value == 1) {
@@ -96,8 +99,8 @@
                     },
                     {title:'逍遥币',field:'bill',width:150,sortable:true},
                     {title:'师傅id',field:'parent_id',width:150,sortable:true},
-                    {title:'创建时间',field:'create_date',width:150,sortable:true},
-                    {title:'名称',field:'name',width:150,sortable:true}
+                    {title:'用户id',field:'user_id',width:150,sortable:true},
+                    {title:'创建时间',field:'create_date',width:150,sortable:true}
                 ]],
                 toolbar:[
                     {
@@ -127,6 +130,14 @@
                 ]
             });
         });
+
+        //行点击事件
+        function gridRowClick(index, rowData) {
+            if (from) {
+                window.opener.personCallBack(rowData);
+                window.close();
+            }
+        }
 
         /**
          * 显示人物信息添加对话框
@@ -262,20 +273,13 @@
                 <td class="th">用户id</td>
                 <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">用户id</td>
-                <td class="td"><input id="user_id_min" name="user_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="user_id_max" name="user_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td class="th">级别</td>
                 <td class="td"><input id="level" name="level" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
             <tr>
-                <td class="th">级别</td>
+                <td class="th">级别从</td>
                 <td class="td"><input id="level_min" name="level_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
             <tr>
@@ -287,7 +291,7 @@
                 <td class="td"><input id="bill" name="bill" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">逍遥币</td>
+                <td class="th">逍遥币从</td>
                 <td class="td"><input id="bill_min" name="bill_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
@@ -298,16 +302,9 @@
                 <td class="th">师傅id</td>
                 <td class="td"><input id="parent_id" name="parent_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
+            
             <tr>
-                <td class="th">师傅id</td>
-                <td class="td"><input id="parent_id_min" name="parent_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="parent_id_max" name="parent_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">创建时间</td>
+                <td class="th">创建时间从</td>
                 <td class="td"><input id="create_date_begin" name="create_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>

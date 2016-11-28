@@ -222,14 +222,7 @@
                 <td class="th">用户ID</td>
                 <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">用户ID</td>
-                <td class="td"><input id="user_id_min" name="user_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="user_id_max" name="user_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td class="th">聊天室ID</td>
                 <td class="td"><input id="chatroom_id" name="chatroom_id" type="text" class="input"></td>

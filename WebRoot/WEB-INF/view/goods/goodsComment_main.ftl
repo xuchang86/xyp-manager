@@ -58,7 +58,8 @@
                     {title:'商品id',field:'goods_id',width:150,sortable:true,hidden:true},
                     {title:'商品',field:'goods_name',width:150,sortable:true},
                     {title:'订单id',field:'order_id',width:150,sortable:true,hidden:true},
-                    {title:'订单',field:'order_name',width:150,sortable:true}
+                    {title:'订单号',field:'order_name',width:150,sortable:true},
+                    {title:'评分',field:'score',width:150,sortable:true}
                 ]],
                 toolbar:[
                     {
@@ -221,7 +222,7 @@
         <table class="table">
             <tr>
                 <td class="th">评论人</td>
-                <td class="td"><input id="user_name" name="user_name" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="td"><input id="user_name" name="user_name" type="text" class="input" min="0" max="9999999999" precision="0"/></td>
             </tr>
             <tr>
                 <td class="th">评论时间</td>
@@ -242,6 +243,10 @@
             <tr>
                 <td class="th">订单</td>
                 <td class="td"><input id="order_name" name="order_name" type="text" class="input"></td>
+            </tr>
+            <tr>
+                <td class="th">评分</td>
+                <td class="td"><input id="score" name="score" type="text" class="input"></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">

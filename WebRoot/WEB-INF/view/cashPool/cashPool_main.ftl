@@ -52,9 +52,9 @@
                 ]],
                 columns:[[
                     {title:'资金',field:'money',width:150,sortable:true},
-                    {title:'用户ID',field:'user_id',width:150,sortable:true},
+                    {title:'创建用户',field:'user_name',width:150,sortable:true},
                     {title:'创建时间',field:'createdate',width:150,sortable:true},
-                    {title:'平台收入',field:'platform',width:150,sortable:true}
+                    {title:'平台收入',field:'platform',width:150,sortable:true},
                 ]],
                 toolbar:[
                     {
@@ -209,6 +209,20 @@
             cashPool.refresh = "1"; //刷新记录数参数
             $("#table").datagrid("clearSelections").datagrid("load",cashPool);
         }
+
+        function creatorClick(){
+            var url = "${path}/login/loginUser_main.do?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        }
+
+        function userCallBack(rowData){
+            $("#user_id").val(rowData.id);
+        }
+
     </script>
 </head>
 <body class="easyui-layout">
@@ -220,7 +234,7 @@
                 <td class="td"><input id="money" name="money" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">资金</td>
+                <td class="th">资金从</td>
                 <td class="td"><input id="money_min" name="money_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
@@ -228,17 +242,10 @@
                 <td class="td"><input id="money_max" name="money_max" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">用户ID</td>
-                <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">用户名称</td>
+                <td class="td"><input id="user_id" name="user_id" type="text" onclick="creatorClick()" class="input search" /></td>
             </tr>
-            <tr>
-                <td class="th">用户ID</td>
-                <td class="td"><input id="user_id_min" name="user_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="user_id_max" name="user_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td class="th">创建时间</td>
                 <td class="td"><input id="createdate_begin" name="createdate_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
@@ -252,7 +259,7 @@
                 <td class="td"><input id="platform" name="platform" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">平台收入</td>
+                <td class="th">平台收入从</td>
                 <td class="td"><input id="platform_min" name="platform_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
