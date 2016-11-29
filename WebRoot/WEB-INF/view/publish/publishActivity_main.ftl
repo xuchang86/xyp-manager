@@ -31,6 +31,9 @@
                 onLoadSuccess:function(data){
                     delete $("#table").datagrid("options").queryParams.refresh;
                 },
+                onClickRow:function(rowIndex,rowData){
+                    gridRowClick(rowIndex,rowData);
+                },
                 frozenColumns:[[
                     {field:'ck',checkbox:true},
                     {title:'操作',field:'id',width:120,sortable:false,align:"center",
@@ -135,6 +138,13 @@
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
             $("#iframe").attr("src", "${path}/publish/publishActivity_add.do");
+        }
+
+        function gridRowClick(rowIndex,rowData){
+            if (from) {
+                window.opener.activityCallBack(rowData);
+                window.close();
+            }
         }
 
         /**

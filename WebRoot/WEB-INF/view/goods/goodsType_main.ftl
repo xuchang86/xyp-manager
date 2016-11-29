@@ -16,6 +16,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>商品类别管理</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
+    <style type="text/css">
+      img{
+          height: 100px;
+          width: 100px;
+      }
+    </style>
     <script type="text/javascript">
         var from = getUrlParam("from");
         $(function() {
@@ -54,12 +60,40 @@
                         }
                     }
                 ]],
-                columns:[[
-                    {title:'类型名称',field:'name',width:150,sortable:true},
-                    {title:'类型编码',field:'number',width:150,sortable:true},
-                    {title:'类型级别',field:'level',width:150,sortable:true},
-                    {title:'上级id',field:'parent_id',width:150,sortable:true}
-                ]],
+                columns: [
+                    [{
+                        title: '类型名称',
+                        field: 'name',
+                        width: 150,
+                        sortable: true
+                    }, {
+                        title: '类型编码',
+                        field: 'number',
+                        width: 150,
+                        sortable: true
+                    }, {
+                        title: '类型图片',
+                        field: 'url',
+                        width: 150,
+                        sortable: true,
+                        formatter: function(value, data, index) {
+                            if (value)
+                                return "<img src='" + value + "'>";
+                            else
+                                return value;
+                        }
+                    }, {
+                        title: '上级类型',
+                        field: 'parent_name',
+                        width: 150,
+                        sortable: true
+                    },{
+                        title: '类型级别',
+                        field: 'level',
+                        width: 150,
+                        sortable: true
+                    }]
+                ],
                 toolbar:[
                     {
                         handler:refreshPage,
@@ -250,26 +284,12 @@
                 <td class="th">类型级别</td>
                 <td class="td"><input id="level" name="level" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
+            
             <tr>
-                <td class="th">类型级别</td>
-                <td class="td"><input id="level_min" name="level_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">上级类型</td>
+                <td class="td"><input id="parent_name" name="parent_name" type="text" class="input" /></td>
             </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="level_max" name="level_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">上级id</td>
-                <td class="td"><input id="parent_id" name="parent_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">上级id</td>
-                <td class="td"><input id="parent_id_min" name="parent_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="parent_id_max" name="parent_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">
                     <a href="javascript:searchPage(false)" class="easyui-linkbutton" icon="icon-search" id="searchBtn">查询</a>

@@ -56,6 +56,9 @@ Date: 2016-11-13 23:38:18
             <isNotEmpty prepend="and" property="pay_amount">
                 <![CDATA[ pay_amount = #pay_amount# ]]>
             </isNotEmpty>
+            <isNotEmpty prepend="and" property="user_name">
+                <![CDATA[ (select name from T_LOGIN_USER where id =user_id) = #user_name# ]]>
+            </isNotEmpty>
             <!--付款金额最大值-->
             <isNotEmpty prepend="and" property="pay_amount_max">
                 <![CDATA[ pay_amount <= #pay_amount_max# ]]>
@@ -84,6 +87,7 @@ Date: 2016-11-13 23:38:18
                 order_code,
                 pay_date,
                 user_id,
+                (select name from T_LOGIN_USER where id =user_id) user_name,
                 pay_amount
             from T_PAY_ORDER
         ]]>

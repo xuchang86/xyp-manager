@@ -31,8 +31,8 @@
             <col width="20%">
             <col width="80%">
             <tr>
-                <td class="th">用户ID</td>
-                <td class="td">${(basePerson.user_id)!}</td>
+                <td class="th">用户手机</td>
+                <td class="td">${(basePerson.phone)!}</td>
             </tr>
             <tr>
                 <td class="th">级别</td>
@@ -81,8 +81,8 @@
                 <td class="td">${(basePerson.bill)!}</td>
             </tr>
             <tr>
-                <td class="th">师傅ID</td>
-                <td class="td">${(basePerson.parent_id)!}</td>
+                <td class="th">师傅名称</td>
+                <td class="td">${(basePerson.parent_name)!}</td>
             </tr>
             <tr>
                 <td class="th">创建时间</td>

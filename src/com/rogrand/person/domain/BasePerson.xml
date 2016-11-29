@@ -14,79 +14,87 @@ Date: 2016-11-13 19:12:01
         <dynamic prepend="where">
             <!--主键最小值-->
             <isNotEmpty prepend="and" property="id_min">
-                <![CDATA[ id >= #id_min# ]]>
+                <![CDATA[ t1.id >= #id_min# ]]>
             </isNotEmpty>
             <!--主键等于-->
             <isNotEmpty prepend="and" property="id">
-                <![CDATA[ id = #id# ]]>
+                <![CDATA[ t1.id = #id# ]]>
             </isNotEmpty>
             <!--主键最大值-->
             <isNotEmpty prepend="and" property="id_max">
-                <![CDATA[ id <= #id_max# ]]>
+                <![CDATA[ t1.id <= #id_max# ]]>
             </isNotEmpty>
             <!--用户id最小值-->
             <isNotEmpty prepend="and" property="user_id_min">
-                <![CDATA[ user_id >= #user_id_min# ]]>
+                <![CDATA[ t1.user_id >= #user_id_min# ]]>
             </isNotEmpty>
             <!--用户id等于-->
             <isNotEmpty prepend="and" property="user_id">
-                <![CDATA[ user_id = #user_id# ]]>
+                <![CDATA[ t1.user_id = #user_id# ]]>
+            </isNotEmpty>
+              <!--用户电话等于-->
+            <isNotEmpty prepend="and" property="phone">
+                 <![CDATA[ instr(t2.phone, #phone#) > 0 ]]>
             </isNotEmpty>
             <!--用户id最大值-->
             <isNotEmpty prepend="and" property="user_id_max">
-                <![CDATA[ user_id <= #user_id_max# ]]>
+                <![CDATA[ t1.user_id <= #user_id_max# ]]>
             </isNotEmpty>
             <!--级别最小值-->
             <isNotEmpty prepend="and" property="level_min">
-                <![CDATA[ level >= #level_min# ]]>
+                <![CDATA[ t1.level >= #level_min# ]]>
             </isNotEmpty>
             <!--级别等于-->
             <isNotEmpty prepend="and" property="level">
-                <![CDATA[ level = #level# ]]>
+                <![CDATA[ t1.level = #level# ]]>
             </isNotEmpty>
             <!--级别最大值-->
             <isNotEmpty prepend="and" property="level_max">
-                <![CDATA[ level <= #level_max# ]]>
+                <![CDATA[ t1.level <= #level_max# ]]>
             </isNotEmpty>
             <!--逍遥币最小值-->
             <isNotEmpty prepend="and" property="bill_min">
-                <![CDATA[ bill >= #bill_min# ]]>
+                <![CDATA[ t1.bill >= #bill_min# ]]>
             </isNotEmpty>
             <!--逍遥币等于-->
             <isNotEmpty prepend="and" property="bill">
-                <![CDATA[ bill = #bill# ]]>
+                <![CDATA[ t1.bill = #bill# ]]>
             </isNotEmpty>
             <!--逍遥币最大值-->
             <isNotEmpty prepend="and" property="bill_max">
-                <![CDATA[ bill <= #bill_max# ]]>
+                <![CDATA[ t1.bill <= #bill_max# ]]>
             </isNotEmpty>
             <!--师傅id最小值-->
             <isNotEmpty prepend="and" property="parent_id_min">
-                <![CDATA[ parent_id >= #parent_id_min# ]]>
+                <![CDATA[ t1.parent_id >= #parent_id_min# ]]>
             </isNotEmpty>
             <!--师傅id等于-->
             <isNotEmpty prepend="and" property="parent_id">
-                <![CDATA[ parent_id = #parent_id# ]]>
+                <![CDATA[ t1.parent_id = #parent_id# ]]>
+            </isNotEmpty>
+             <!--师傅名称等于-->
+            <isNotEmpty prepend="and" property="parent_name">
+                <![CDATA[ t3.name = #parent_name# ]]>
             </isNotEmpty>
             <!--师傅id最大值-->
             <isNotEmpty prepend="and" property="parent_id_max">
-                <![CDATA[ parent_id <= #parent_id_max# ]]>
+                <![CDATA[ t1.parent_id <= #parent_id_max# ]]>
             </isNotEmpty>
             <!--创建时间开始-->
             <isNotEmpty prepend="and" property="create_date_begin">
-                <![CDATA[ create_date >= str_to_date(#create_date_begin#,'%Y-%m-%d %T') ]]>
+                <![CDATA[ t1.create_date >= str_to_date(#create_date_begin#,'%Y-%m-%d %T') ]]>
             </isNotEmpty>
             <!--创建时间结束-->
             <isNotEmpty prepend="and" property="create_date_end">
-                <![CDATA[ create_date <= str_to_date('$create_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+                <![CDATA[ t1.create_date <= str_to_date('$create_date_end$ 23:59:59','%Y-%m-%d %T') ]]>
             </isNotEmpty>
             <!--名称-->
             <isNotEmpty prepend="and" property="name">
-                <![CDATA[ instr(name, #name#) > 0 ]]>
+                <![CDATA[ instr(t1.name, #name#) > 0 ]]>
             </isNotEmpty>
             <!-- 用于数据导出 -->
             <isNotEmpty prepend="and" property="exportIds">
-                <![CDATA[ id in ($exportIds$) ]]>
+                <![CDATA[ t1.id in ($exportIds$) ]]>
             </isNotEmpty>
         </dynamic>
     </sql>
@@ -94,7 +102,9 @@ Date: 2016-11-13 19:12:01
     <!--人物信息分页记录数-->
     <select id="pageCount" parameterClass="PageParam" resultClass="Long">
         <![CDATA[
-            select count(*) total from T_BASE_PERSON
+            select count(*) total  from T_BASE_PERSON t1 
+            LEFT JOIN T_LOGIN_USER t2 ON t1.user_id = t2.id
+            LEFT JOIN T_BASE_PERSON t3 on t3.id = t1.parent_id
         ]]>
         <include refid="pageWhere"/>
     </select>
@@ -104,14 +114,18 @@ Date: 2016-11-13 19:12:01
         <![CDATA[ $head$ ]]>
         <![CDATA[
             select
-                id,
-                user_id,
-                level,
-                bill,
-                parent_id,
-                create_date,
-                name
-            from T_BASE_PERSON
+                t1.id,
+                t1.user_id,
+                t1.level,
+                t2.phone phone,
+                t1.bill,
+                t1.parent_id,
+                t3.name parent_name,
+                t1.create_date,
+                t1.name
+            from T_BASE_PERSON t1 
+            LEFT JOIN T_LOGIN_USER t2 ON t1.user_id = t2.id
+            LEFT JOIN T_BASE_PERSON t3 on t3.id = t1.parent_id
         ]]>
         <include refid="pageWhere"/>
         <![CDATA[ $sortOrder$ ]]>

@@ -98,8 +98,8 @@
 						}
                     },
                     {title:'逍遥币',field:'bill',width:150,sortable:true},
-                    {title:'师傅id',field:'parent_id',width:150,sortable:true},
-                    {title:'用户id',field:'user_id',width:150,sortable:true},
+                    {title:'师傅名称',field:'parent_name',width:150,sortable:true},
+                    {title:'用户手机',field:'phone',width:150,sortable:true},
                     {title:'创建时间',field:'create_date',width:150,sortable:true}
                 ]],
                 toolbar:[
@@ -270,8 +270,8 @@
     <form id="form" name="form" style="display: none">
         <table class="table">
             <tr>
-                <td class="th">用户id</td>
-                <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">用户手机</td>
+                <td class="td"><input id="phone" name="phone" type="text" class="input" /></td>
             </tr>
             
             <tr>
@@ -299,8 +299,8 @@
                 <td class="td"><input id="bill_max" name="bill_max" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">师傅id</td>
-                <td class="td"><input id="parent_id" name="parent_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">师傅名称</td>
+                <td class="td"><input id="parent_name" name="parent_name" type="text" class="input" /></td>
             </tr>
             
             <tr>

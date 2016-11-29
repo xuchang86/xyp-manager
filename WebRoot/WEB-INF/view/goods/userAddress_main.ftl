@@ -1,8 +1,8 @@
 <#--
 版权：LAB <br/>
 作者：dailing <br/>
-生成日期：2016-11-13 <br/>
-描述：商品订单主页面
+生成日期：2016-11-30 <br/>
+描述：个人收货地址主页面
 -->
 <#include "/WEB-INF/view/macro.ftl"/>
 
@@ -14,7 +14,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>商品订单管理</title>
+    <title>个人收货地址管理</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
         $(function() {
@@ -30,6 +30,9 @@
                 queryParams:{"refresh":"1"},
                 onLoadSuccess:function(data){
                     delete $("#table").datagrid("options").queryParams.refresh;
+                },
+                onClickRow:function(rowIndex,rowData){
+                    gridRowClick(rowIndex,rowData);
                 },
                 frozenColumns:[[
                     {field:'ck',checkbox:true},
@@ -51,40 +54,11 @@
                     }
                 ]],
                 columns:[[
-                    {title:'订单号',field:'number',width:150,sortable:true},
-                    {title:'订单金额',field:'amount',width:150,sortable:true},
-                    {title:'商品名称',field:'goods_name',width:150,sortable:true},
-                    {title:'商品型号',field:'goods_model',width:150,sortable:true},
-                    {title:'收货地址',field:'address',width:150,sortable:true},
-                    {title:'收货城市',field:'address_name',width:150,sortable:true},
-                    {title:'联系人',field:'contacts',width:150,sortable:true},
-                    {title:'联系电话',field:'phone',width:150,sortable:true},
-                    {
-                        title: '订单状态',
-                        field: 'state',
-                        width: 150,
-                        sortable: true,
-                        formatter: function(value, data, index) {
-                            if(value=="todo"){
-                                return "待付款";
-                            }else if(value=="paying"){
-                                return "已付款";
-                            }else if(value=="to"){
-                                return "已发货";
-                            }else if(value=="get"){
-                                return "已收货";
-                            }else if(value=="after_sale"){
-                                return "售后";
-                            }else if(value=="sales_return"){
-                                return "退货";
-                            }else{
-                                return value;
-                            }
-                        }
-                    },
-                    {title:'创建用户',field:'user_name',width:150,sortable:true},
-                    {title:'创建时间',field:'create_date',width:150,sortable:true},
-                    {title:'付款时间',field:'pay_date',width:150,sortable:true}
+                    {title:'用户名称',field:'user_name',width:150,sortable:true},
+                    {title:'联系人',field:'contracts',width:150,sortable:true},
+                    {title:'电话',field:'phone',width:150,sortable:true},
+                    {title:'城市',field:'city',width:150,sortable:true},
+                    {title:'详细地址',field:'address',width:150,sortable:true}
                 ]],
                 toolbar:[
                     {
@@ -115,8 +89,16 @@
             });
         });
 
+        //行点击事件
+        function gridRowClick(index, rowData) {
+            if (from) {
+                window.opener.addressCallBack(rowData);
+                window.close();
+            }
+        }
+
         /**
-         * 显示商品订单添加对话框
+         * 显示个人收货地址添加对话框
          */
         function add() {
             $("#dialog").css("display","block").dialog({
@@ -126,11 +108,11 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src", "${path}/goods/goodsOrder_add.do");
+            $("#iframe").attr("src", "${path}/goods/userAddress_add.do");
         }
 
         /**
-         * 显示商品订单修改对话框
+         * 显示个人收货地址修改对话框
          */
         function edit(event, value) {
             $.event.fix(event).stopPropagation();
@@ -141,17 +123,17 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src","${path}/goods/goodsOrder_edit.do?id="+value);
+            $("#iframe").attr("src","${path}/goods/userAddress_edit.do?id="+value);
         }
 
         /**
-         * 删除商品订单
+         * 删除个人收货地址
          */
         function del(event,val) {
             $.event.fix(event).stopPropagation();
             $.messager.confirm("提示信息", "你确认要删除该记录吗？", function(b) {
                 if (b) {
-                    $.ajaxPost("${path}/goods/goodsOrder_delete.do",{"id":val},function(result){
+                    $.ajaxPost("${path}/goods/userAddress_delete.do",{"id":val},function(result){
                         $.messager.show({
                             title:"消息提醒",
                             msg:"记录删除成功",
@@ -165,7 +147,7 @@
         }
 
         /**
-         * 批量删除商品订单
+         * 批量删除个人收货地址
          */
         function delBatch(){
             var selections=$("#table").datagrid("getSelections");
@@ -180,7 +162,7 @@
                            ids.push(o.id);
                         });
 
-                        $.ajaxPost("${path}/goods/goodsOrder_deleteBatch.do", {"ids":ids}, function(result) {
+                        $.ajaxPost("${path}/goods/userAddress_deleteBatch.do", {"ids":ids}, function(result) {
                             $.messager.show({
                                 title:"消息提醒",
                                 msg:"记录删除成功",
@@ -195,7 +177,7 @@
         }
 
         /**
-         * 查看商品订单详细
+         * 查看个人收货地址详细
          */
         function view(event,value){
             $.event.fix(event).stopPropagation();
@@ -206,14 +188,14 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src","${path}/goods/goodsOrder_view.do?id="+value);
+            $("#iframe").attr("src","${path}/goods/userAddress_view.do?id="+value);
         }
 
         /**
          * 刷新页面
          */
         function refreshPage(){
-            window.location="${path}/goods/goodsOrder_main.do";
+            window.location="${path}/goods/userAddress_main.do";
             return false;
         }
 
@@ -235,9 +217,9 @@
                 $("#form select").val("");
             }
 
-            var goodsOrder = $("#form").serializeJson();
-            goodsOrder.refresh = "1"; //刷新记录数参数
-            $("#table").datagrid("clearSelections").datagrid("load",goodsOrder);
+            var userAddress = $("#form").serializeJson();
+            userAddress.refresh = "1"; //刷新记录数参数
+            $("#table").datagrid("clearSelections").datagrid("load",userAddress);
         }
     </script>
 </head>
@@ -246,79 +228,25 @@
     <form id="form" name="form" style="display: none">
         <table class="table">
             <tr>
-                <td class="th">订单号</td>
-                <td class="td"><input id="number" name="number" type="text" class="input"></td>
-            </tr>
-            <tr>
-                <td class="th">订单金额</td>
-                <td class="td"><input id="amount" name="amount" type="text" class="input easyui-numberbox"></td>
-            </tr>
-            <tr>
-                <td class="th">订单金额从</td>
-                <td class="td"><input id="amount_min" name="amount_min" type="text" class="input easyui-numberbox"></td>
-            </tr>
-            <tr>
-                <td class="th">订单金额至</td>
-                <td class="td"><input id="amount_max" name="amount_max" type="text" class="input easyui-numberbox"></td>
-            </tr>
-            <tr>
-                <td class="th">商品名称</td>
-                <td class="td"><input id="goods_name" name="goods_name" type="text" class="input"></td>
-            </tr>
-            <tr>
-                <td class="th">商品型号</td>
-                <td class="td"><input id="goods_model" name="goods_model" type="text" class="input"></td>
-            </tr>
-            <tr>
-                <td class="th">订单城市</td>
-                <td class="td"><input id="address_name" name="address_name" type="text" class="input"></td>
-            </tr>
-            <tr>
-                <td class="th">创建时间从</td>
-                <td class="td"><input id="create_date_begin" name="create_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="create_date_end" name="create_date_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
-            </tr>
-            <tr>
-                <td class="th">付款时间从</td>
-                <td class="td"><input id="pay_date_begin" name="pay_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="pay_date_end" name="pay_date_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
-            </tr>
-            <tr>
-                <td class="th">创建用户</td>
-                <td class="td"><input id="user_name" name="user_name" type="text" class="input" /></td>
+                <td class="th">用户名称</td>
+                <td class="td"><input id="user_name" name="user_name" type="text" class="input" min="0" max="9999999999" precision="0"/></td>
             </tr>
            
             <tr>
-                <td class="th">收货地址</td>
-                <td class="td"><input id="address" name="address" type="text" class="input"></td>
-            </tr>
-            <tr>
                 <td class="th">联系人</td>
-                <td class="td"><input id="contacts" name="contacts" type="text" class="input"></td>
+                <td class="td"><input id="contracts" name="contracts" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">联系电话</td>
+                <td class="th">电话</td>
                 <td class="td"><input id="phone" name="phone" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">订单状态</td>
-                <td class="td">
-                    <select id="state" name="state">
-                        <option value="">请选择</option>
-                        <option value="todo">待付款</option>
-                        <option value="paying">已付款</option>
-                        <option value="to">已发货</option>
-                        <option value="get">已收货</option>
-                        <option value="after_sale">售后</option>
-                        <option value="sales_return">退货</option>
-                    </select>
-                </td>
+                <td class="th">城市</td>
+                <td class="td"><input id="city" name="city" type="text" class="input"></td>
+            </tr>
+            <tr>
+                <td class="th">详细地址</td>
+                <td class="td"><input id="address" name="address" type="text" class="input"></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">
@@ -329,9 +257,9 @@
         </table>
     </form>
 </div>
-<div region="center" title="当前位置：商品订单管理">
+<div region="center" title="当前位置：个人收货地址管理">
     <table id="table"
-           url="${path}/goods/goodsOrder_page.do"
+           url="${path}/goods/userAddress_page.do"
            border="false"         <#--无边框-->
            fit="true"             <#--自动填充宽度高度-->
            singleSelect="false"   <#--单选模式-->

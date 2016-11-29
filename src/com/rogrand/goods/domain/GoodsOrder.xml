@@ -20,6 +20,30 @@ Date: 2016-11-13 23:38:18
             <isNotEmpty prepend="and" property="id">
                 <![CDATA[ id = #id# ]]>
             </isNotEmpty>
+            <isNotEmpty prepend="and" property="goods_model">
+                <![CDATA[ goods_model = #goods_model# ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="address_id">
+                <![CDATA[ address_id = #address_id# ]]>
+            </isNotEmpty>
+             <isNotEmpty prepend="and" property="amount">
+                <![CDATA[ amount = #amount# ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="amount_max">
+                <![CDATA[ amount <= #amount_max# ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="amount_min">
+                <![CDATA[ amount >= #amount_min# ]]>
+            </isNotEmpty>
+             <isNotEmpty prepend="and" property="address_name">
+                <![CDATA[ (select city from T_USER_ADDRESS where id =address_id) = #address_name# ]]>
+            </isNotEmpty>
+             <isNotEmpty prepend="and" property="goods_name">
+                <![CDATA[ (select name from T_MALL_GOODS where id =goods_id) = #goods_name# ]]>
+            </isNotEmpty>
+             <isNotEmpty prepend="and" property="user_name">
+                <![CDATA[ (select name from T_LOGIN_USER where id =user_id) = #user_name# ]]>
+            </isNotEmpty>
             <!--主键最大值-->
             <isNotEmpty prepend="and" property="id_max">
                 <![CDATA[ id <= #id_max# ]]>
@@ -101,11 +125,17 @@ Date: 2016-11-13 23:38:18
                 create_date,
                 pay_date,
                 user_id,
+                (select name from T_LOGIN_USER where id =user_id) user_name,
                 goods_id,
+                (select name from T_MALL_GOODS where id =goods_id) goods_name,
                 address,
                 contacts,
                 phone,
-                state
+                state,
+                goods_model,
+                address_id,
+                (select city from T_USER_ADDRESS where id =address_id) address_name,
+                amount
             from T_GOODS_ORDER
         ]]>
         <include refid="pageWhere"/>
@@ -125,7 +155,10 @@ Date: 2016-11-13 23:38:18
                 address,
                 contacts,
                 phone,
-                state
+                state,
+                goods_model,
+                address_id,
+                amount
             ) values (
                 #number:VARCHAR#,
                 #create_date:TIMESTAMP#,
@@ -135,7 +168,10 @@ Date: 2016-11-13 23:38:18
                 #address:VARCHAR#,
                 #contacts:VARCHAR#,
                 #phone:VARCHAR#,
-                #state:VARCHAR#
+                #state:VARCHAR#,
+                #goods_model:VARCHAR#,
+                #address_id:NUMERIC#,
+                #amount:NUMERIC#
             )
         ]]>
         <!--
@@ -160,7 +196,10 @@ Date: 2016-11-13 23:38:18
                 address,
                 contacts,
                 phone,
-                state
+                state,
+                goods_model,
+                address_id,
+                amount
             ) values
         ]]>
         <iterate  conjunction =",">
@@ -174,7 +213,10 @@ Date: 2016-11-13 23:38:18
                     #[].address:VARCHAR#,
                     #[].contacts:VARCHAR#,
                     #[].phone:VARCHAR#,
-                    #[].state:VARCHAR#
+                    #[].state:VARCHAR#,
+                    #[].goods_model:VARCHAR#,
+                    #[].address_id:NUMERIC#,
+                    #[].amount:NUMERIC#
                 )
             ]]>   
         </iterate>
@@ -210,6 +252,15 @@ Date: 2016-11-13 23:38:18
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.state">
                 <![CDATA[ state=#state:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.goods_model">
+                <![CDATA[ goods_model=#goods_model:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.address_id">
+                <![CDATA[ address_id=#address_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.amount">
+                <![CDATA[ amount=#amount:NUMERIC# ]]>
             </isPropertyAvailable>
         </dynamic>
         <![CDATA[ where id = #id#  ]]>

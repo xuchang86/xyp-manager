@@ -14,51 +14,58 @@ Date: 2016-11-13 23:38:18
         <dynamic prepend="where">
             <!--主键最小值-->
             <isNotEmpty prepend="and" property="id_min">
-                <![CDATA[ id >= #id_min# ]]>
+                <![CDATA[ t1.id >= #id_min# ]]>
             </isNotEmpty>
             <!--主键等于-->
             <isNotEmpty prepend="and" property="id">
-                <![CDATA[ id = #id# ]]>
+                <![CDATA[ t1.id = #id# ]]>
+            </isNotEmpty>
+             <!--图片URL-->
+            <isNotEmpty prepend="and" property="url">
+                <![CDATA[ t1.url = #url# ]]>
             </isNotEmpty>
             <!--主键最大值-->
             <isNotEmpty prepend="and" property="id_max">
-                <![CDATA[ id <= #id_max# ]]>
+                <![CDATA[ t1.id <= #id_max# ]]>
             </isNotEmpty>
             <!--类型名称-->
             <isNotEmpty prepend="and" property="name">
-                <![CDATA[ instr(name, #name#) > 0 ]]>
+                <![CDATA[ instr(t1.name, #name#) > 0 ]]>
             </isNotEmpty>
             <!--类型编码-->
             <isNotEmpty prepend="and" property="number">
-                <![CDATA[ instr(number, #number#) > 0 ]]>
+                <![CDATA[ instr(t1.number, #number#) > 0 ]]>
             </isNotEmpty>
             <!--类型级别最小值-->
             <isNotEmpty prepend="and" property="level_min">
-                <![CDATA[ level >= #level_min# ]]>
+                <![CDATA[ t1.level >= #level_min# ]]>
             </isNotEmpty>
             <!--类型级别等于-->
             <isNotEmpty prepend="and" property="level">
-                <![CDATA[ level = #level# ]]>
+                <![CDATA[ t1.level = #level# ]]>
             </isNotEmpty>
             <!--类型级别最大值-->
             <isNotEmpty prepend="and" property="level_max">
-                <![CDATA[ level <= #level_max# ]]>
+                <![CDATA[ t1.level <= #level_max# ]]>
             </isNotEmpty>
             <!--上级id最小值-->
             <isNotEmpty prepend="and" property="parent_id_min">
-                <![CDATA[ parent_id >= #parent_id_min# ]]>
+                <![CDATA[ t1.parent_id >= #parent_id_min# ]]>
             </isNotEmpty>
             <!--上级id等于-->
             <isNotEmpty prepend="and" property="parent_id">
-                <![CDATA[ parent_id = #parent_id# ]]>
+                <![CDATA[ t1.parent_id = #parent_id# ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="and" property="parent_name">
+                <![CDATA[T2.name = #parent_name# ]]>
             </isNotEmpty>
             <!--上级id最大值-->
             <isNotEmpty prepend="and" property="parent_id_max">
-                <![CDATA[ parent_id <= #parent_id_max# ]]>
+                <![CDATA[ t1.parent_id <= #parent_id_max# ]]>
             </isNotEmpty>
             <!-- 用于数据导出 -->
             <isNotEmpty prepend="and" property="exportIds">
-                <![CDATA[ id in ($exportIds$) ]]>
+                <![CDATA[ t1.id in ($exportIds$) ]]>
             </isNotEmpty>
         </dynamic>
     </sql>
@@ -66,7 +73,8 @@ Date: 2016-11-13 23:38:18
     <!--商品类别分页记录数-->
     <select id="pageCount" parameterClass="PageParam" resultClass="Long">
         <![CDATA[
-            select count(*) total from T_GOODS_TYPE
+            select count(*) total from T_GOODS_TYPE t1 
+            LEFT JOIN T_GOODS_TYPE T2 on T2.id=t1.parent_id
         ]]>
         <include refid="pageWhere"/>
     </select>
@@ -76,12 +84,15 @@ Date: 2016-11-13 23:38:18
         <![CDATA[ $head$ ]]>
         <![CDATA[
             select
-                id,
-                name,
-                number,
-                level,
-                parent_id
-            from T_GOODS_TYPE
+             t1.id,
+             t1.name,
+             t1.number,
+             t1.level,
+             t1.parent_id,
+             T2.name parent_name,
+             t1.url
+            from T_GOODS_TYPE t1 
+            LEFT JOIN T_GOODS_TYPE T2 on T2.id=t1.parent_id
         ]]>
         <include refid="pageWhere"/>
         <![CDATA[ $sortOrder$ ]]>
@@ -95,12 +106,14 @@ Date: 2016-11-13 23:38:18
                 name,
                 number,
                 level,
-                parent_id
+                parent_id,
+                url
             ) values (
                 #name:VARCHAR#,
                 #number:VARCHAR#,
                 #level:NUMERIC#,
-                #parent_id:NUMERIC#
+                #parent_id:NUMERIC#,
+                #url:VARCHAR#
             )
         ]]>
         <!--
@@ -120,7 +133,8 @@ Date: 2016-11-13 23:38:18
                 name,
                 number,
                 level,
-                parent_id
+                parent_id,
+                url
             ) values
         ]]>
         <iterate  conjunction =",">
@@ -129,7 +143,8 @@ Date: 2016-11-13 23:38:18
                     #[].name:VARCHAR#,
                     #[].number:VARCHAR#,
                     #[].level:NUMERIC#,
-                    #[].parent_id:NUMERIC#
+                    #[].parent_id:NUMERIC#,
+                    #[].url:VARCHAR#
                 )
             ]]>   
         </iterate>
@@ -150,6 +165,9 @@ Date: 2016-11-13 23:38:18
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.parent_id">
                 <![CDATA[ parent_id=#parent_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+             <isPropertyAvailable prepend="," property="fields.url">
+                <![CDATA[ url=#url:VARCHAR# ]]>
             </isPropertyAvailable>
         </dynamic>
         <![CDATA[ where id = #id#  ]]>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+个人收货地址
+User: Created by auto build
+Date: 2016-11-30 02:00:30
+-->
+<sqlMap namespace="t_user_address">
+
+    <typeAlias alias="T_USER_ADDRESS" type="com.rogrand.goods.domain.UserAddress" />
+
+    <!--个人收货地址分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--用户ID最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--用户ID等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ user_id = #user_id# ]]>
+            </isNotEmpty>
+             <isNotEmpty prepend="and" property="user_name">
+                <![CDATA[ (SELECT name FROM T_LOGIN_USER where id=user_id) = #user_name# ]]>
+            </isNotEmpty>
+            <!--用户ID最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--联系人-->
+            <isNotEmpty prepend="and" property="contracts">
+                <![CDATA[ instr(contracts, #contracts#) > 0 ]]>
+            </isNotEmpty>
+            <!--电话-->
+            <isNotEmpty prepend="and" property="phone">
+                <![CDATA[ instr(phone, #phone#) > 0 ]]>
+            </isNotEmpty>
+            <!--城市-->
+            <isNotEmpty prepend="and" property="city">
+                <![CDATA[ instr(city, #city#) > 0 ]]>
+            </isNotEmpty>
+            <!--详细地址-->
+            <isNotEmpty prepend="and" property="address">
+                <![CDATA[ instr(address, #address#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--个人收货地址分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_USER_ADDRESS
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--个人收货地址分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_USER_ADDRESS">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                user_id,
+                (SELECT name FROM T_LOGIN_USER where id=user_id) user_name,
+                contracts,
+                phone,
+                city,
+                address
+            from T_USER_ADDRESS
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建个人收货地址-->
+    <insert id="create" parameterClass="T_USER_ADDRESS">
+        <![CDATA[
+            insert into T_USER_ADDRESS(
+                user_id,
+                contracts,
+                phone,
+                city,
+                address
+            ) values (
+                #user_id:NUMERIC#,
+                #contracts:VARCHAR#,
+                #phone:VARCHAR#,
+                #city:VARCHAR#,
+                #address:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建个人收货地址-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_USER_ADDRESS(
+                user_id,
+                contracts,
+                phone,
+                city,
+                address
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].user_id:NUMERIC#,
+                    #[].contracts:VARCHAR#,
+                    #[].phone:VARCHAR#,
+                    #[].city:VARCHAR#,
+                    #[].address:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新个人收货地址-->
+    <update id="update" parameterClass="T_USER_ADDRESS">
+        <![CDATA[ update T_USER_ADDRESS ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.user_id">
+                <![CDATA[ user_id=#user_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.contracts">
+                <![CDATA[ contracts=#contracts:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.phone">
+                <![CDATA[ phone=#phone:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.city">
+                <![CDATA[ city=#city:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.address">
+                <![CDATA[ address=#address:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除个人收货地址-->
+    <delete id="delete" parameterClass="T_USER_ADDRESS">
+        <![CDATA[
+            delete from T_USER_ADDRESS where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

@@ -193,6 +193,32 @@
             $("#table").datagrid("clearSelections").datagrid("reload");
         }
 
+        function personClick(){
+            var url = "${path}/person/basePerson_main.do?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        }
+
+        function activityClick(){
+            var url = "${path}/publish/publishActivity_main.do?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        }
+
+        function activityCallBack(rowData){
+            $("#activity_id").val(rowData.id);
+        }
+
+        function personCallBack(rowData){
+            $("#person_id").val(rowData.id);
+        }
+
           /**
          * 查询翻页
          */
@@ -214,29 +240,15 @@
     <form id="form" name="form" style="display: none">
         <table class="table">
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input id="person_id" name="person_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">人物</td>
+                <td class="td"><input id="person_id" onclick="personClick()" name="person_id" type="text" class="input search" min="0" max="9999999999" precision="0"/></td>
             </tr>
+           
             <tr>
-                <td class="th">人物ID</td>
-                <td class="td"><input id="person_id_min" name="person_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">活动</td>
+                <td class="td"><input id="activity_id" onclick="activityClick()" name="activity_id" type="text" class="input search" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="person_id_max" name="person_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">活动ID</td>
-                <td class="td"><input id="activity_id" name="activity_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">活动ID</td>
-                <td class="td"><input id="activity_id_min" name="activity_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="activity_id_max" name="activity_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">
                     <a href="javascript:searchPage(false)" class="easyui-linkbutton" icon="icon-search" id="searchBtn">查询</a>

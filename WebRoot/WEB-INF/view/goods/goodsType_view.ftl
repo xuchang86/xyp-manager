@@ -39,12 +39,18 @@
                 <td class="td">${(goodsType.number)!}</td>
             </tr>
             <tr>
+                <td class="th">类型图片</td>
+                <td class="td">
+                    <a id="urlLink" href="${(goodsType.url)!}" target="_blank"> <img id="urlImg" src="${(goodsType.url)!}"></a>
+                </td>
+            </tr>
+            <tr>
                 <td class="th">类型级别</td>
                 <td class="td">${(goodsType.level)!}</td>
             </tr>
             <tr>
-                <td class="th">上级id</td>
-                <td class="td">${(goodsType.parent_id)!}</td>
+                <td class="th">上级类型</td>
+                <td class="td">${(goodsType.parent_name)!}</td>
             </tr>
         </table>
     </div>

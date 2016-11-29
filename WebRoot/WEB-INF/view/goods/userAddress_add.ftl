@@ -1,15 +1,15 @@
 <#--
 版权：LAB <br/>
 作者：dailing <br/>
-生成日期：2016-11-13 <br/>
-描述：支付宝付款订单修改页面
+生成日期：2016-11-30 <br/>
+描述：个人收货地址添加页面
 -->
 <#include "/WEB-INF/view/macro.ftl"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>支付宝付款订单修改</title>
+    <title>个人收货地址添加</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
         $(function(){
@@ -19,13 +19,13 @@
 
         function save() {
             if (!$("#form").form("validate")) return;
-            var payOrder = $("#form").serializeJson();
+            var userAddress = $("#form").serializeJson();
             $.showLoad();
-            $.ajaxPost("${path}/order/payOrder_editSave.do", {"payOrder":payOrder}, function(result) {
+            $.ajaxPost("${path}/goods/userAddress_addSave.do", {"userAddress":userAddress}, function(result) {
                 if(result=="1"){
                 	window.parent.$.messager.show({
                         title:"消息提醒",
-                        msg:"记录修改成功",
+                        msg:"记录添加成功",
                         timeout:5000,
                         showType:"slide"
                     });
@@ -62,30 +62,34 @@
         <a href="javascript:window.parent.$.closeDialog('dialog');" class="easyui-linkbutton" icon="icon-cancel" plain="true">关闭</a>
     </div>
 </div>
+
 <div region="center" border="false" style="padding:10px;">
     <form id="form" name="form" style="+zoom:1;">
-        <input type="hidden" id="id" name="id"  value="${(payOrder.id)!}">
         <table class="table-border" width="100%">
             <col width="20%">
             <col width="80%">
             <tr>
-                <td class="th">支付宝订单号</td>
-                <td class="td"><input type="text" id="order_code" name="order_code" class="input easyui-validatebox" validType="maxLength[50]" value="${(payOrder.order_code)!}" style="width:300px;"/></td>
-            </tr>
-            <tr>
-                <td class="th">付款日期</td>
-                <td class="td"><input type="text" id="pay_date" name="pay_date" class="input Wdate" onclick="WdatePicker()" value="<@dateOut payOrder.pay_date/>" style="width:300px;"/></td>
-            </tr>
-            <tr>
-                <td class="th">支付用户</td>
+                <td class="th">用户名称</td>
                 <td class="td">
-                    <input type="text" id="user_name" name="user_name" onclick="creatorClick()" class="input search" value="${(payOrder.user_name)!}" style="width:300px;"/>
-                    <input type="hidden" id="user_id" name="user_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(payOrder.user_id)!}" style="width:300px;"/>
+                    <input type="text" id="user_name" name="user_name" onclick="creatorClick()" class="input search" value="${(userAddress.user_name)!}" style="width:300px;"/>
+                    <input type="hidden" id="user_id" name="user_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(userAddress.user_id)!}" style="width:300px;"/>
                 </td>
             </tr>
             <tr>
-                <td class="th">付款金额</td>
-                <td class="td"><input type="text" id="pay_amount" name="pay_amount" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" value="${(payOrder.pay_amount)!}" style="width:300px;"/></td>
+                <td class="th">联系人</td>
+                <td class="td"><input type="text" id="contracts" name="contracts" class="input easyui-validatebox" validType="maxLength[50]" style="width:300px;"/></td>
+            </tr>
+            <tr>
+                <td class="th">电话</td>
+                <td class="td"><input type="text" id="phone" name="phone" class="input easyui-validatebox" validType="maxLength[50]" style="width:300px;"/></td>
+            </tr>
+            <tr>
+                <td class="th">城市</td>
+                <td class="td"><input type="text" id="city" name="city" class="input easyui-validatebox" validType="maxLength[50]" style="width:300px;"/></td>
+            </tr>
+            <tr>
+                <td class="th">详细地址</td>
+                <td class="td"><input type="text" id="address" name="address" class="input easyui-validatebox" validType="maxLength[100]" style="width:300px;"/></td>
             </tr>
         </table>
     </form>

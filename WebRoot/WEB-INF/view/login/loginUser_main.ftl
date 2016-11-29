@@ -55,9 +55,9 @@
                     }
                 ]],
                 columns:[[
+                    {title:'名称',field:'name',width:150,sortable:true},
                     {title:'电话',field:'phone',width:150,sortable:true},
                     {title:'密码',field:'password',width:150,sortable:true},
-                    {title:'名称',field:'name',width:150,sortable:true},
                     {title:'生日',field:'birthday',width:150,sortable:true},
                     {title:'地址',field:'address',width:150,sortable:true},
                     {title:'我提供的资源',field:'providerid',width:150,sortable:true},
@@ -293,7 +293,13 @@
             </tr>
             <tr>
                 <td class="th">性别</td>
-                <td class="td"><input id="sex" name="sex" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="td">
+                    <select id="sex" name="sex">
+                        <option value="">请选择</option>
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                    </select>
+                </td>
             </tr>
             
             <tr>
@@ -302,7 +308,13 @@
             </tr>
             <tr>
                 <td class="th">是否已付款</td>
-                <td class="td"><input id="ispay" name="ispay" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="td">
+                    <select id="ispay" name="ispay">
+                        <option value="">请选择</option>
+                        <option value="0">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </td>
             </tr>
            
             <tr>

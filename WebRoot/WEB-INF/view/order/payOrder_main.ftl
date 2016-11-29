@@ -53,7 +53,7 @@
                 columns:[[
                     {title:'支付宝订单号',field:'order_code',width:150,sortable:true},
                     {title:'付款日期',field:'pay_date',width:150,sortable:true},
-                    {title:'用户ID',field:'user_id',width:150,sortable:true},
+                    {title:'支付用户',field:'user_name',width:150,sortable:true},
                     {title:'付款金额',field:'pay_amount',width:150,sortable:true}
                 ]],
                 toolbar:[
@@ -220,7 +220,7 @@
                 <td class="td"><input id="order_code" name="order_code" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">付款日期</td>
+                <td class="th">付款日期从</td>
                 <td class="td"><input id="pay_date_begin" name="pay_date_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
@@ -228,23 +228,16 @@
                 <td class="td"><input id="pay_date_end" name="pay_date_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
             </tr>
             <tr>
-                <td class="th">用户ID</td>
-                <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">支付用户</td>
+                <td class="td"><input id="user_name" name="user_name" type="text" class="input" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">用户ID</td>
-                <td class="td"><input id="user_id_min" name="user_id_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="user_id_max" name="user_id_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+           
             <tr>
                 <td class="th">付款金额</td>
                 <td class="td"><input id="pay_amount" name="pay_amount" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">付款金额</td>
+                <td class="th">付款金额从</td>
                 <td class="td"><input id="pay_amount_min" name="pay_amount_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>

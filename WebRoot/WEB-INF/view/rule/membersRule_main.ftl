@@ -227,32 +227,18 @@
                 <td class="th">等级</td>
                 <td class="td"><input id="level" name="level" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">等级</td>
-                <td class="td"><input id="level_min" name="level_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="level_max" name="level_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+           
             <tr>
                 <td class="th">升级数</td>
                 <td class="td"><input id="level_count" name="level_count" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">升级数</td>
-                <td class="td"><input id="level_count_min" name="level_count_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="level_count_max" name="level_count_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+           
             <tr>
                 <td class="th">资金池</td>
                 <td class="td"><input id="money_pool" name="money_pool" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">资金池</td>
+                <td class="th">资金池从</td>
                 <td class="td"><input id="money_pool_min" name="money_pool_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
@@ -263,56 +249,28 @@
                 <td class="th">弟子给师傅的红包</td>
                 <td class="td"><input id="packet" name="packet" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
-            <tr>
-                <td class="th">弟子给师傅的红包</td>
-                <td class="td"><input id="packet_min" name="packet_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="packet_max" name="packet_max" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
-            </tr>
+           
             <tr>
                 <td class="th">徒弟红包总数</td>
                 <td class="td"><input id="packet_count" name="packet_count" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">徒弟红包总数</td>
-                <td class="td"><input id="packet_count_min" name="packet_count_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="packet_count_max" name="packet_count_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+           
             <tr>
                 <td class="th">徒孙给师傅的红包</td>
                 <td class="td"><input id="child_packet" name="child_packet" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
-            <tr>
-                <td class="th">徒孙给师傅的红包</td>
-                <td class="td"><input id="child_packet_min" name="child_packet_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="child_packet_max" name="child_packet_max" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
-            </tr>
+            
             <tr>
                 <td class="th">徒孙给师傅的红包总数</td>
                 <td class="td"><input id="child_packet_count" name="child_packet_count" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">徒孙给师傅的红包总数</td>
-                <td class="td"><input id="child_packet_count_min" name="child_packet_count_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="child_packet_count_max" name="child_packet_count_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+           
             <tr>
                 <td class="th">升级奖励</td>
                 <td class="td"><input id="upgrade_awards" name="upgrade_awards" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">升级奖励</td>
+                <td class="th">升级奖励从</td>
                 <td class="td"><input id="upgrade_awards_min" name="upgrade_awards_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
@@ -324,7 +282,7 @@
                 <td class="td"><input id="member_income" name="member_income" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">会员收入</td>
+                <td class="th">会员收入从</td>
                 <td class="td"><input id="member_income_min" name="member_income_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
@@ -336,7 +294,7 @@
                 <td class="td"><input id="platform_income" name="platform_income" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
-                <td class="th">平台收入</td>
+                <td class="th">平台收入从</td>
                 <td class="td"><input id="platform_income_min" name="platform_income_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
             <tr>
@@ -347,14 +305,7 @@
                 <td class="th">弟子总数</td>
                 <td class="td"><input id="total_child" name="total_child" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
             </tr>
-            <tr>
-                <td class="th">弟子总数</td>
-                <td class="td"><input id="total_child_min" name="total_child_min" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="total_child_max" name="total_child_max" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
-            </tr>
+            
             <tr>
                 <td class="th">备注</td>
                 <td class="td"><input id="remark" name="remark" type="text" class="input"></td>

@@ -70,7 +70,10 @@ public class FileController extends BaseController {
         String key = StringUtil.getPK();
         fileUpLoad.write(fileItem, key);
         
-        path = "/xyp-manager/" + path + "/" + dateDir + "/" + key + fileUpLoad.getFileExt(fileItem);
+		String webRoot = request.getContextPath();
+		System.out.println("webRoot:" + webRoot);
+		
+        path = webRoot+ "/" + path + "/" + dateDir + "/" + key + fileUpLoad.getFileExt(fileItem);
         String absolutePath = temp + "/" + key + fileUpLoad.getFileExt(fileItem);
         String name = fileItem.getName();
         boolean w=StringUtil.isEmpty(width);

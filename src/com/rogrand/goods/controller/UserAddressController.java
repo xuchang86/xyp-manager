@@ -1,4 +1,4 @@
-package com.rogrand.login.controller;
+package com.rogrand.goods.controller;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -15,80 +15,80 @@ import com.rogrand.core.domain.PageResult;
 import com.rogrand.core.domain.PageParam;
 import com.rogrand.core.util.BeanUtil;
 import com.rogrand.core.util.EasyuiUtil;
-import com.rogrand.login.domain.LoginUser;
-import com.rogrand.login.service.LoginUserService;
+import com.rogrand.goods.domain.UserAddress;
+import com.rogrand.goods.service.UserAddressService;
 
 /**
  * 版权：LAB <br/>
  * 作者：dailing <br/>
- * 生成日期：2016-11-12 <br/>
- * 描述：逍遥派用户 Controller
+ * 生成日期：2016-11-30 <br/>
+ * 描述：个人收货地址 Controller
  */
-@Controller("LoginUserController")
-@RequestMapping("/login/loginUser_*.do")
-public class LoginUserController extends BaseController{
+@Controller("UserAddressController")
+@RequestMapping("/goods/userAddress_*.do")
+public class UserAddressController extends BaseController{
 
     @Autowired
-    @Qualifier("LoginUserService")
-    private LoginUserService loginUserService;
+    @Qualifier("UserAddressService")
+    private UserAddressService userAddressService;
 
-    @ActionAnnotation(name = "逍遥派用户入口",group = "查询")
+    @ActionAnnotation(name = "个人收货地址入口",group = "查询")
     public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return getView(request);
     }
 
-    @ActionAnnotation(name = "逍遥派用户分页",group = "查询")
+    @ActionAnnotation(name = "个人收货地址分页",group = "查询")
     public ModelAndView page(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        PageParam loginUser = BeanUtil.wrapPageBean(request);
-        PageResult pageResult = loginUserService.pageList(loginUser);
+        PageParam userAddress = BeanUtil.wrapPageBean(request);
+        PageResult pageResult = userAddressService.pageList(userAddress);
         return responseText(response, EasyuiUtil.toDataGridData(pageResult));
     }
 
-    @ActionAnnotation(name = "逍遥派用户详细",group = "查询")
+    @ActionAnnotation(name = "个人收货地址详细",group = "查询")
     public ModelAndView view(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String,Object> model = new HashMap<String,Object>();
-        LoginUser loginUser = loginUserService.query(request.getParameter("id"));
-        model.put("loginUser1",loginUser);
+        UserAddress userAddress = userAddressService.query(request.getParameter("id"));
+        model.put("userAddress",userAddress);
         return getView(request,model);
     }
 
-    @ActionAnnotation(name = "逍遥派用户添加",group = "添加")
+    @ActionAnnotation(name = "个人收货地址添加",group = "添加")
     public ModelAndView add(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return getView(request);
     }
 
-    @ActionAnnotation(name = "逍遥派用户添加保存",group = "添加",log = true)
+    @ActionAnnotation(name = "个人收货地址添加保存",group = "添加",log = true)
     public ModelAndView addSave(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LoginUser loginUser = BeanUtil.wrapBean(LoginUser.class, request.getParameter("loginUser"));
-        String result = loginUserService.create(loginUser);
+        UserAddress userAddress = BeanUtil.wrapBean(UserAddress.class, request.getParameter("userAddress"));
+        String result = userAddressService.create(userAddress);
         return responseText(response, result);
     }
 
-    @ActionAnnotation(name = "逍遥派用户修改",group = "修改")
+    @ActionAnnotation(name = "个人收货地址修改",group = "修改")
     public ModelAndView edit(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String,Object> model = new HashMap<String,Object>();
-        LoginUser loginUser = loginUserService.query(request.getParameter("id"));
-        model.put("loginUser1",loginUser);
+        UserAddress userAddress = userAddressService.query(request.getParameter("id"));
+        model.put("userAddress",userAddress);
         return getView(request,model);
     }
 
-    @ActionAnnotation(name = "逍遥派用户修改保存",group = "修改",log = true)
+    @ActionAnnotation(name = "个人收货地址修改保存",group = "修改",log = true)
     public ModelAndView editSave(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        LoginUser loginUser = BeanUtil.wrapBean(LoginUser.class, request.getParameter("loginUser1"));
-        String result = loginUserService.update(loginUser);
+        UserAddress userAddress = BeanUtil.wrapBean(UserAddress.class, request.getParameter("userAddress"));
+        String result = userAddressService.update(userAddress);
         return responseText(response, result);
     }
 
-    @ActionAnnotation(name = "逍遥派用户删除",group = "删除",log = true)
+    @ActionAnnotation(name = "个人收货地址删除",group = "删除",log = true)
     public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String result = loginUserService.delete(request.getParameter("id"));
+        String result = userAddressService.delete(request.getParameter("id"));
         return responseText(response, result);
     }
 
-    @ActionAnnotation(name = "逍遥派用户批量删除",group = "删除",log = true)
+    @ActionAnnotation(name = "个人收货地址批量删除",group = "删除",log = true)
     public ModelAndView deleteBatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String[] ids = BeanUtil.wrapArray(String.class, request.getParameter("ids"));
-        String result = loginUserService.delete(ids);
+        String result = userAddressService.delete(ids);
         return responseText(response, result);
     }
 }

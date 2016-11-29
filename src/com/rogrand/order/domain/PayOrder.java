@@ -25,6 +25,8 @@ public class PayOrder extends Base {
 
     @FieldAnnotation(comment = "付款金额", exp = true, imp = true, empty = true, len = 10, scale = 2)
     private Double pay_amount;
+    
+    private String user_name;
 
 
     /**
@@ -123,4 +125,18 @@ public class PayOrder extends Base {
         putField("pay_amount");
         this.pay_amount = pay_amount;
     }
+
+	/**
+	 * @return the user_name
+	 */
+	public String getUser_name() {
+		return user_name;
+	}
+
+	/**
+	 * @param user_name the user_name to set
+	 */
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
 }

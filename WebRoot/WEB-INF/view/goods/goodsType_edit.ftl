@@ -15,6 +15,7 @@
         $(function(){
             $("body").layout();
             $('#form input.easyui-numberbox').numberbox();
+            initImageAjaxUpload("uploadPicture");
         });
 
         function save() {
@@ -35,6 +36,39 @@
                 }else{
                 	$.messager.alert("提示",result,"info");
                 	$.hideLoad();
+                }
+            });
+        }
+
+        function initImageAjaxUpload(uploadId) {
+            var uploader = $("#" + uploadId);
+            new AjaxUpload(uploader, {
+                action: path + "/file/upload.do?maxRequestSize=500&path=pictures/image",
+                name: 'file_path',
+                onSubmit: function(file, ext) {
+                    if (ext && /^(jpeg|jpg|bmp|png)$/.test(ext)) { //过滤上传文件格式
+                        ext_str = ext;
+                    } else {
+                        $.messager.alert('错误信息', '非图片文件格式,请重传！', 'error');
+                        return false;
+                    }
+                    $.showLoad();
+                },
+                onComplete: function(file, response) {
+                    $.hideLoad();
+                    if (response == "outofsize") {
+                        $.messager.alert("系统提示", "文件过大，无法上传！", "info");
+                    } else if (response == "errorDimension") {
+                        $.messager.alert("系统提示", "图片尺寸必须是128*128", "info");
+                    } else if (response == "error") {
+                        $.messager.alert("系统提示", "图片上传失败，请重新上传！", "info");
+                    } else {
+                        eval("res=" + response);
+                        var imgurl = res.path;
+                        $('#urlImg').attr('src', imgurl); //图片控件地址
+                        $('#urlLink').attr('href', imgurl); //点击图片连接地址
+                        $('#url').val(imgurl); //设置图片字段属性值
+                    }
                 }
             });
         }
@@ -62,13 +96,28 @@
                 <td class="th">类型编码</td>
                 <td class="td"><input type="text" id="number" name="number" class="input easyui-validatebox" validType="maxLength[20]" value="${(goodsType.number)!}" style="width:300px;"/></td>
             </tr>
+             <tr>
+                <td class="th">图片</td>
+                <td class="td"><a id="urlLink" href="${(goodsType.url)!}" target="_blank"> <img id="urlImg" src="${(goodsType.url)!}"></a></td>
+            </tr>
+            <tr>
+                <td class="th">上传图片</td>
+                <td class="td">
+                    <a href="javascript:void(0)" style="pointer: cursor" id="uploadPicture" class="easyui-linkbutton" icon="icon-importPic" plain="true">上传图片&nbsp;&nbsp;</a>
+                    <div> 图片支持jpg，png，bmp</div>
+                    <input type="hidden" id="url" name="url" value="${(goodsType.url)!}">
+                </td>
+            </tr>
             <tr>
                 <td class="th">类型级别</td>
                 <td class="td"><input type="text" id="level" readOnly="true" name="level" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(goodsType.level)!}" style="width:300px;background-color:#efefef;"/></td>
             </tr>
             <tr>
-                <td class="th">上级id</td>
-                <td class="td"><input type="text" id="parent_id" readOnly="true" name="parent_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(goodsType.parent_id)!}" style="width:300px;background-color:#efefef;"/></td>
+                <td class="th">上级类型</td>
+                <td class="td">
+                    <input type="text" id="parent_name" name="parent_name" readOnly="true" value="${(goodsType.parent_name)!}"  class="input" style="width:300px;background-color:#efefef;"/>
+                    <input type="hidden" id="parent_id" readOnly="true" name="parent_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(goodsType.parent_id)!}" style="width:300px;background-color:#efefef;"/>
+                </td>
             </tr>
         </table>
     </form>

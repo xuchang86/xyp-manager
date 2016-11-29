@@ -21,7 +21,7 @@
             if (!$("#form").form("validate")) return;
             var loginUser1 = $("#form").serializeJson();
             $.showLoad();
-            $.ajaxPost("${path}/login/loginUser1_editSave.do", {"loginUser1":loginUser1}, function(result) {
+            $.ajaxPost("${path}/login/loginUser_editSave.do", {"loginUser1":loginUser1}, function(result) {
                 if(result=="1"){
                 	window.parent.$.messager.show({
                         title:"消息提醒",

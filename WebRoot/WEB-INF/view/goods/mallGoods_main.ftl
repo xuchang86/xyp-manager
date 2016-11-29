@@ -37,6 +37,9 @@
                 onLoadSuccess:function(data){
                     delete $("#table").datagrid("options").queryParams.refresh;
                 },
+                onClickRow:function(rowIndex,rowData){
+                    gridRowClick(rowIndex,rowData);
+                },
                 frozenColumns:[[
                     {field:'ck',checkbox:true},
                     {title:'操作',field:'id',width:120,sortable:false,align:"center",
@@ -173,6 +176,14 @@
                     });
                 }
             });
+        }
+
+        //行点击事件
+        function gridRowClick(index, rowData) {
+            if (from) {
+                window.opener.goodsCallBack(rowData);
+                window.close();
+            }
         }
 
         /**

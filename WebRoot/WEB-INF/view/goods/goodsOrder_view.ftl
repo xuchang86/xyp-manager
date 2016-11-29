@@ -35,20 +35,16 @@
                 <td class="td">${(goodsOrder.number)!}</td>
             </tr>
             <tr>
-                <td class="th">创建时间</td>
-                <td class="td"><@dateOut goodsOrder.create_date/></td>
+                <td class="th">商品名称</td>
+                <td class="td">${(goodsOrder.goods_name)!}</td>
             </tr>
             <tr>
-                <td class="th">付款时间</td>
-                <td class="td"><@dateOut goodsOrder.pay_date/></td>
+                <td class="th">商品型号</td>
+                <td class="td">${(goodsOrder.goods_model)!}</td>
             </tr>
             <tr>
-                <td class="th">创建用户id</td>
-                <td class="td">${(goodsOrder.user_id)!}</td>
-            </tr>
-            <tr>
-                <td class="th">商品id(多个以逗号隔开)</td>
-                <td class="td">${(goodsOrder.goods_id)!}</td>
+                <td class="th">收货城市</td>
+                <td class="td">${(goodsOrder.address_name)!}</td>
             </tr>
             <tr>
                 <td class="th">收货地址</td>
@@ -64,7 +60,34 @@
             </tr>
             <tr>
                 <td class="th">订单状态</td>
-                <td class="td">${(goodsOrder.state)!}</td>
+                <td class="td">
+                    <#if goodsOrder.state=="todo">
+                    待付款
+                    <#elseif goodsOrder.state=="paying">
+                    已付款
+                    <#elseif goodsOrder.state=="to">
+                    已发货
+                    <#elseif goodsOrder.state=="get">
+                    已收货
+                    <#elseif goodsOrder.state=="after_sale">
+                    售后
+                    <#elseif goodsOrder.state=="sales_return">
+                    退货
+                    <#else>
+                    </#if>
+                </td>
+            </tr>
+            <tr>
+                <td class="th">创建时间</td>
+                <td class="td"><@dateOut goodsOrder.create_date/></td>
+            </tr>
+            <tr>
+                <td class="th">付款时间</td>
+                <td class="td"><@dateOut goodsOrder.pay_date/></td>
+            </tr>
+            <tr>
+                <td class="th">创建用户</td>
+                <td class="td">${(goodsOrder.user_name)!}</td>
             </tr>
         </table>
     </div>
