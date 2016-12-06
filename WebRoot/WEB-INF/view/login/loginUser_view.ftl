@@ -75,6 +75,10 @@
                 <td class="td"><#if loginUser1.ispay==0>否<#elseif loginUser1.ispay==1>是<#else></#if></td>
             </tr>
             <tr>
+                <td class="th">权限等级</td>
+                <td class="td"><#if loginUser1.permission==0>普通权限<#elseif loginUser1.permission==1>发布权限<#elseif loginUser1.permission==2>所有权限<#else>无</#if></td>
+            </tr>
+            <tr>
                 <td class="th">个人头像</td>
                 <td class="td">${(loginUser1.url)!}</td>
             </tr>

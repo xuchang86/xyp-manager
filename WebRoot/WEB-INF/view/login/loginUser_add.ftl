@@ -89,10 +89,21 @@
             <tr>
                 <td class="th">性别</td>
                 <td class="td">
-                 <select>
+                 <select id="sex" name="sex">
                   <option value="0">男</option>
 	              <option value="1">女</option>
 				 </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="th">权限等级</td>
+                <td class="td">
+                <select id="permission" name="permission">
+                  <option value="">无</option>
+                  <option value="0">普通权限</option>
+                  <option value="1">发布权限</option>
+                  <option value="2">所有权限</option>
+                </select>
                 </td>
             </tr>
             <tr>
@@ -102,16 +113,13 @@
             <tr>
                 <td class="th">是否已付款</td>
                 <td class="td">
-                 <select>
+                 <select id="ispay" name="ispay">
                   <option value="0">否</option>
 	              <option value="1">是</option>
 				</select>
                 </td>
             </tr>
-            <tr>
-                <td class="th">个人头像</td>
-                <td class="td"><input type="text" id="url" name="url" class="input easyui-validatebox" validType="maxLength[100]" style="width:300px;"/></td>
-            </tr>
+            
         </table>
     </form>
 </div>

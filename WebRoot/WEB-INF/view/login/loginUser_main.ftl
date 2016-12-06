@@ -86,6 +86,23 @@
                        }
                     }
                     },
+                    {
+                        title: '权限等级',
+                        field: 'permission',
+                        width: 150,
+                        sortable: true,
+                        formatter: function(value, data, index) {
+                            if (value == 0) {
+                                return "普通权限";
+                            } else if (value == 1) {
+                                return "发布权限";
+                            } else if(value==2){
+                                return "所有权限";
+                            }else{
+                                return "无";
+                            }
+                        }
+                    },
                     {title:'个人头像',field:'url',width:150,sortable:true}
                 ]],
                 toolbar:[
@@ -298,6 +315,17 @@
                         <option value="">请选择</option>
                         <option value="0">男</option>
                         <option value="1">女</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="th">权限等级</td>
+                <td class="td">
+                    <select id="permission" name="permission">
+                        <option value="">请选择</option>
+                        <option value="0">普通权限</option>
+                        <option value="1">发布权限</option>
+                        <option value="2">所有权限</option>
                     </select>
                 </td>
             </tr>

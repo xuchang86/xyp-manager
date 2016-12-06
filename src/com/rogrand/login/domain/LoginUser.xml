@@ -20,6 +20,10 @@ Date: 2016-11-12 17:18:21
             <isNotEmpty prepend="and" property="id">
                 <![CDATA[ id = #id# ]]>
             </isNotEmpty>
+            <!-- 用户权限 -->
+            <isNotEmpty prepend="and" property="permission">
+                <![CDATA[ permission = #permission# ]]>
+            </isNotEmpty>
             <!--主键最大值-->
             <isNotEmpty prepend="and" property="id_max">
                 <![CDATA[ id <= #id_max# ]]>
@@ -124,7 +128,8 @@ Date: 2016-11-12 17:18:21
                 sex,
                 username,
                 ispay,
-                url
+                url,
+                permission
             from T_LOGIN_USER
         ]]>
         <include refid="pageWhere"/>
@@ -147,7 +152,8 @@ Date: 2016-11-12 17:18:21
                 sex,
                 username,
                 ispay,
-                url
+                url,
+                permission
             ) values (
                 #phone:VARCHAR#,
                 #password:VARCHAR#,
@@ -160,7 +166,8 @@ Date: 2016-11-12 17:18:21
                 #sex:NUMERIC#,
                 #username:VARCHAR#,
                 #ispay:NUMERIC#,
-                #url:VARCHAR#
+                #url:VARCHAR#,
+                #permission:NUMERIC#
             )
         ]]>
         <!--
@@ -188,7 +195,8 @@ Date: 2016-11-12 17:18:21
                 sex,
                 username,
                 ispay,
-                url
+                url,
+                permission
             ) values
         ]]>
         <iterate  conjunction =",">
@@ -205,7 +213,8 @@ Date: 2016-11-12 17:18:21
                     #[].sex:NUMERIC#,
                     #[].username:VARCHAR#,
                     #[].ispay:NUMERIC#,
-                    #[].url:VARCHAR#
+                    #[].url:VARCHAR#,
+                    #[].permission:NUMERIC#
                 )
             ]]>   
         </iterate>
@@ -247,6 +256,9 @@ Date: 2016-11-12 17:18:21
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.ispay">
                 <![CDATA[ ispay=#ispay:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.permission">
+                <![CDATA[ permission=#permission:NUMERIC# ]]>
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.url">
                 <![CDATA[ url=#url:VARCHAR# ]]>

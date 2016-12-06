@@ -89,10 +89,21 @@
             <tr>
                 <td class="th">性别</td>
                 <td class="td">
-                <select>
+                <select id="sex" name="sex">
                   <option value="0" <#if loginUser1.sex=="0">selected</#if>>男</option>
 	              <option value="1" <#if loginUser1.sex=="1">selected</#if>>女</option>
 				</select>
+                </td>
+            </tr>
+            <tr>
+                <td class="th">权限等级</td>
+                <td class="td">
+                <select id="permission" name="permission">
+                  <option value="">无</option>
+                  <option value="0" <#if loginUser1.permission=="0">selected</#if>>普通权限</option>
+                  <option value="1" <#if loginUser1.permission=="1">selected</#if>>发布权限</option>
+                  <option value="2" <#if loginUser1.permission=="2">selected</#if>>所有权限</option>
+                </select>
                 </td>
             </tr>
             <tr>
@@ -102,16 +113,13 @@
             <tr>
                 <td class="th">是否已付款</td>
                 <td class="td">
-                <select>
+                <select id="ispay" name="ispay">
                   <option value="0" <#if loginUser1.ispay=="0">selected</#if>>否</option>
 	              <option value="1" <#if loginUser1.ispay=="1">selected</#if>>是</option>
 				</select>
                 </td>
             </tr>
-            <tr>
-                <td class="th">个人头像</td>
-                <td class="td"><input type="text" id="url" name="url" class="input easyui-validatebox" validType="maxLength[100]" value="${(loginUser1.url)!}" style="width:300px;"/></td>
-            </tr>
+            
         </table>
     </form>
 </div>
