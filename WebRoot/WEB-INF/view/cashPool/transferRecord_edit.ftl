@@ -54,22 +54,38 @@
         <table class="table-border" width="100%">
             <col width="20%">
             <col width="80%">
+
+            <tr>
+                <td class="th">提现金额</td>
+                <td class="td"><input type="text" readonly="true"  id="amount" name="amount" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" value="${(transferRecord.amount)!}" style="width:300px;"/></td>
+            </tr>
+
             <tr>
                 <td class="th">提现日期</td>
-                <td class="td"><input type="text" id="date" name="date" class="input Wdate" onclick="WdatePicker()" value="<@dateOut transferRecord.date/>" style="width:300px;"/></td>
+                <td class="td" >
+                    <input type="text" id="date" readonly="true" name="date" class="input Wdate" value="<@dateOut transferRecord.date/>" style="width:300px;"/>
+                </td>
             </tr>
             <tr>
                 <td class="th">提现人</td>
-                <td class="td"><input type="text" id="operator" name="operator" class="input easyui-validatebox" validType="maxLength[50]" value="${(transferRecord.operator)!}" style="width:300px;"/></td>
+                <td class="td"><input type="text" readonly="true" id="operator" name="operator" class="input easyui-validatebox" validType="maxLength[50]" value="${(transferRecord.operator)!}" style="width:300px;"/></td>
             </tr>
             <tr>
                 <td class="th">提现账户</td>
-                <td class="td"><input type="text" id="account_id" name="account_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(transferRecord.account_id)!}" style="width:300px;"/></td>
+                <td class="td">
+                    <input type="text" readonly="true" id="account" name="account" class="input easyui-validatebox" validType="maxLength[50]" value="${(transferRecord.account)!}" style="width:300px;"/>
+
+                    <input type="hidden" readonly="true"  id="account_id" name="account_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" value="${(transferRecord.account_id)!}" style="width:300px;"/>
+                </td>
             </tr>
+
             <tr>
-                <td class="th">提现金额</td>
-                <td class="td"><input type="text" id="amount" name="amount" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" value="${(transferRecord.amount)!}" style="width:300px;"/></td>
+                <td class="th">提现银行</td>
+                <td class="td">
+                    <input type="text" readonly="true" id="account_name" name="account_name" class="input easyui-validatebox" validType="maxLength[50]" value="${(transferRecord.account_name)!}" style="width:300px;"/>
+                </td>
             </tr>
+
         </table>
     </form>
 </div>

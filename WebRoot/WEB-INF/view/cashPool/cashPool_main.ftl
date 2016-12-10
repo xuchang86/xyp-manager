@@ -60,6 +60,11 @@
                     },
                     "-",
                     {
+                        handler:reducePlatform,
+                        text:"提现",
+                        iconCls:"icon-ok"
+                    },
+                    {
                         disabled:true,
                         text:"删除",
                         iconCls:"icon-remove"
@@ -67,6 +72,21 @@
                 ]
             });
         });
+        
+        var datas = [];
+        //提现
+        function reducePlatform() {
+            //先刷新数据获取最新数据
+            reloadPage();
+
+            datas = $("#table").datagrid("getData").rows;
+            var url = "${path}/cash/CashPool.jsp?from=f7";
+            var width = 800; //窗口宽度
+            var height = 400; //窗口高度
+            var top = (window.screen.height - 30 - height) / 2;
+            var left = (window.screen.width - 10 - width) / 2;
+            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
+        }
 
         /**
          * 显示资金池添加对话框

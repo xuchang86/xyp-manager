@@ -17,6 +17,7 @@
     <title>银行账户信息管理</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
+        var from = getUrlParam("from");
         $(function() {
             $("body").layout();
             $("#form").css("display","block");
@@ -30,6 +31,9 @@
                 queryParams:{"refresh":"1"},
                 onLoadSuccess:function(data){
                     delete $("#table").datagrid("options").queryParams.refresh;
+                },
+                onClickRow:function(rowIndex,rowData){
+                    gridRowClick(rowIndex,rowData);
                 },
                 frozenColumns:[[
                     {field:'ck',checkbox:true},
@@ -51,7 +55,7 @@
                     }
                 ]],
                 columns:[[
-                    {title:'银行名称',field:'name',width:150,sortable:true},
+                    {title:'银行名称',field:'name',width:180,sortable:true},
                     {title:'银行账户',field:'account',width:150,sortable:true},
                     {title:'收款人',field:'receiver',width:150,sortable:true}
                 ]],
@@ -162,6 +166,15 @@
                 });
             }
         }
+
+        //行点击事件
+       function gridRowClick(index, rowData) {
+           if (from) {
+               window.opener.scope.bankAccountCallBack(rowData);
+               window.close();
+           }
+       }
+
 
         /**
          * 查看银行账户信息详细

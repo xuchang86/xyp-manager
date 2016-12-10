@@ -41,20 +41,15 @@
                             <#else>
                             link+="<span style='color:#808080'>修改</span>&nbsp;";
                             </#if>
-                            <#if checkDelete>
-                            link+="<a href=\"javascript:void(0)\" onclick=\"del(event, '" + value + "')\">删除</a>&nbsp;";
-                            <#else>
-                            link+="<span style='color:#808080'>删除</span>&nbsp;";
-                            </#if>
                             return link;
                         }
                     }
                 ]],
                 columns:[[
-                    {title:'提现金额',field:'amount',width:150,sortable:true},
+                    {title:'提现金额',field:'amount',width:100,sortable:true},
                     {title:'提现人',field:'operator',width:150,sortable:true},
-                    {title:'提现账户',field:'account',width:150,sortable:true},
-                    {title:'提现银行',field:'account_name',width:150,sortable:true},
+                    {title:'提现账户',field:'account',width:200,sortable:true},
+                    {title:'提现银行',field:'account_name',width:200,sortable:true},
                     {title:'提现日期',field:'date',width:150,sortable:true}
                 ]],
                 toolbar:[
@@ -70,11 +65,7 @@
                         iconCls:"icon-add"
                     },
                     {
-                        <#if checkDelete>
-                        handler:delBatch,
-                        <#else>
                         disabled:true,
-                        </#if>
                         text:"删除",
                         iconCls:"icon-remove"
                     }

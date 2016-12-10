@@ -31,6 +31,11 @@
             <col width="20%">
             <col width="80%">
             <tr>
+                <td class="th">提现金额</td>
+                <td class="td">${(transferRecord.amount)!}</td>
+            </tr>
+
+            <tr>
                 <td class="th">提现日期</td>
                 <td class="td"><@dateOut transferRecord.date/></td>
             </tr>
@@ -40,12 +45,13 @@
             </tr>
             <tr>
                 <td class="th">提现账户</td>
-                <td class="td">${(transferRecord.account_id)!}</td>
+                <td class="td">${(transferRecord.account)!}</td>
             </tr>
             <tr>
-                <td class="th">提现金额</td>
-                <td class="td">${(transferRecord.amount)!}</td>
+                <td class="th">提现银行</td>
+                <td class="td">${(transferRecord.account_name)!}</td>
             </tr>
+            
         </table>
     </div>
 </div>
