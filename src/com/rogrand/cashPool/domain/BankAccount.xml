@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+银行账户信息
+User: Created by auto build
+Date: 2016-12-10 12:33:28
+-->
+<sqlMap namespace="t_bank_account">
+
+    <typeAlias alias="T_BANK_ACCOUNT" type="com.rogrand.cashPool.domain.BankAccount" />
+
+    <!--银行账户信息分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--银行名称-->
+            <isNotEmpty prepend="and" property="name">
+                <![CDATA[ instr(name, #name#) > 0 ]]>
+            </isNotEmpty>
+            <!--银行账户-->
+            <isNotEmpty prepend="and" property="account">
+                <![CDATA[ instr(account, #account#) > 0 ]]>
+            </isNotEmpty>
+            <!--收款人-->
+            <isNotEmpty prepend="and" property="receiver">
+                <![CDATA[ instr(receiver, #receiver#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--银行账户信息分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_BANK_ACCOUNT
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--银行账户信息分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_BANK_ACCOUNT">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                name,
+                account,
+                receiver
+            from T_BANK_ACCOUNT
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建银行账户信息-->
+    <insert id="create" parameterClass="T_BANK_ACCOUNT">
+        <![CDATA[
+            insert into T_BANK_ACCOUNT(
+                name,
+                account,
+                receiver
+            ) values (
+                #name:VARCHAR#,
+                #account:VARCHAR#,
+                #receiver:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建银行账户信息-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_BANK_ACCOUNT(
+                name,
+                account,
+                receiver
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].name:VARCHAR#,
+                    #[].account:VARCHAR#,
+                    #[].receiver:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新银行账户信息-->
+    <update id="update" parameterClass="T_BANK_ACCOUNT">
+        <![CDATA[ update T_BANK_ACCOUNT ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.name">
+                <![CDATA[ name=#name:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.account">
+                <![CDATA[ account=#account:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.receiver">
+                <![CDATA[ receiver=#receiver:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除银行账户信息-->
+    <delete id="delete" parameterClass="T_BANK_ACCOUNT">
+        <![CDATA[
+            delete from T_BANK_ACCOUNT where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>

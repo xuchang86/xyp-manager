@@ -1,8 +1,8 @@
 <#--
 版权：LAB <br/>
 作者：dailing <br/>
-生成日期：2016-11-13 <br/>
-描述：资金池主页面
+生成日期：2016-12-10 <br/>
+描述：银行账户信息主页面
 -->
 <#include "/WEB-INF/view/macro.ftl"/>
 
@@ -14,7 +14,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>资金池管理</title>
+    <title>银行账户信息管理</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
         $(function() {
@@ -41,16 +41,19 @@
                             <#else>
                             link+="<span style='color:#808080'>修改</span>&nbsp;";
                             </#if>
-                            
+                            <#if checkDelete>
+                            link+="<a href=\"javascript:void(0)\" onclick=\"del(event, '" + value + "')\">删除</a>&nbsp;";
+                            <#else>
+                            link+="<span style='color:#808080'>删除</span>&nbsp;";
+                            </#if>
                             return link;
                         }
                     }
                 ]],
                 columns:[[
-                    {title:'平台收入',field:'platform',width:150,sortable:true},
-                   
-                    {title:'创建用户',field:'user_name',width:150,sortable:true},
-                    {title:'创建时间',field:'createdate',width:150,sortable:true},
+                    {title:'银行名称',field:'name',width:150,sortable:true},
+                    {title:'银行账户',field:'account',width:150,sortable:true},
+                    {title:'收款人',field:'receiver',width:150,sortable:true}
                 ]],
                 toolbar:[
                     {
@@ -60,7 +63,20 @@
                     },
                     "-",
                     {
+                        <#if checkAdd>
+                        handler:add,
+                        <#else>
                         disabled:true,
+                        </#if>
+                        text:"添加",
+                        iconCls:"icon-add"
+                    },
+                    {
+                        <#if checkDelete>
+                        handler:delBatch,
+                        <#else>
+                        disabled:true,
+                        </#if>
                         text:"删除",
                         iconCls:"icon-remove"
                     }
@@ -69,7 +85,7 @@
         });
 
         /**
-         * 显示资金池添加对话框
+         * 显示银行账户信息添加对话框
          */
         function add() {
             $("#dialog").css("display","block").dialog({
@@ -79,11 +95,11 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src", "${path}/cashPool/cashPool_add.do");
+            $("#iframe").attr("src", "${path}/cashPool/bankAccount_add.do");
         }
 
         /**
-         * 显示资金池修改对话框
+         * 显示银行账户信息修改对话框
          */
         function edit(event, value) {
             $.event.fix(event).stopPropagation();
@@ -94,17 +110,17 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src","${path}/cashPool/cashPool_edit.do?id="+value);
+            $("#iframe").attr("src","${path}/cashPool/bankAccount_edit.do?id="+value);
         }
 
         /**
-         * 删除资金池
+         * 删除银行账户信息
          */
         function del(event,val) {
             $.event.fix(event).stopPropagation();
             $.messager.confirm("提示信息", "你确认要删除该记录吗？", function(b) {
                 if (b) {
-                    $.ajaxPost("${path}/cashPool/cashPool_delete.do",{"id":val},function(result){
+                    $.ajaxPost("${path}/cashPool/bankAccount_delete.do",{"id":val},function(result){
                         $.messager.show({
                             title:"消息提醒",
                             msg:"记录删除成功",
@@ -118,7 +134,7 @@
         }
 
         /**
-         * 批量删除资金池
+         * 批量删除银行账户信息
          */
         function delBatch(){
             var selections=$("#table").datagrid("getSelections");
@@ -133,7 +149,7 @@
                            ids.push(o.id);
                         });
 
-                        $.ajaxPost("${path}/cashPool/cashPool_deleteBatch.do", {"ids":ids}, function(result) {
+                        $.ajaxPost("${path}/cashPool/bankAccount_deleteBatch.do", {"ids":ids}, function(result) {
                             $.messager.show({
                                 title:"消息提醒",
                                 msg:"记录删除成功",
@@ -148,7 +164,7 @@
         }
 
         /**
-         * 查看资金池详细
+         * 查看银行账户信息详细
          */
         function view(event,value){
             $.event.fix(event).stopPropagation();
@@ -159,14 +175,14 @@
                 onMove:function(left,top){$.adjustPosition("dialog",left,top)},
                 onBeforeClose:function(){$.restoreDialog("dialog")}
             });
-            $("#iframe").attr("src","${path}/cashPool/cashPool_view.do?id="+value);
+            $("#iframe").attr("src","${path}/cashPool/bankAccount_view.do?id="+value);
         }
 
         /**
          * 刷新页面
          */
         function refreshPage(){
-            window.location="${path}/cashPool/cashPool_main.do";
+            window.location="${path}/cashPool/bankAccount_main.do";
             return false;
         }
 
@@ -188,24 +204,10 @@
                 $("#form select").val("");
             }
 
-            var cashPool = $("#form").serializeJson();
-            cashPool.refresh = "1"; //刷新记录数参数
-            $("#table").datagrid("clearSelections").datagrid("load",cashPool);
+            var bankAccount = $("#form").serializeJson();
+            bankAccount.refresh = "1"; //刷新记录数参数
+            $("#table").datagrid("clearSelections").datagrid("load",bankAccount);
         }
-
-        function creatorClick(){
-            var url = "${path}/login/loginUser_main.do?from=f7";
-            var width = 800; //窗口宽度
-            var height = 400; //窗口高度
-            var top = (window.screen.height - 30 - height) / 2;
-            var left = (window.screen.width - 10 - width) / 2;
-            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
-        }
-
-        function userCallBack(rowData){
-            $("#user_id").val(rowData.id);
-        }
-
     </script>
 </head>
 <body class="easyui-layout">
@@ -213,32 +215,17 @@
     <form id="form" name="form" style="display: none">
         <table class="table">
             <tr>
-                <td class="th">平台收入</td>
-                <td class="td"><input id="platform" name="platform" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
+                <td class="th">银行名称</td>
+                <td class="td"><input id="name" name="name" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">平台收入从</td>
-                <td class="td"><input id="platform_min" name="platform_min" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
+                <td class="th">银行账户</td>
+                <td class="td"><input id="account" name="account" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="platform_max" name="platform_max" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
+                <td class="th">收款人</td>
+                <td class="td"><input id="receiver" name="receiver" type="text" class="input"></td>
             </tr>
-
-            <tr>
-                <td class="th">用户名称</td>
-                <td class="td"><input id="user_id" name="user_id" type="text" onclick="creatorClick()" class="input search" /></td>
-            </tr>
-            
-            <tr>
-                <td class="th">创建时间</td>
-                <td class="td"><input id="createdate_begin" name="createdate_begin" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
-            </tr>
-            <tr>
-                <td class="th">至</td>
-                <td class="td"><input id="createdate_end" name="createdate_end" type="text" class="input Wdate" onclick="WdatePicker()"/></td>
-            </tr>
-           
             <tr>
                 <td colspan="2" style="text-align:center;" class="td">
                     <a href="javascript:searchPage(false)" class="easyui-linkbutton" icon="icon-search" id="searchBtn">查询</a>
@@ -248,9 +235,9 @@
         </table>
     </form>
 </div>
-<div region="center" title="当前位置：资金池管理">
+<div region="center" title="当前位置：银行账户信息管理">
     <table id="table"
-           url="${path}/cashPool/cashPool_page.do"
+           url="${path}/cashPool/bankAccount_page.do"
            border="false"         <#--无边框-->
            fit="true"             <#--自动填充宽度高度-->
            singleSelect="false"   <#--单选模式-->

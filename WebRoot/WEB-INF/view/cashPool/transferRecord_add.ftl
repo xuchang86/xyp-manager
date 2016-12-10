@@ -1,15 +1,15 @@
 <#--
 版权：LAB <br/>
 作者：dailing <br/>
-生成日期：2016-11-13 <br/>
-描述：邀请码添加页面
+生成日期：2016-12-10 <br/>
+描述：提现记录添加页面
 -->
 <#include "/WEB-INF/view/macro.ftl"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>邀请码添加</title>
+    <title>提现记录添加</title>
     <#include "/WEB-INF/view/linkScript.ftl"/>
     <script type="text/javascript">
         $(function(){
@@ -19,9 +19,9 @@
 
         function save() {
             if (!$("#form").form("validate")) return;
-            var inviteCode = $("#form").serializeJson();
+            var transferRecord = $("#form").serializeJson();
             $.showLoad();
-            $.ajaxPost("${path}/inviteCode/inviteCode_addSave.do", {"inviteCode":inviteCode}, function(result) {
+            $.ajaxPost("${path}/cashPool/transferRecord_addSave.do", {"transferRecord":transferRecord}, function(result) {
                 if(result=="1"){
                 	window.parent.$.messager.show({
                         title:"消息提醒",
@@ -37,20 +37,6 @@
                 	$.hideLoad();
                 }
             });
-        }
-
-        var creatorClick = function(){
-            var url = "${path}/login/loginUser_main.do?from=f7";
-            var width = 800; //窗口宽度
-            var height = 400; //窗口高度
-            var top = (window.screen.height - 30 - height) / 2;
-            var left = (window.screen.width - 10 - width) / 2;
-            window.open(url, "_blank", "Scrollbars=no,Toolbar=no,Location=no,titlebar=no,Direction=no,Resizeable=no,alwaysLowered=yes,Width=" + width + " ,Height=" + height + ",top=" + top + ",left=" + left);
-        }
-
-        function userCallBack(rowData){
-            $("#user_id").val(rowData.id);
-            $("#user_name").val(rowData.name);
         }
 
     </script>
@@ -69,20 +55,20 @@
             <col width="20%">
             <col width="80%">
             <tr>
-                <td class="th">邀请码</td>
-                <td class="td"><input type="text" id="number" name="number" class="input easyui-validatebox" validType="maxLength[50]" style="width:300px;"/></td>
+                <td class="th">提现日期</td>
+                <td class="td"><input type="text" id="date" name="date" class="input Wdate" onclick="WdatePicker()" style="width:300px;"/></td>
             </tr>
             <tr>
-                <td class="th">用户名称</td>
-                <td class="td">
-                    <input type="text" id="user_name" name="user_name" class="input search"  onclick="creatorClick()" style="width:300px;"/>
-
-                    <input type="hidden" id="user_id" name="user_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" style="width:300px;"/>
-                </td>
+                <td class="th">提现人</td>
+                <td class="td"><input type="text" id="operator" name="operator" class="input easyui-validatebox" validType="maxLength[50]" style="width:300px;"/></td>
             </tr>
             <tr>
-                <td class="th">聊天室ID</td>
-                <td class="td"><input type="text" id="chatroom_id" name="chatroom_id" class="input easyui-validatebox" validType="maxLength[50]" style="width:300px;"/></td>
+                <td class="th">提现账户</td>
+                <td class="td"><input type="text" id="account_id" name="account_id" class="input easyui-numberbox" min="0" max="9999999999" precision="0" style="width:300px;"/></td>
+            </tr>
+            <tr>
+                <td class="th">提现金额</td>
+                <td class="td"><input type="text" id="amount" name="amount" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" style="width:300px;"/></td>
             </tr>
         </table>
     </form>

@@ -36,6 +36,10 @@ Date: 2016-11-13 19:15:51
             <isNotEmpty prepend="and" property="user_id">
                 <![CDATA[ user_id = #user_id# ]]>
             </isNotEmpty>
+             <!--用户名称-->
+             <isNotEmpty prepend="and" property="user_name">
+                <![CDATA[ instr((SELECT name FROM T_LOGIN_USER where id=user_id), #user_name#) > 0 ]]>
+            </isNotEmpty>
             <!--用户ID最大值-->
             <isNotEmpty prepend="and" property="user_id_max">
                 <![CDATA[ user_id <= #user_id_max# ]]>
@@ -67,6 +71,7 @@ Date: 2016-11-13 19:15:51
                 id,
                 number,
                 user_id,
+                (SELECT name FROM T_LOGIN_USER where id=user_id) user_name,
                 chatroom_id
             from T_INVITE_CODE
         ]]>

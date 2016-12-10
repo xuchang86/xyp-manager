@@ -69,9 +69,14 @@
             <col width="20%">
             <col width="80%">
             <tr>
-                <td class="th">资金</td>
-                <td class="td"><input type="text" id="money" name="money" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" value="${(cashPool.money)!}" style="width:300px;"/></td>
+                <td class="th">平台收入</td>
+                <td class="td">
+                    <input type="text" id="platform" readonly="true" name="platform" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" value="${(cashPool.platform)!}" style="width:300px;background-color:#efefef;"/>
+
+                    <input type="hidden" id="money" readonly="true" name="money" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" value="${(cashPool.money)!}" style="width:300px;background-color:#efefef;"/>
+                </td>
             </tr>
+            
             <tr>
                 <td class="th">创建用户</td>
                 <td class="td">
@@ -81,11 +86,7 @@
             </tr>
             <tr>
                 <td class="th">创建时间</td>
-                <td class="td"><input type="text" id="createdate" name="createdate" class="input Wdate" onclick="WdatePicker()" value="<@dateOut cashPool.createdate/>" style="width:300px;"/></td>
-            </tr>
-            <tr>
-                <td class="th">平台收入</td>
-                <td class="td"><input type="text" id="platform" name="platform" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" value="${(cashPool.platform)!}" style="width:300px;"/></td>
+                <td class="td"><input type="text" id="createdate" readonly="true" name="createdate" class="input Wdate" onclick="WdatePicker()" value="<@dateOut cashPool.createdate/>" style="width:300px;"/></td>
             </tr>
         </table>
     </form>

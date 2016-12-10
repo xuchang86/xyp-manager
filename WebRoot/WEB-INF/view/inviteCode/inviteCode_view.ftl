@@ -35,8 +35,8 @@
                 <td class="td">${(inviteCode.number)!}</td>
             </tr>
             <tr>
-                <td class="th">用户ID</td>
-                <td class="td">${(inviteCode.user_id)!}</td>
+                <td class="th">用户名称</td>
+                <td class="td">${(inviteCode.user_name)!}</td>
             </tr>
             <tr>
                 <td class="th">聊天室ID</td>

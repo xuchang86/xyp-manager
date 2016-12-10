@@ -52,8 +52,8 @@
                 ]],
                 columns:[[
                     {title:'邀请码',field:'number',width:150,sortable:true},
-                    {title:'用户ID',field:'user_id',width:150,sortable:true},
-                    {title:'聊天室ID',field:'chatroom_id',width:150,sortable:true}
+                    {title:'用户名称',field:'user_name',width:150,sortable:true},
+                    {title:'聊天室id',field:'chatroom_id',width:150,sortable:true}
                 ]],
                 toolbar:[
                     {
@@ -219,12 +219,12 @@
                 <td class="td"><input id="number" name="number" type="text" class="input"></td>
             </tr>
             <tr>
-                <td class="th">用户ID</td>
-                <td class="td"><input id="user_id" name="user_id" type="text" class="input easyui-numberbox" min="0" max="9999999999" precision="0"/></td>
+                <td class="th">用户名称</td>
+                <td class="td"><input id="user_name" name="user_name" type="text" class="input" min="0" max="9999999999" precision="0"/></td>
             </tr>
             
             <tr>
-                <td class="th">聊天室ID</td>
+                <td class="th">聊天室id</td>
                 <td class="td"><input id="chatroom_id" name="chatroom_id" type="text" class="input"></td>
             </tr>
             <tr>

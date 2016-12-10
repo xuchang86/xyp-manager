@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+提现记录
+User: Created by auto build
+Date: 2016-12-10 12:33:28
+-->
+<sqlMap namespace="t_transfer_record">
+
+    <typeAlias alias="T_TRANSFER_RECORD" type="com.rogrand.cashPool.domain.TransferRecord" />
+
+    <!--提现记录分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--提现日期开始-->
+            <isNotEmpty prepend="and" property="date_begin">
+                <![CDATA[ date >= str_to_date(#date_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--提现日期结束-->
+            <isNotEmpty prepend="and" property="date_end">
+                <![CDATA[ date <= str_to_date('$date_end$ 23:59:59','%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--提现人-->
+            <isNotEmpty prepend="and" property="operator">
+                <![CDATA[ instr(operator, #operator#) > 0 ]]>
+            </isNotEmpty>
+            <!--提现账户最小值-->
+            <isNotEmpty prepend="and" property="account_id_min">
+                <![CDATA[ account_id >= #account_id_min# ]]>
+            </isNotEmpty>
+            <!--提现账户等于-->
+            <isNotEmpty prepend="and" property="account_id">
+                <![CDATA[ account_id = #account_id# ]]>
+            </isNotEmpty>
+            <!--提现账户最大值-->
+            <isNotEmpty prepend="and" property="account_id_max">
+                <![CDATA[ account_id <= #account_id_max# ]]>
+            </isNotEmpty>
+            <!--提现金额最小值-->
+            <isNotEmpty prepend="and" property="amount_min">
+                <![CDATA[ amount >= #amount_min# ]]>
+            </isNotEmpty>
+            <!--提现金额等于-->
+            <isNotEmpty prepend="and" property="amount">
+                <![CDATA[ amount = #amount# ]]>
+            </isNotEmpty>
+            
+            <isNotEmpty prepend="and" property="account">
+                <![CDATA[ (SELECT account FROM T_BANK_ACCOUNT WHERE id = account_id) = #account# ]]>
+            </isNotEmpty>
+            
+            <isNotEmpty prepend="and" property="account_name">
+                <![CDATA[ (SELECT name FROM T_BANK_ACCOUNT WHERE id = account_id) = #account_name# ]]>
+            </isNotEmpty>
+            
+            <!--提现金额最大值-->
+            <isNotEmpty prepend="and" property="amount_max">
+                <![CDATA[ amount <= #amount_max# ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--提现记录分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_TRANSFER_RECORD
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--提现记录分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_TRANSFER_RECORD">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                date,
+                operator,
+                account_id,
+                amount,
+                (SELECT account FROM T_BANK_ACCOUNT WHERE id = account_id) account,
+                (SELECT name FROM T_BANK_ACCOUNT WHERE id = account_id) account_name
+            from T_TRANSFER_RECORD
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建提现记录-->
+    <insert id="create" parameterClass="T_TRANSFER_RECORD">
+        <![CDATA[
+            insert into T_TRANSFER_RECORD(
+                date,
+                operator,
+                account_id,
+                amount
+            ) values (
+                #date:TIMESTAMP#,
+                #operator:VARCHAR#,
+                #account_id:NUMERIC#,
+                #amount:NUMERIC#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建提现记录-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_TRANSFER_RECORD(
+                date,
+                operator,
+                account_id,
+                amount
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].date:TIMESTAMP#,
+                    #[].operator:VARCHAR#,
+                    #[].account_id:NUMERIC#,
+                    #[].amount:NUMERIC#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新提现记录-->
+    <update id="update" parameterClass="T_TRANSFER_RECORD">
+        <![CDATA[ update T_TRANSFER_RECORD ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.date">
+                <![CDATA[ date=#date:TIMESTAMP# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.operator">
+                <![CDATA[ operator=#operator:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.account_id">
+                <![CDATA[ account_id=#account_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.amount">
+                <![CDATA[ amount=#amount:NUMERIC# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除提现记录-->
+    <delete id="delete" parameterClass="T_TRANSFER_RECORD">
+        <![CDATA[
+            delete from T_TRANSFER_RECORD where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>
