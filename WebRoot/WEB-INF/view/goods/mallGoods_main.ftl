@@ -67,6 +67,7 @@
                     {title:'商品规格',field:'model',width:150,sortable:true},
                     {title:'商品类型',field:'type_name',width:150,sortable:true},
                     {title:'商品价格',field:'price',width:150,sortable:true},
+                    {title:'运费',field:'freight',width:150,sortable:true},
                     {title:'创建用户',field:'creator',width:150,sortable:true},
                     {title:'创建日期',field:'create_date',width:150,sortable:true},
                     {title:'商品地区',field:'area',width:150,sortable:true},
@@ -344,6 +345,11 @@
                 <td class="th">至</td>
                 <td class="td"><input id="price_max" name="price_max" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
             </tr>
+            <tr>
+                <td class="th">运费</td>
+                <td class="td"><input id="freight" name="freight" type="text" class="input easyui-numberbox" min="0" max="99999999.99" precision="2"/></td>
+            </tr>
+
             <tr>
                 <td class="th">创建用户</td>
                 <td class="td"><input id="user_id" name="user_id" onclick="creatorClick()" type="text" class="input search" min="0" max="9999999999" precision="0"/></td>

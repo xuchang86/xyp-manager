@@ -221,6 +221,10 @@
                 <td class="td"><input type="text" id="price" name="price" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" style="width:300px;"/></td>
             </tr>
             <tr>
+                <td class="th">运费</td>
+                <td class="td"><input type="text" id="freight" name="freight" class="input easyui-numberbox" min="0" max="99999999.99" precision="2" style="width:300px;"/></td>
+            </tr>
+            <tr>
                 <td class="th">创建用户</td>
                 <td class="td">
                     <input type="text" id="creator" name="creator" class="input search" min="0" max="9999999999" precision="0" ng-click="creatorClick()" value="${(mallGoods.creator)!}" style="width:300px;"/>

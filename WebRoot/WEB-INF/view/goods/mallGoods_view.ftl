@@ -55,6 +55,10 @@
                 <td class="td">${(mallGoods.price)!}</td>
             </tr>
             <tr>
+                <td class="th">运费</td>
+                <td class="td">${(mallGoods.freight)!}</td>
+            </tr>
+            <tr>
                 <td class="th">创建用户</td>
                 <td class="td">${(mallGoods.creator)!}</td>
             </tr>

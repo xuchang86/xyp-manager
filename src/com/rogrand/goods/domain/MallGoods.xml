@@ -124,6 +124,10 @@ Date: 2016-11-13 23:38:18
             <isNotEmpty prepend="and" property="vip_price_max">
                 <![CDATA[ vip_price <= #vip_price_max# ]]>
             </isNotEmpty>
+            <!--运费-->
+            <isNotEmpty prepend="and" property="freight">
+                <![CDATA[ freight = #freight# ]]>
+            </isNotEmpty>
             <!--商品等级最小值-->
             <isNotEmpty prepend="and" property="level_min">
                 <![CDATA[ level >= #level_min# ]]>
@@ -262,6 +266,10 @@ Date: 2016-11-13 23:38:18
             <isNotEmpty prepend="and" property="vip_price_max">
                 <![CDATA[ t1.vip_price <= #vip_price_max# ]]>
             </isNotEmpty>
+            <!--运费-->
+            <isNotEmpty prepend="and" property="freight">
+                <![CDATA[ freight = #freight# ]]>
+            </isNotEmpty>
             <!--商品等级最小值-->
             <isNotEmpty prepend="and" property="level_min">
                 <![CDATA[ t1.level >= #level_min# ]]>
@@ -308,6 +316,7 @@ Date: 2016-11-13 23:38:18
                 t1.user_id,
                 t1.create_date,
                 t1.url,
+                t1.freight,
                 t1.area,
                 t1.is_sale,
                 t1.seller_id,
@@ -343,6 +352,7 @@ Date: 2016-11-13 23:38:18
                 is_sale,
                 seller_id,
                 vip_price,
+                freight,
                 level,
                 model
             ) values (
@@ -358,6 +368,7 @@ Date: 2016-11-13 23:38:18
                 #is_sale:NUMERIC#,
                 #seller_id:NUMERIC#,
                 #vip_price:NUMERIC#,
+                #freight:NUMERIC#,
                 #level:NUMERIC#,
                 #model:VARCHAR#
             )
@@ -388,6 +399,7 @@ Date: 2016-11-13 23:38:18
                 is_sale,
                 seller_id,
                 vip_price,
+                freight,
                 level,
                 model
             ) values
@@ -407,6 +419,7 @@ Date: 2016-11-13 23:38:18
                     #[].is_sale:NUMERIC#,
                     #[].seller_id:NUMERIC#,
                     #[].vip_price:NUMERIC#,
+                    #[].freight:NUMERIC#,
                     #[].level:NUMERIC#,
                     #[].model:VARCHAR#
                 )
@@ -453,6 +466,9 @@ Date: 2016-11-13 23:38:18
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.vip_price">
                 <![CDATA[ vip_price=#vip_price:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.freight">
+                <![CDATA[ freight=#freight:NUMERIC# ]]>
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.level">
                 <![CDATA[ level=#level:NUMERIC# ]]>

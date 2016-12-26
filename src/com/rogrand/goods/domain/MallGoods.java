@@ -42,6 +42,9 @@ public class MallGoods extends Base {
 	@FieldAnnotation(comment = "商品价格", exp = true, imp = true, empty = true, len = 10, scale = 2)
 	private Double price;
 
+	@FieldAnnotation(comment = "运费", exp = true, imp = true, empty = true, len = 10, scale = 2)
+	private Double freight;
+
 	@FieldAnnotation(comment = "创建用户id", exp = true, imp = true, empty = true, len = 10)
 	private Long user_id;
 
@@ -443,5 +446,21 @@ public class MallGoods extends Base {
 	public void setLevel(Long level) {
 		putField("level");
 		this.level = level;
+	}
+
+	/**
+	 * @return the freight
+	 */
+	public Double getFreight() {
+		return freight;
+	}
+
+	/**
+	 * @param freight
+	 *            the freight to set
+	 */
+	public void setFreight(Double freight) {
+		putField("freight");
+		this.freight = freight;
 	}
 }
