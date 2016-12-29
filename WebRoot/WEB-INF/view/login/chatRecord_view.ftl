@@ -1,7 +1,7 @@
 <#--
 版权：LAB <br/>
 作者：dailing <br/>
-生成日期：2016-12-29 <br/>
+生成日期：2016-12-30 <br/>
 描述：聊天记录查看页面
 -->
 <#include "/WEB-INF/view/macro.ftl"/>
@@ -45,6 +45,10 @@
             <tr>
                 <td class="th">内容</td>
                 <td class="td">${(chatRecord.content)!}</td>
+            </tr>
+            <tr>
+                <td class="th">会话时间</td>
+                <td class="td"><@dateOut chatRecord.create_time/></td>
             </tr>
         </table>
     </div>

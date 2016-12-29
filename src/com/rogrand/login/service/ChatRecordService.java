@@ -11,7 +11,7 @@ import com.rogrand.login.domain.ChatRecord;
 /**
  * 版权：LAB <br/>
  * 作者：dailing <br/>
- * 生成日期：2016-12-29 <br/>
+ * 生成日期：2016-12-30 <br/>
  * 描述：聊天记录 Service
  */
 @Service("ChatRecordService")

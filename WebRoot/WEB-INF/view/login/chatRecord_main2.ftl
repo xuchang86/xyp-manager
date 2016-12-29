@@ -238,7 +238,7 @@
                 <td class="th">发起人</td>
                 <td class="td"><input id="from_id" name="from_id" type="text" class="input"></td>
             </tr>
-            
+           
             <tr>
                 <td class="th">内容</td>
                 <td class="td"><input id="content" name="content" type="text" class="input"></td>
@@ -262,7 +262,7 @@
 </div>
 <div region="center" title="当前位置：聊天记录管理">
     <table id="table"
-           url="${path}/login/chatRecord_page.do"
+           url="${path}/login/chatRecord_page2.do"
            border="false"         <#--无边框-->
            fit="true"             <#--自动填充宽度高度-->
            singleSelect="false"   <#--单选模式-->

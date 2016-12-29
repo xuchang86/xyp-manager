@@ -3,7 +3,7 @@
 <!--
 聊天记录
 User: Created by auto build
-Date: 2016-12-29 23:08:02
+Date: 2016-12-30 00:08:27
 -->
 <sqlMap namespace="t_chat_record">
 
@@ -33,7 +33,7 @@ Date: 2016-12-29 23:08:02
                 <![CDATA[ user_id = #user_id# ]]>
             </isNotEmpty>
             
-             <!--用户id等于-->
+             <!--用户名称-->
             <isNotEmpty prepend="and" property="user_name">
                 <![CDATA[ instr(((select name from T_LOGIN_USER where id = user_id) user_name), #user_name#) > 0  ]]>
             </isNotEmpty>
@@ -53,6 +53,14 @@ Date: 2016-12-29 23:08:02
             <!--内容-->
             <isNotEmpty prepend="and" property="content">
                 <![CDATA[ instr(content, #content#) > 0 ]]>
+            </isNotEmpty>
+            <!--创建时间开始-->
+            <isNotEmpty prepend="and" property="create_time_begin">
+                <![CDATA[ create_time >= str_to_date(#create_time_begin#,'%Y-%m-%d %T') ]]>
+            </isNotEmpty>
+            <!--创建时间结束-->
+            <isNotEmpty prepend="and" property="create_time_end">
+                <![CDATA[ create_time <= str_to_date('$create_time_end$ 23:59:59','%Y-%m-%d %T') ]]>
             </isNotEmpty>
             <!-- 用于数据导出 -->
             <isNotEmpty prepend="and" property="exportIds">
@@ -76,9 +84,11 @@ Date: 2016-12-29 23:08:02
             select
                 id,
                 (select name from T_LOGIN_USER where id = user_id) user_name,
+                user_id,
                 from_id,
                 to_id,
-                content
+                content,
+                create_time
             from T_CHAT_RECORD
         ]]>
         <include refid="pageWhere"/>
@@ -93,12 +103,14 @@ Date: 2016-12-29 23:08:02
                 user_id,
                 from_id,
                 to_id,
-                content
+                content,
+                create_time
             ) values (
                 #user_id:NUMERIC#,
                 #from_id:VARCHAR#,
                 #to_id:VARCHAR#,
-                #content:VARCHAR#
+                #content:VARCHAR#,
+                #create_time:TIMESTAMP#
             )
         ]]>
         <!--
@@ -118,7 +130,8 @@ Date: 2016-12-29 23:08:02
                 user_id,
                 from_id,
                 to_id,
-                content
+                content,
+                create_time
             ) values
         ]]>
         <iterate  conjunction =",">
@@ -127,7 +140,8 @@ Date: 2016-12-29 23:08:02
                     #[].user_id:NUMERIC#,
                     #[].from_id:VARCHAR#,
                     #[].to_id:VARCHAR#,
-                    #[].content:VARCHAR#
+                    #[].content:VARCHAR#,
+                    #[].create_time:TIMESTAMP#
                 )
             ]]>   
         </iterate>
@@ -148,6 +162,9 @@ Date: 2016-12-29 23:08:02
             </isPropertyAvailable>
             <isPropertyAvailable prepend="," property="fields.content">
                 <![CDATA[ content=#content:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.create_time">
+                <![CDATA[ create_time=#create_time:TIMESTAMP# ]]>
             </isPropertyAvailable>
         </dynamic>
         <![CDATA[ where id = #id#  ]]>

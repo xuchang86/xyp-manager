@@ -1,7 +1,7 @@
 <#--
 版权：LAB <br/>
 作者：dailing <br/>
-生成日期：2016-12-29 <br/>
+生成日期：2016-12-30 <br/>
 描述：聊天记录添加页面
 -->
 <#include "/WEB-INF/view/macro.ftl"/>
@@ -68,10 +68,11 @@
             </tr>
             <tr>
                 <td class="th">内容</td>
-                <td class="td">
-                    <input type="text" id="content" name="content" class="input easyui-validatebox" validType="maxLength[2000]" style="width:800px;"/>
-
-                </td>
+                <td class="td"><input type="text" id="content" name="content" class="input easyui-validatebox" validType="maxLength[2000]" style="width:300px;"/></td>
+            </tr>
+            <tr>
+                <td class="th">创建时间</td>
+                <td class="td"><input type="text" id="create_time" name="create_time" class="input Wdate" onclick="WdatePicker()" style="width:300px;"/></td>
             </tr>
         </table>
     </form>

@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * 版权：LAB <br/>
  * 作者：dailing <br/>
- * 生成日期：2016-12-29 <br/>
+ * 生成日期：2016-12-30 <br/>
  * 描述：聊天记录类
  */
 public class ChatRecord extends Base {
@@ -27,6 +27,9 @@ public class ChatRecord extends Base {
 
     @FieldAnnotation(comment = "内容", exp = true, imp = true, empty = true, len = 2000)
     private String content;
+
+    @FieldAnnotation(comment = "创建时间", exp = true, imp = true, empty = true)
+    private Date create_time;
 
 
     /**
@@ -125,7 +128,22 @@ public class ChatRecord extends Base {
         putField("content");
         this.content = content;
     }
+    /**
+     * 获得创建时间
+     * @return Date
+     */
+    public Date getCreate_time(){
+        return this.create_time;
+    }
 
+    /**
+     * 设置创建时间
+     * @param create_time  创建时间
+     */
+    public void setCreate_time(Date create_time){
+        putField("create_time");
+        this.create_time = create_time;
+    }
 	/**
 	 * @return the user_name
 	 */
