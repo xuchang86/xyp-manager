@@ -1,3 +1,4 @@
 /build
 /WebRoot/WEB-INF/classes
 /WebRoot/logs
+/WebRoot/autoBuild

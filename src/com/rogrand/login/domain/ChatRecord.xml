@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<!--
+聊天记录
+User: Created by auto build
+Date: 2016-12-29 23:08:02
+-->
+<sqlMap namespace="t_chat_record">
+
+    <typeAlias alias="T_CHAT_RECORD" type="com.rogrand.login.domain.ChatRecord" />
+
+    <!--聊天记录分页条件-->
+    <sql id="pageWhere">
+        <dynamic prepend="where">
+            <!--主键最小值-->
+            <isNotEmpty prepend="and" property="id_min">
+                <![CDATA[ id >= #id_min# ]]>
+            </isNotEmpty>
+            <!--主键等于-->
+            <isNotEmpty prepend="and" property="id">
+                <![CDATA[ id = #id# ]]>
+            </isNotEmpty>
+            <!--主键最大值-->
+            <isNotEmpty prepend="and" property="id_max">
+                <![CDATA[ id <= #id_max# ]]>
+            </isNotEmpty>
+            <!--用户id最小值-->
+            <isNotEmpty prepend="and" property="user_id_min">
+                <![CDATA[ user_id >= #user_id_min# ]]>
+            </isNotEmpty>
+            <!--用户id等于-->
+            <isNotEmpty prepend="and" property="user_id">
+                <![CDATA[ user_id = #user_id# ]]>
+            </isNotEmpty>
+            
+             <!--用户id等于-->
+            <isNotEmpty prepend="and" property="user_name">
+                <![CDATA[ instr(((select name from T_LOGIN_USER where id = user_id) user_name), #user_name#) > 0  ]]>
+            </isNotEmpty>
+            
+            <!--用户id最大值-->
+            <isNotEmpty prepend="and" property="user_id_max">
+                <![CDATA[ user_id <= #user_id_max# ]]>
+            </isNotEmpty>
+            <!--发起人id-->
+            <isNotEmpty prepend="and" property="from_id">
+                <![CDATA[ instr(from_id, #from_id#) > 0 ]]>
+            </isNotEmpty>
+            <!--接收人id-->
+            <isNotEmpty prepend="and" property="to_id">
+                <![CDATA[ instr(to_id, #to_id#) > 0 ]]>
+            </isNotEmpty>
+            <!--内容-->
+            <isNotEmpty prepend="and" property="content">
+                <![CDATA[ instr(content, #content#) > 0 ]]>
+            </isNotEmpty>
+            <!-- 用于数据导出 -->
+            <isNotEmpty prepend="and" property="exportIds">
+                <![CDATA[ id in ($exportIds$) ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+
+    <!--聊天记录分页记录数-->
+    <select id="pageCount" parameterClass="PageParam" resultClass="Long">
+        <![CDATA[
+            select count(*) total from T_CHAT_RECORD
+        ]]>
+        <include refid="pageWhere"/>
+    </select>
+
+    <!--聊天记录分页记录集-->
+    <select id="pageList" parameterClass="PageParam" resultClass="T_CHAT_RECORD">
+        <![CDATA[ $head$ ]]>
+        <![CDATA[
+            select
+                id,
+                (select name from T_LOGIN_USER where id = user_id) user_name,
+                from_id,
+                to_id,
+                content
+            from T_CHAT_RECORD
+        ]]>
+        <include refid="pageWhere"/>
+        <![CDATA[ $sortOrder$ ]]>
+        <![CDATA[ $foot$ ]]>
+    </select>
+
+    <!--创建聊天记录-->
+    <insert id="create" parameterClass="T_CHAT_RECORD">
+        <![CDATA[
+            insert into T_CHAT_RECORD(
+                user_id,
+                from_id,
+                to_id,
+                content
+            ) values (
+                #user_id:NUMERIC#,
+                #from_id:VARCHAR#,
+                #to_id:VARCHAR#,
+                #content:VARCHAR#
+            )
+        ]]>
+        <!--
+        <selectKey keyProperty="id" resultClass="String" type="pre">
+            <include refid="common.pkSql"/>
+        </selectKey>
+        -->
+        <selectKey resultClass="int" >
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+    
+    <!--批量创建聊天记录-->
+    <insert id="createBatch" parameterClass="java.util.List">
+        <![CDATA[
+            insert into T_CHAT_RECORD(
+                user_id,
+                from_id,
+                to_id,
+                content
+            ) values
+        ]]>
+        <iterate  conjunction =",">
+            <![CDATA[  
+                (
+                    #[].user_id:NUMERIC#,
+                    #[].from_id:VARCHAR#,
+                    #[].to_id:VARCHAR#,
+                    #[].content:VARCHAR#
+                )
+            ]]>   
+        </iterate>
+    </insert>
+
+    <!--更新聊天记录-->
+    <update id="update" parameterClass="T_CHAT_RECORD">
+        <![CDATA[ update T_CHAT_RECORD ]]>
+        <dynamic prepend="set">
+            <isPropertyAvailable prepend="," property="fields.user_id">
+                <![CDATA[ user_id=#user_id:NUMERIC# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.from_id">
+                <![CDATA[ from_id=#from_id:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.to_id">
+                <![CDATA[ to_id=#to_id:VARCHAR# ]]>
+            </isPropertyAvailable>
+            <isPropertyAvailable prepend="," property="fields.content">
+                <![CDATA[ content=#content:VARCHAR# ]]>
+            </isPropertyAvailable>
+        </dynamic>
+        <![CDATA[ where id = #id#  ]]>
+    </update>
+
+    <!--删除聊天记录-->
+    <delete id="delete" parameterClass="T_CHAT_RECORD">
+        <![CDATA[
+            delete from T_CHAT_RECORD where id = #id#
+        ]]>
+    </delete>
+
+</sqlMap>
